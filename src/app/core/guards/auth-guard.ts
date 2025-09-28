@@ -1,25 +1,25 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthStore } from '@app/auth.store';
+import { AuthStore } from '../store/auth.store';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const authStore = inject(AuthStore);
-  const requiredRole = route.data['requiredRole'] as number[];
-
-  if (route.routeConfig?.path === '2fa-verify' && authStore.tempToken()) {
-    return true;
-  }
+  const requiredRoles = route.data['requiredRoles'] as string[];
 
   if (!authStore.isAuthenticated()) {
-    router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+    router.navigate(['/login'], { 
+      queryParams: { returnUrl: state.url } 
+    });
     return false;
   }
 
-  if (requiredRole?.length > 0) {
+  if (requiredRoles?.length > 0) {
     const userRole = authStore.userRole();
-    if (!userRole || !requiredRole.includes(userRole)) {
-      router.navigate(['/unauthorized']);
+    const userRoleName = userRole?.nombre;
+    
+    if (!userRoleName || !requiredRoles.includes(userRoleName)) {
+      router.navigate(['/no-autorizado']);
       return false;
     }
   }
@@ -32,7 +32,7 @@ export const loginGuard: CanActivateFn = () => {
   const authStore = inject(AuthStore);
 
   if (authStore.isAuthenticated()) {
-    router.navigate(['/home']);
+    router.navigate(['/inicio']);
     return false;
   }
 

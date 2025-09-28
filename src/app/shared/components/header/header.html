@@ -1,1 +1,6 @@
-<p>header works!</p>
+@if(!autenticado()){
+    <button routerLink="/login" matButton>Iniciar Sesión</button>
+    <button routerLink="/signup" matButton>Registrarse</button>
+} @else {
+    <h1>Autenticado: {{ autenticado() }}</h1>    
+}

@@ -10,10 +10,18 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { AuthStore } from '@app/core/store/auth.store';
 import { ProfileButton } from './components/profile-button';
+import { LogoImage } from '../logo-image';
 
 @Component({
   selector: 'zoo-header',
-  imports: [MatButtonModule, MatIconModule, RouterLink, ProfileButton, MatTooltipModule],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    RouterLink,
+    ProfileButton,
+    MatTooltipModule,
+    LogoImage,
+  ],
   templateUrl: './header.html',
   styleUrl: './header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

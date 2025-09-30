@@ -1,1 +1,13 @@
-<p>settings works!</p>
+<div class="settings-section">
+  <div class="setting-item">
+    <div class="setting-info">
+      <h3>Modo Oscuro</h3>
+      <p>Cambia entre tema claro y oscuro</p>
+    </div>
+    <mat-slide-toggle
+      [checked]="darkMode"
+      (change)="onThemeChange($event.checked)"
+    >
+    </mat-slide-toggle>
+  </div>
+</div>

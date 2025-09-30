@@ -32,6 +32,11 @@
                 "input": "public/images",
                 "output": "/assets/images"
               },
+              {
+                "glob": "**/*",
+                "input": "public/logos",
+                "output": "/assets/logos"
+              },
             ],
             "styles": [
               "src/styles.scss"

@@ -22,7 +22,6 @@ interface AuthState {
 }
 
 function getInitialState(): AuthState {
-  // En SSR, inicializamos sin tokens - se cargarán después
   return {
     usuario: null,
     accessToken: null,

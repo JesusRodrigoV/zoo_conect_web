@@ -1,5 +1,10 @@
 import { NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+} from '@angular/core';
 import { AuthStore } from '@app/core/store/auth.store';
 
 @Component({
@@ -7,7 +12,7 @@ import { AuthStore } from '@app/core/store/auth.store';
   imports: [NgOptimizedImage],
   templateUrl: './user-avatar.html',
   styleUrl: './user-avatar.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserAvatar {
   private readonly user = inject(AuthStore).usuario;
@@ -15,9 +20,10 @@ export class UserAvatar {
   readonly size = input<number>(40);
   readonly cssClass = input<string>('');
   readonly priority = input<boolean>(false);
-  
+
   protected readonly defaultAvatarUrl = '/assets/images/default-avatar.jpg';
-  
-  protected readonly avatarUrl = () => this.user()?.fotoUrl || this.defaultAvatarUrl;
+
+  protected readonly avatarUrl = () =>
+    this.user()?.fotoUrl || this.defaultAvatarUrl;
   protected readonly altText = () => `Avatar de ${this.user()?.username}`;
 }

@@ -56,8 +56,7 @@ function isAuthRoute(url: string): boolean {
   return (
     url.includes('/auth/login') ||
     url.includes('/auth/register') ||
-    url.includes('/auth/refresh') ||
-    url.includes('/auth/logout')
+    url.includes('/auth/refresh')
   );
 }
 
@@ -85,7 +84,6 @@ function handle401Error(
         isRefreshing = false;
         refreshTokenSubject.next(response.access_token);
 
-        // Reintentar la petición con el nuevo token
         const reqWithNewToken = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',

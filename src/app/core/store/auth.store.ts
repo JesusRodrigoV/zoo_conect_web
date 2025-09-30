@@ -75,7 +75,6 @@ export const AuthStore = signalStore(
       removeTokenFromStorage('refresh_token');
     };
 
-    // Objeto con las funciones que se retornará
     const methods = {
     
     async login(email: string, password: string) {

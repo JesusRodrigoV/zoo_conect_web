@@ -2,5 +2,14 @@
     <button routerLink="/login" matButton>Iniciar Sesión</button>
     <button routerLink="/signup" matButton>Registrarse</button>
 } @else {
-    <h1>Autenticado: {{ autenticado() }}</h1>    
+    <zoo-profile-button />
+    @if (isAdmin()) {
+    <button
+    matMiniFab
+    matTooltip="Panel de administración"
+    matTooltipShowDelay="500"
+    >
+    <mat-icon>admin_panel_settings</mat-icon>
+    </button>
+    } 
 }

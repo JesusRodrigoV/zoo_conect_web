@@ -2,10 +2,11 @@ import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthStore } from './core/store/auth.store';
 import { isPlatformBrowser } from '@angular/common';
+import { ScrollTopModule } from 'primeng/scrolltop';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, ScrollTopModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

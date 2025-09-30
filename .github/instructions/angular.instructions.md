@@ -93,6 +93,8 @@ Here is a link to the most recent Angular style guide https://angular.dev/style-
 - Use `computed()` for derived state
 - Keep state transformations pure and predictable
 - Do NOT use `mutate` on signals, use `update` or `set` instead
+- Use signals `viewChild()` and `viewChildren()` instead of `@ViewChild`or  `@ViewChildren`
+- Use signals everytime is possible and disponible
 
 ### Templates
 - Keep templates simple and avoid complex logic

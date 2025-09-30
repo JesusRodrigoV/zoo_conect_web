@@ -11,6 +11,16 @@ export const routes: Routes = [
         path: 'inicio',
         loadComponent: () => import('./features/home/home'),
       },
+      {
+        path: 'perfil',
+        loadComponent: () => import('./features/profile/profile'),
+        canActivate: [authGuard],
+      },
+      {
+        path: 'ajustes',
+        loadComponent: () => import('./features/settings/settings'),
+        canActivate: [authGuard],
+      },
     ],
   },
   {
@@ -26,5 +36,9 @@ export const routes: Routes = [
         loadComponent: () => import('./features/auth/pages/signup/signup'),
       },
     ],
+  },
+  {
+    path: '404',
+    loadComponent: () => import('./features/not-found/not-found'),
   },
 ];

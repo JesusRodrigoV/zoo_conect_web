@@ -1,0 +1,33 @@
+.profile-button-container {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar-button {
+  padding: 4px !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  overflow: hidden;
+  
+  .profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.2s ease;
+  }
+  
+  &:hover .profile-avatar {
+    transform: scale(1.05);
+  }
+  
+  &:disabled .profile-avatar {
+    opacity: 0.5;
+  }
+}
+
+.opacity-50 {
+  opacity: 0.5;
+}

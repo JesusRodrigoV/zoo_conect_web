@@ -1,0 +1,38 @@
+<mat-card class="actions-card">
+  <mat-card-content>
+    <div class="buttons">
+      <button mat-raised-button color="primary" (click)="onEditProfile()">
+        <mat-icon>edit</mat-icon>
+        Editar
+      </button>
+      
+      <button mat-raised-button (click)="onShareProfile()">
+        <mat-icon>share</mat-icon>
+        Compartir
+      </button>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="menu-options">
+      <button mat-button class="menu-option" (click)="onViewStats()">
+        <mat-icon>bar_chart</mat-icon>
+        <span>Mis Estadísticas</span>
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+
+      <button mat-button class="menu-option" (click)="onViewParticipations()">
+        <mat-icon>history</mat-icon>
+        <span>Mis Participaciones</span>
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <button mat-button class="logout-btn" (click)="onLogout()">
+      <mat-icon>logout</mat-icon>
+      Cerrar Sesión
+    </button>
+  </mat-card-content>
+</mat-card>

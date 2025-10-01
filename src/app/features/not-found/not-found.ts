@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-signup',
+  selector: 'app-not-found',
   imports: [],
-  templateUrl: './signup.html',
-  styleUrl: './signup.scss',
+  templateUrl: './not-found.html',
+  styleUrl: './not-found.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class Signup {
+export default class NotFound {
 
 }

@@ -1,0 +1,38 @@
+@defer{
+<div class="login-container">
+  <div class="login-card">
+    <h2>Iniciar Sesión</h2>
+
+    @if (error()) {
+    <div class="error-message">
+      {{ error() }}
+      <button type="button" (click)="clearError()">&times;</button>
+    </div>
+    }
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <zoo-form-field
+        label="Email"
+        type="email"
+        placeholder="Ingresa tu email"
+        [control]="email"
+        [errorMessage]="getEmailError()"
+      />
+
+      <zoo-form-field
+        label="Contraseña"
+        type="password"
+        placeholder="Ingresa tu contraseña"
+        [control]="password"
+        [errorMessage]="getPasswordError()"
+      />
+
+      <button type="submit" matButton="filled" [disabled]="loading()">
+        @if (loading()) {
+        <zoo-loader [size]="20" />
+        } @else { Iniciar Sesión }
+      </button>
+    </form>
+  </div>
+</div>
+}

@@ -1,1 +1,25 @@
-<p>header works!</p>
+<header class="header">
+  <div class="header-left">
+    <ng-content></ng-content>
+    <app-logo-image [size]="60"/>
+  </div>
+  
+  <div class="header-right">
+    @if(!autenticado()){
+        <button routerLink="/login" matButton>Iniciar Sesión</button>
+        <button routerLink="/signup" matButton>Registrarse</button>
+    } @else {
+        <zoo-profile-button />
+        @if (isAdmin()) {
+        <button
+        matMiniFab
+        matTooltip="Panel de administración"
+        matTooltipShowDelay="500"
+        routerLink="/admin"
+        >
+        <mat-icon>admin_panel_settings</mat-icon>
+        </button>
+        } 
+    }
+  </div>
+</header>

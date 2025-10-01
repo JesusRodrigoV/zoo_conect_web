@@ -1,0 +1,36 @@
+.navigation-list {
+  padding: 0;
+
+  .nav-item {
+    margin: 4px 8px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover:not(.disabled) {
+      background-color: rgba(var(--mat-primary-palette-500), 0.08);
+    }
+
+    &.active-item {
+      background-color: rgba(var(--mat-primary-palette-500), 0.12);
+      color: var(--mat-primary-palette-500);
+      font-weight: 500;
+    }
+
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+
+  .nav-badge {
+    background-color: var(--mat-primary-palette-500);
+    color: white;
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: 12px;
+    text-align: center;
+  }
+}

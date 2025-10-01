@@ -4,7 +4,7 @@ import { map, Observable } from 'rxjs';
 import { LoginResponse, LogoutRequest, LogoutResponse, RegisterRequest } from '../models/request_response.model';
 import { Usuario } from '../models/usuario.model';
 import { UsuarioAdapter } from '../adapters/usuario.adapter';
-import { environment } from '@env/*';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root',

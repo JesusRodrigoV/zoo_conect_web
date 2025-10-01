@@ -1,0 +1,23 @@
+@if (currentUser(); as user) {
+  <div class="profile-container">
+    
+    <!-- Card del Usuario -->
+    <zoo-user-info-card 
+      [user]="user" 
+      [stats]="userStats()" />
+
+    <!-- Card de Acciones -->
+    <zoo-profile-actions-card
+      (editProfile)="editProfile()"
+      (shareProfile)="shareProfile()"
+      (viewStats)="viewStats()"
+      (viewParticipations)="viewParticipations()"
+      (logout)="confirmLogout()" />
+    
+  </div>
+} @else {
+  <div class="loading">
+    <zoo-loader [size]="40" />
+    <p>Cargando perfil...</p>
+  </div>
+}

@@ -86,7 +86,6 @@ export const AuthStore = signalStore(
         const loginResponse: LoginResponse = await firstValueFrom(
           authService.login(email, password)
         );
-        console.log(loginResponse);
 
         setTokenInStorage('access_token', loginResponse.access_token);
         setTokenInStorage('refresh_token', loginResponse.refresh_token);
@@ -249,15 +248,27 @@ export const AuthStore = signalStore(
     },
 
     async initializeAuth() {
-      const accessToken = getTokenFromStorage('access_token');
-      const refreshToken = getTokenFromStorage('refresh_token');
-      
-      if (accessToken && refreshToken) {
-        patchState(store, { 
-          accessToken, 
-          refreshToken 
+      try {
+        const accessToken = getTokenFromStorage('access_token');
+        const refreshToken = getTokenFromStorage('refresh_token');
+        
+        if (accessToken && refreshToken) {
+          patchState(store, { 
+            accessToken, 
+            refreshToken 
+          });
+          await methods.loadUserProfile();
+        }
+      } catch (error) {
+        console.error('Error durante la inicialización de auth:', error);
+        // Continuar sin autenticación si hay error
+        patchState(store, {
+          error: null,
+          loading: false,
+          usuario: null,
+          accessToken: null,
+          refreshToken: null,
         });
-        await methods.loadUserProfile();
       }
     },
     };

@@ -9,7 +9,6 @@
     height: calc(100vh - 64px); 
     
     .sidenav {
-      
       .sidenav-header {
         padding: 1.5rem 1rem 1rem;
         border-bottom: 1px solid var(--mat-divider-color, rgba(0, 0, 0, 0.12));
@@ -22,11 +21,6 @@
       }
     }
     
-    .main-content {
-      padding: 1.5rem;
-      overflow-y: auto;
-      background-color: var(--mat-app-surface-color, #fafafa);
-    }
   }
 }
 
@@ -43,11 +37,5 @@
         padding: 1rem;
       }
     }
-  }
-}
-
-:host-context(.dark-mode) {
-  .admin-layout .sidenav-container .main-content {
-    background-color: var(--mat-app-surface-color, #121212);
   }
 }

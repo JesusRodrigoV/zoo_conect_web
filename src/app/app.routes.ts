@@ -6,7 +6,10 @@ export const routes: Routes = [
     path: '',
     loadComponent: () => import('./shared/layout/layout'),
     children: [
-      { path: '', redirectTo: 'inicio', pathMatch: 'full' },
+      {
+        path: '',
+        loadComponent: () => import('./features/home/home'),
+      },
       {
         path: 'inicio',
         loadComponent: () => import('./features/home/home'),
@@ -20,6 +23,11 @@ export const routes: Routes = [
         path: 'ajustes',
         loadComponent: () => import('./features/settings/settings'),
         canActivate: [authGuard],
+      },
+      {
+        path: 'encuestas',
+        loadComponent: () =>
+          import('./features/encuestas/screens/encuestas/encuestas'),
       },
     ],
   },
@@ -76,12 +84,18 @@ export const routes: Routes = [
           import('./features/admin/screens/gestion-reportes/gestion-reportes'),
       },
       {
-        path: '', 
+        path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full',
-      }
+      },
     ],
   },
+  {
+    path: '',
+    redirectTo: 'inicio',
+    pathMatch: 'full',
+  },
+
   {
     path: '404',
     loadComponent: () => import('./features/not-found/not-found'),

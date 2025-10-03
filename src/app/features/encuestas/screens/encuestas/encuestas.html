@@ -1,0 +1,10 @@
+@let surveys = this.surveys$ | async;
+@defer(on viewport; prefetch on idle; hydrate on interaction){
+    @for(survey of surveys; track survey.idEncuesta){
+        {{survey}}
+    } @empty {
+        <p>No hay encuestas disponibles.</p>
+    }
+} @placeholder {
+    <p>Cargando</p>
+}

@@ -4,6 +4,23 @@
     <app-logo-image [size]="60"/>
   </div>
   
+  <nav class="navbar">
+    @for (navButton of navigationButtons(); track navButton.route) {
+      <button 
+        matButton
+        [routerLink]="navButton.route"
+        routerLinkActive="active-nav-button"
+        [routerLinkActiveOptions]="{ exact: navButton.route === '/' }"
+        class="nav-button"
+      >
+        @if (navButton.icon) {
+          <mat-icon>{{ navButton.icon }}</mat-icon>
+        }
+        <span>{{ navButton.label }}</span>
+      </button>
+    }
+  </nav>
+  
   <div class="header-right">
     @if(!autenticado()){
         <button routerLink="/login" matButton>Iniciar Sesión</button>

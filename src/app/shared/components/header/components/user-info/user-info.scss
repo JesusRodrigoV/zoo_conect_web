@@ -14,11 +14,10 @@
 .user-name {
   font-weight: 600;
   font-size: 14px;
-  color: rgba(0, 0, 0, 0.87);
 }
 
 .user-role {
   font-size: 12px;
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--mat-sys-secondary);
   text-transform: capitalize;
 }

@@ -1,6 +1,17 @@
+@use "@angular/material" as mat;
+
 .profile-button-container {
   position: relative;
   display: inline-block;
+
+  .profile-menu {
+    @include mat.menu-overrides(
+      (
+        container-shape: 12px,
+        item-spacing: 45px
+      )
+    );
+  }
 }
 
 .avatar-button {
@@ -9,7 +20,7 @@
   height: 48px !important;
   border-radius: 50% !important;
   overflow: hidden;
-  
+
   .profile-avatar {
     width: 40px;
     height: 40px;
@@ -18,11 +29,11 @@
     object-position: center;
     transition: transform 0.2s ease;
   }
-  
+
   &:hover .profile-avatar {
     transform: scale(1.05);
   }
-  
+
   &:disabled .profile-avatar {
     opacity: 0.5;
   }

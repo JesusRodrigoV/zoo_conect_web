@@ -14,6 +14,7 @@ import { routes } from './app.routes';
 import {
   provideClientHydration,
   withEventReplay,
+  withIncrementalHydration,
 } from '@angular/platform-browser';
 import {
   provideHttpClient,
@@ -23,6 +24,7 @@ import {
 import { authInterceptor } from './core/interceptors';
 import { providePrimeNG } from 'primeng/config';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,8 +37,9 @@ export const appConfig: ApplicationConfig = {
       withViewTransitions(),
       withInMemoryScrolling({ scrollPositionRestoration: 'top' })
     ),
-    provideClientHydration(withEventReplay()),
+    provideClientHydration(withEventReplay(), withIncrementalHydration()),
     providePrimeNG(),
-    provideAnimations()
+    provideAnimations(),
+    provideCharts(withDefaultRegisterables()),
   ],
 };

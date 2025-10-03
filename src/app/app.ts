@@ -17,7 +17,12 @@ export class App implements OnInit {
 
   async ngOnInit() {
     if (isPlatformBrowser(this.id)) {
-      await this.authStore.initializeAuth();
+      try {
+        await this.authStore.initializeAuth();
+      } catch (error) {
+        console.error('Error inicializando auth:', error);
+        // Continuar sin bloquear la app
+      }
     }
   }
 }

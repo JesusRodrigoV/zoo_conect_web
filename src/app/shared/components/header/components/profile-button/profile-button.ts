@@ -13,6 +13,7 @@ import { AuthStore } from '@app/core/store/auth.store';
 import { Usuario } from '@app/features/auth/models/usuario.model';
 import { UserAvatar } from '@app/shared/components/user-avatar';
 import { UserInfo } from '../user-info';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'zoo-profile-button',
@@ -21,6 +22,7 @@ import { UserInfo } from '../user-info';
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
+    MatTooltipModule,
     UserAvatar,
     UserInfo
   ],

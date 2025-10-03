@@ -23,9 +23,9 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               {
-                "glob": "favicon.ico",
-                "input": "public",
-                "output": "/"
+                "glob": "**/*",
+                "input": "public/icons",
+                "output": "/assets/icons"
               },
               {
                 "glob": "**/*",

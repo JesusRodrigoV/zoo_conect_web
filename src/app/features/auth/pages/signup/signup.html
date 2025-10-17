@@ -39,17 +39,15 @@
       (togglePassword)="toggleConfirmPasswordVisibility()"
     />
 
-    @if (error()) {
-    <div>
-      <span>{{ error() }}</span>
-    </div>
-    }
-
-    <button type="submit" matButton="filled" [disabled]="isLoading()">
-      @if (isLoading()) {
-      <zoo-loader [size]="20" />
-      } @else { Crear Cuenta }
-    </button>
+    <p-button
+        type="submit"
+        [rounded]="true"
+        [disabled]="isLoading()"
+      >
+        @if (isLoading()) {
+        <zoo-loader [size]="20" />
+        } @else { Crear Cuenta }
+      </p-button>
   </form>
 
   <p>

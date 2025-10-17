@@ -21,8 +21,10 @@
         "express": "^5.1.0",
         "gsap": "^3.13.0",
         "ng2-charts": "8.0.0",
+        "primeicons": "^7.0.0",
         "primeng": "^20.2.0",
         "rxjs": "~7.8.0",
+        "simplex-noise": "^4.0.3",
         "swiper": "^12.0.2",
         "tslib": "^2.3.0",
         "zone.js": "~0.15.0",
@@ -1009,6 +1011,8 @@
 
     "postcss-media-query-parser": ["postcss-media-query-parser@0.2.3", "", {}, "sha512-3sOlxmbKcSHMjlUXQZKQ06jOswE7oVkXPxmZdoB1r5l0q6gTFTQSHxNxOrCccElbW7dxNytifNEo8qidX2Vsig=="],
 
+    "primeicons": ["primeicons@7.0.0", "", {}, "sha512-jK3Et9UzwzTsd6tzl2RmwrVY/b8raJ3QZLzoDACj+oTJ0oX7L9Hy+XnVwgo4QVKlKpnP/Ur13SXV/pVh4LzaDw=="],
+
     "primeng": ["primeng@20.2.0", "", { "dependencies": { "@primeuix/styled": "^0.7.3", "@primeuix/styles": "^1.2.4", "@primeuix/utils": "^0.6.1", "tslib": "^2.3.0" }, "peerDependencies": { "@angular/animations": "^20.0.4", "@angular/cdk": "^20.0.3", "@angular/common": "^20.0.4", "@angular/core": "^20.0.4", "@angular/forms": "^20.0.4", "@angular/platform-browser": "^20.0.4", "@angular/router": "^20.0.4", "rxjs": "^6.0.0 || ^7.8.1" } }, "sha512-SXdL5dY+YWaCt1jRFqf4EUVhyVlhYV0MjLeke/UeLx/Od0+06Ru33MLQe2Ul7o/vAmItbh+OvRTu7jEk5LMjqQ=="],
 
     "proc-log": ["proc-log@5.0.0", "", {}, "sha512-Azwzvl90HaF0aCz1JrDdXQykFakSSNPaPoiZ9fm5qJIMHioDZEi7OAdRwSm6rSoPtY3Qutnm3L7ogmg3dc+wbQ=="],
@@ -1086,6 +1090,8 @@
     "signal-exit": ["signal-exit@4.1.0", "", {}, "sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw=="],
 
     "sigstore": ["sigstore@3.1.0", "", { "dependencies": { "@sigstore/bundle": "^3.1.0", "@sigstore/core": "^2.0.0", "@sigstore/protobuf-specs": "^0.4.0", "@sigstore/sign": "^3.1.0", "@sigstore/tuf": "^3.1.0", "@sigstore/verify": "^2.1.0" } }, "sha512-ZpzWAFHIFqyFE56dXqgX/DkDRZdz+rRcjoIk/RQU4IX0wiCv1l8S7ZrXDHcCc+uaf+6o7w3h2l3g6GYG5TKN9Q=="],
+
+    "simplex-noise": ["simplex-noise@4.0.3", "", {}, "sha512-qSE2I4AngLQG7BXqoZj51jokT4WUXe8mOBrvfOXpci8+6Yu44+/dD5zqDpOx3Ux792eamTd2lLcI8jqFntk/lg=="],
 
     "slice-ansi": ["slice-ansi@5.0.0", "", { "dependencies": { "ansi-styles": "^6.0.0", "is-fullwidth-code-point": "^4.0.0" } }, "sha512-FC+lgizVPfie0kkhqUScwRu1O/lF6NOgJmlCgK+/LYxDCTk8sGelYaHDhFcDN+Sn3Cv+3VSa4Byeo+IMCzpMgQ=="],
 

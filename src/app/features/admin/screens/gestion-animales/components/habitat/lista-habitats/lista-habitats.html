@@ -1,0 +1,73 @@
+<div class="lista-habitats-container">
+  <div class="header-actions">
+    <button 
+      mat-raised-button 
+      color="primary" 
+      (click)="navigateToCreate()"
+    >
+      <mat-icon>add</mat-icon>
+      Crear Nuevo Hábitat
+    </button>
+  </div>
+
+  @defer(on viewport; prefetch on idle; hydrate on interaction){
+    @let habitats = this.habitats$ | async;
+    @if(habitats){
+      <p-dataview #dv [value]="habitats">
+        <ng-template #list let-items>
+          @for(habitat of items; track habitat.id){
+            <mat-card class="habitat-card">
+              <mat-card-header>
+                <mat-card-title>
+                  <mat-icon>park</mat-icon>
+                  {{ habitat.nombre }}
+                </mat-card-title>
+                <mat-card-subtitle>{{ habitat.tipo }}</mat-card-subtitle>
+              </mat-card-header>
+              
+              <mat-card-content>
+                <p><strong>Descripción:</strong> {{ habitat.descripcion }}</p>
+                <p><strong>Condiciones Climáticas:</strong> {{ habitat.condicionesClimaticas }}</p>
+                <p><strong>Estado:</strong> 
+                  <span [class]="habitat.isActive ? 'status-active' : 'status-inactive'">
+                    {{ habitat.isActive ? 'Activo' : 'Inactivo' }}
+                  </span>
+                </p>
+              </mat-card-content>
+              
+              <mat-card-actions>
+                <button 
+                  mat-button 
+                  color="primary"
+                  (click)="editHabitat(habitat.id)"
+                >
+                  <mat-icon>edit</mat-icon>
+                  Editar
+                </button>
+                <button 
+                  mat-button 
+                  color="warn"
+                  (click)="deleteHabitat(habitat.id)"
+                >
+                  <mat-icon>delete</mat-icon>
+                  Eliminar
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          } @empty {
+            <mat-card>
+              <mat-card-content>
+                <p>No hay hábitats disponibles.</p>
+              </mat-card-content>
+            </mat-card>
+          }
+        </ng-template>
+      </p-dataview>
+    }
+  } @loading {
+    <zoo-loader />
+  }
+  @placeholder {
+    <p>Cargando hábitats...</p>
+  }
+</div>

@@ -8,10 +8,11 @@ import {
 } from '@ngrx/signals';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { Usuario } from '@app/features/auth/models/usuario.model';
+import { Usuario } from '@models/usuario/usuario.model';
 import { Auth } from '@app/features/auth/services';
-import { LoginResponse } from '@app/features/auth/models/request_response.model';
+import { LoginResponse } from '@models/usuario/request_response.model';
 import { isPlatformBrowser } from '@angular/common';
+import { ShowToast } from '@app/shared/services';
 
 interface AuthState {
   usuario: Usuario | null;
@@ -46,13 +47,13 @@ export const AuthStore = signalStore(
     store,
     authService = inject(Auth),
     router = inject(Router),
-    platformId = inject(PLATFORM_ID)
+    platformId = inject(PLATFORM_ID),
+    toastService = inject(ShowToast)
   ) => {
     
     const setTokenInStorage = (key: string, value: string): void => {
       if (isPlatformBrowser(platformId)) {
         localStorage.setItem(key, value);
-        console.warn(`Token ${key} guardado en local`);
       }
     };
 
@@ -72,6 +73,18 @@ export const AuthStore = signalStore(
     const clearTokens = () => {
       removeTokenFromStorage('access_token');
       removeTokenFromStorage('refresh_token');
+    };
+
+    const isTokenValid = (token: string): boolean => {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const exp = payload.exp * 1000;
+        const now = Date.now();
+        const buffer = 5 * 60 * 1000;
+        return exp > (now + buffer);
+      } catch (error) {
+        return false;
+      }
     };
 
     const methods = {
@@ -103,6 +116,7 @@ export const AuthStore = signalStore(
           usuario,
         });
 
+        toastService.showSuccess("Inicio de sesión exitoso", "Éxito");
         await router.navigate(['/inicio']);
         
       } catch (error: any) {
@@ -127,6 +141,8 @@ export const AuthStore = signalStore(
           refreshToken: null,
         });
 
+        toastService.showError("Error", errorMessage);
+
         clearTokens();
       }
     },
@@ -146,7 +162,7 @@ export const AuthStore = signalStore(
           loading: false,
           error: null,
         });
-
+        toastService.showSuccess("Registro exitoso. Por favor, inicie sesión.", "Éxito");
         await router.navigate(['/login']);
         
         return usuario;
@@ -172,6 +188,8 @@ export const AuthStore = signalStore(
           loading: false,
         });
 
+        toastService.showError("Error", errorMessage);
+
         throw error;
       }
     },
@@ -186,6 +204,7 @@ export const AuthStore = signalStore(
         }
       } catch (error: any) {
         console.warn('Error al cerrar sesión en el servidor:', error);
+        toastService.showError("Error al cerrar sesión en el servidor", "Error");
       } finally {
         clearTokens();
         patchState(store, {
@@ -195,15 +214,19 @@ export const AuthStore = signalStore(
           loading: false,
           error: null,
         });
+        toastService.showSuccess("Sesión cerrada exitosamente", "Éxito");
         await router.navigate(['/login']);
       }
     },
 
     async loadUserProfile() {
-      if (!store.accessToken()) return;
+      const currentToken = store.accessToken();
+      if (!currentToken) {
+        return;
+      }
 
       try {
-        patchState(store, { loading: true });
+        patchState(store, { loading: true, error: null });
         const usuario = await firstValueFrom(authService.getProfile());
         patchState(store, { 
           usuario,
@@ -211,36 +234,45 @@ export const AuthStore = signalStore(
           error: null 
         });
       } catch (error: any) {
-        console.error('Error al cargar perfil de usuario:', error);
         patchState(store, { loading: false });
-        await methods.logout();
+        
+        if (error.status === 401 || error.status === 403) {
+          await methods.logout();
+        } else {
+          patchState(store, { error: 'Error al cargar perfil' });
+        }
       }
     },
 
-    refreshTokens() {
-      const refreshToken = store.refreshToken();
-      if (!refreshToken) {
-        methods.logout();
-        return Promise.reject('No refresh token available');
+    async refreshTokens() {
+      const currentRefreshToken = store.refreshToken();
+      if (!currentRefreshToken) {
+        await methods.logout();
+        throw new Error('No refresh token available');
       }
 
-      return firstValueFrom(authService.refreshToken(refreshToken))
-        .then((response: LoginResponse) => {
-          setTokenInStorage('access_token', response.access_token);
-          setTokenInStorage('refresh_token', response.refresh_token);
+      try {
+        const response: LoginResponse = await firstValueFrom(
+          authService.refreshToken(currentRefreshToken)
+        );
 
-          patchState(store, {
-            accessToken: response.access_token,
-            refreshToken: response.refresh_token,
-          });
+        setTokenInStorage('access_token', response.access_token);
+        setTokenInStorage('refresh_token', response.refresh_token);
 
-          return response;
-        })
-        .catch((error: any) => {
-          console.error('Error al renovar token de acceso:', error);
-          methods.logout();
-          throw error;
+        patchState(store, {
+          accessToken: response.access_token,
+          refreshToken: response.refresh_token,
+          error: null
         });
+
+        return response;
+      } catch (error: any) {
+        if (error.status === 401 || error.status === 403) {
+          await methods.logout();
+        }
+        
+        throw error;
+      }
     },
 
     clearError() {
@@ -257,18 +289,42 @@ export const AuthStore = signalStore(
             accessToken, 
             refreshToken 
           });
-          await methods.loadUserProfile();
+          
+          if (isTokenValid(accessToken)) {
+            await methods.loadUserProfile();
+          } else {
+            try {
+              await methods.refreshTokens();
+              await methods.loadUserProfile();
+            } catch (refreshError) {
+              clearTokens();
+              patchState(store, getInitialState());
+            }
+          }
+        } else {
+          patchState(store, getInitialState());
         }
       } catch (error) {
-        console.error('Error durante la inicialización de auth:', error);
-        // Continuar sin autenticación si hay error
-        patchState(store, {
-          error: null,
-          loading: false,
-          usuario: null,
-          accessToken: null,
-          refreshToken: null,
-        });
+        clearTokens();
+        patchState(store, getInitialState());
+      }
+    },
+
+    isTokenExpired(): boolean {
+      const token = store.accessToken();
+      if (!token) {
+        return true;
+      }
+      
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const exp = payload.exp * 1000;
+        const now = Date.now();
+        const buffer = 2 * 60 * 1000;
+        
+        return exp <= (now + buffer);
+      } catch (error) {
+        return true;
       }
     },
     };

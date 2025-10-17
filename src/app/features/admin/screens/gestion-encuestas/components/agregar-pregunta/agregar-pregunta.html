@@ -1,0 +1,110 @@
+<div class="dialog-content">
+  <p-confirmpopup />
+  <form [formGroup]="questionForm">
+    <p-floatlabel variant="on">
+      <textarea
+        pTextarea
+        id="texto-pregunta"
+        formControlName="textoPregunta"
+        rows="5"
+        cols="30"
+        placeholder="Titulo de la pregunta"
+        cdkTextareaAutosize
+      ></textarea>
+      <label for="texto-pregunta">Pregunta</label>
+    </p-floatlabel>
+    @if (isInvalid('textoPregunta')) {
+    <ng-container
+      [ngTemplateOutlet]="alerta"
+      [ngTemplateOutletContext]="{fieldName: 'textoPregunta'}"
+    />
+    }
+
+    <p-floatlabel variant="on">
+      <p-select
+        id="tipo-pregunta"
+        formControlName="tipoPregunta"
+        [options]="tipoOpciones"
+        optionLabel="nombre"
+        optionValue="value"
+        [style]="{ minWidth: '14rem' }"
+        placeholder="Selecciona una opción  "
+        [invalid]="isInvalid('tipoPregunta')"
+        (onChange)="onTipoChange()"
+      >
+      </p-select>
+      <label for="tipo-pregunta">Tipo Pregunta</label>
+    </p-floatlabel>
+    @if (isInvalid('tipoPregunta')) {
+    <ng-container
+      [ngTemplateOutlet]="alerta"
+      [ngTemplateOutletContext]="{fieldName: 'tipoPregunta'}"
+    />
+    } @if (tipoSeleccionado() === 'opcion_unica') {
+    <div class="opciones-section">
+      <div class="opciones-header">
+        <h4>Opciones de respuesta</h4>
+        <button
+          type="button"
+          mat-icon-button
+          (click)="addOpcion()"
+          [disabled]="opciones.length >= 10"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      @if (opciones.length === 0) {
+      <mat-card class="empty-opciones">
+        <mat-card-content>
+          <p>No hay opciones. Agrega al menos 2 opciones.</p>
+        </mat-card-content>
+      </mat-card>
+      } @else {
+      <div class="opciones-list" formArrayName="opciones">
+        @for (opcion of opciones.controls; track $index; let i = $index) {
+        <div class="opcion-item" [formGroupName]="i">
+          <p-floatlabel variant="on">
+            <input
+              name=""
+              formControlName="texto_opcion"
+              pInputText
+              [id]="'opcion' + (i + 1)"
+            />
+            <label [for]="'opcion' + (i + 1)">Opcion {{i + 1}}</label>
+          </p-floatlabel>
+          @if (isInvalid('tipoPregunta')) {
+          <ng-container
+            [ngTemplateOutlet]="alerta"
+            [ngTemplateOutletContext]="{fieldName: 'tipoPregunta'}"
+          />
+          }
+
+          <button
+            mat-icon-button
+            (click)="removeOpcion(i, $event)"
+            [disabled]="opciones.length <= 1"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        }
+      </div>
+      }
+    </div>
+    }
+  </form>
+  
+  <div class="dialog-actions">
+    <button mat-button (click)="cancel()">Cancelar</button>
+    <button matButton="filled" (click)="save()" [disabled]="!isFormValid()">
+      Guardar
+    </button>
+  </div>
+</div>
+
+<ng-template #alerta let-fieldName="fieldName">
+  <p-message severity="error" size="small" variant="simple">
+    {{getErrorMessage(fieldName)}}
+  </p-message>
+</ng-template>

@@ -1,1 +1,19 @@
-<p>gestion-quizzes works!</p>
+@defer(on viewport; hydrate on hover){
+  <p-splitter [panelSizes]="[20, 80]" class="splitter">
+  <ng-template #panel>
+    <button matButton routerLink="/admin/quizzes/crear">
+      Crear Quiz
+    </button>
+    <button matButton routerLink="/admin/quizzes/">
+      Lista
+    </button>
+  </ng-template>
+  <ng-template #panel>
+    <p-scrollpanel [style]="{ width: '100%', height: '100%' }">
+      <router-outlet />
+    </p-scrollpanel>
+  </ng-template>
+</p-splitter>
+} @placeholder {
+  <p></p>
+}

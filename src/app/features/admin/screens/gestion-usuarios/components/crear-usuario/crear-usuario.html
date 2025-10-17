@@ -1,0 +1,119 @@
+<p-card>
+  <ng-template #header>
+    <div class="flex justify-content-between align-items-center">
+      <h2>Crear Usuario</h2>
+      <p-button
+        icon="pi pi-arrow-left"
+        label="Volver"
+        [rounded]="true"
+        severity="secondary"
+        (onClick)="onCancel()"
+      />
+    </div>
+  </ng-template>
+
+  <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()" class="usuario-form">
+    
+    <div class="field">
+      <p-floatlabel variant="on">
+        <input
+          id="email"
+          pInputText
+          type="email"
+          formControlName="email"
+          autocomplete="email"
+        />
+        <label for="email">Email</label>
+      </p-floatlabel>
+      @if (isInvalid('email')) {
+        <ng-container
+          [ngTemplateOutlet]="alerta"
+          [ngTemplateOutletContext]="{fieldName: 'email'}"
+        />
+      }
+    </div>
+
+    <div class="field">
+      <p-floatlabel variant="on">
+        <input
+          id="username"
+          pInputText
+          type="text"
+          formControlName="username"
+          autocomplete="username"
+        />
+        <label for="username">Nombre de Usuario</label>
+      </p-floatlabel>
+      @if (isInvalid('username')) {
+        <ng-container
+          [ngTemplateOutlet]="alerta"
+          [ngTemplateOutletContext]="{fieldName: 'username'}"
+        />
+      }
+    </div>
+
+    <div class="field">
+      <p-floatlabel variant="on">
+        <p-password
+          id="password"
+          formControlName="password"
+          [feedback]="false"
+          [toggleMask]="true"
+          autocomplete="new-password"
+        />
+        <label for="password">Contraseña</label>
+      </p-floatlabel>
+      @if (isInvalid('password')) {
+        <ng-container
+          [ngTemplateOutlet]="alerta"
+          [ngTemplateOutletContext]="{fieldName: 'password'}"
+        />
+      }
+    </div>
+
+    <div class="field">
+      <p-floatlabel variant="on">
+        <p-select
+          id="rol"
+          formControlName="rol"
+          [options]="roleOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Selecciona un rol"
+        />
+        <label for="rol">Rol</label>
+      </p-floatlabel>
+      @if (isInvalid('rol')) {
+        <ng-container
+          [ngTemplateOutlet]="alerta"
+          [ngTemplateOutletContext]="{fieldName: 'rol'}"
+        />
+      }
+    </div>
+
+    <div class="form-actions">
+      <p-button
+        type="button"
+        label="Cancelar"
+        [rounded]="true"
+        severity="secondary"
+        (onClick)="onCancel()"
+        [disabled]="isCreating()"
+      />
+      <p-button
+        type="submit"
+        label="Crear Usuario"
+        [rounded]="true"
+        severity="primary"
+        [loading]="isCreating()"
+        [disabled]="usuarioForm.invalid"
+      />
+    </div>
+  </form>
+</p-card>
+
+<ng-template #alerta let-fieldName="fieldName">
+  <p-message severity="error" variant="simple" size="small">
+    {{getErrorMessage(fieldName)}}
+  </p-message>
+</ng-template>

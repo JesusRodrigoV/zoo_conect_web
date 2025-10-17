@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { EncuestaService } from '../../services/encuestas';
 import { AsyncPipe } from '@angular/common';
+import { Loader } from '@app/shared/components';
 
 @Component({
   selector: 'app-encuestas',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, Loader],
   templateUrl: './encuestas.html',
   styleUrl: './encuestas.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

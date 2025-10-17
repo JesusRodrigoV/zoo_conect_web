@@ -16,10 +16,13 @@
     "module": "preserve",
     "baseUrl": "./",
     "paths": {
+      "@models/*": ["src/app/core/models/*"],
+      "@adapters/*": ["src/app/core/adapters/*"],
       "@app/*": ["src/app/*"],
       "@features/*": ["src/app/features/*"],
       "@shared/*": ["src/app/shared/*"],
-      "@env/*": ["src/environment/environment.ts"]
+      "@env": ["src/environment/environment.ts"],
+      
     }
   },
   "angularCompilerOptions": {

@@ -1,2 +1,22 @@
-<p>home works!</p>
-<zoo-loader [size]="15"/>
+<div class="home-container">
+  <zoo-3d-card containerClass="demo-container">
+    <h2 card-title>Explora la vida salvaje</h2>
+    <p card-description>
+      Descubre especies fascinantes y aprende sobre la conservación de la vida
+      silvestre
+    </p>
+    <img
+      card-image
+      src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=800&auto=format&fit=crop"
+      alt="Vida salvaje"
+    />
+    <div card-actions>
+      <a href="/animales" class="action-link">Explorar Animales →</a>
+      <button class="action-button">Comenzar Tour</button>
+    </div>
+  </zoo-3d-card>
+
+  <div class="loader-demo">
+    <zoo-loader [size]="15" />
+  </div>
+</div>

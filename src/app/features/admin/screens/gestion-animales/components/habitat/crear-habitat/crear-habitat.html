@@ -1,0 +1,117 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon>park</mat-icon>
+      Crear Nuevo Hábitat
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="habitatForm" (ngSubmit)="onSubmit()">
+      <p-floatlabel variant="on">
+        <input
+          id="nombre"
+          pInputText
+          type="text"
+          formControlName="nombre"
+          autocomplete="off"
+        />
+        <label for="nombre">Nombre del Hábitat</label>
+      </p-floatlabel>
+      @if (isInvalid('nombre')) {
+      <ng-container
+        [ngTemplateOutlet]="alerta"
+        [ngTemplateOutletContext]="{fieldName: 'nombre'}"
+      />
+      }
+
+      <p-floatlabel variant="on">
+        <input
+          id="tipo"
+          pInputText
+          type="text"
+          formControlName="tipo"
+          autocomplete="off"
+        />
+        <label for="tipo">Tipo de Hábitat</label>
+      </p-floatlabel>
+      @if (isInvalid('tipo')) {
+      <ng-container
+        [ngTemplateOutlet]="alerta"
+        [ngTemplateOutletContext]="{fieldName: 'tipo'}"
+      />
+      }
+
+      <p-floatlabel variant="on">
+        <textarea
+          pTextarea
+          id="descripcion"
+          rows="4"
+          cols="10"
+          formControlName="descripcion"
+        ></textarea>
+        <label for="descripcion">Descripción</label>
+      </p-floatlabel>
+      @if (isInvalid('descripcion')) {
+      <ng-container
+        [ngTemplateOutlet]="alerta"
+        [ngTemplateOutletContext]="{fieldName: 'descripcion'}"
+      />
+      }
+
+      <p-floatlabel variant="on">
+        <textarea
+          pTextarea
+          id="condicionesClimaticas"
+          rows="3"
+          cols="10"
+          formControlName="condicionesClimaticas"
+        ></textarea>
+        <label for="condicionesClimaticas">Condiciones Climáticas</label>
+      </p-floatlabel>
+      @if (isInvalid('condicionesClimaticas')) {
+      <ng-container
+        [ngTemplateOutlet]="alerta"
+        [ngTemplateOutletContext]="{fieldName: 'condicionesClimaticas'}"
+      />
+      }
+
+      <div class="form-actions">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="isCreating()"
+        >
+          @if (isCreating()) {
+          <ng-container>
+            <mat-icon>hourglass_empty</mat-icon>
+            Creando...
+          </ng-container>
+          } @else {
+          <ng-container>
+            <mat-icon>save</mat-icon>
+            Crear Hábitat
+          </ng-container>
+          }
+        </button>
+
+        <button
+          mat-button
+          type="button"
+          (click)="onCancel()"
+          [disabled]="isCreating()"
+        >
+          <mat-icon>cancel</mat-icon>
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #alerta let-fieldName="fieldName">
+  <p-message severity="error" size="small" variant="simple">
+    {{ getErrorMessage(fieldName) }}
+  </p-message>
+</ng-template>

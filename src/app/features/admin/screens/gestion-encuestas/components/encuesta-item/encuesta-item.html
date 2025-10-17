@@ -1,0 +1,84 @@
+@if (encuesta(); as enc) {
+<p-card class="encuesta-card">
+  <ng-template #header>
+    <div class="card-header">
+      <div class="header-content">
+        <i class="pi pi-clipboard card-icon"></i>
+        <div class="header-text">
+          <h3 class="encuesta-titulo">{{enc.titulo}}</h3>
+          <p-tag 
+            [value]="estadoEncuesta().texto" 
+            [severity]="estadoEncuesta().severity"
+            class="estado-tag"
+          />
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Descripción -->
+  <div class="encuesta-descripcion">
+    <p class="descripcion-texto">{{enc.descripcion}}</p>
+  </div>
+  
+  <p-divider />
+  
+  <!-- Información de fechas -->
+  <div class="fechas-info">
+    <div class="fecha-item">
+      <i class="pi pi-calendar-plus fecha-icon inicio"></i>
+      <div class="fecha-details">
+        <span class="fecha-label">Fecha de Inicio</span>
+        <span class="fecha-valor">{{enc.fechaInicio | date:'dd/MM/yyyy'}}</span>
+      </div>
+    </div>
+    
+    <div class="fecha-item">
+      <i class="pi pi-calendar-times fecha-icon fin"></i>
+      <div class="fecha-details">
+        <span class="fecha-label">Fecha de Fin</span>
+        <span class="fecha-valor">{{enc.fechaFin | date:'dd/MM/yyyy'}}</span>
+      </div>
+    </div>
+  </div>
+  
+  @if (diasRestantes() > 0 && estadoEncuesta().severity === 'success') {
+    <div class="dias-restantes">
+      <i class="pi pi-clock"></i>
+      <span>{{diasRestantes()}} días restantes</span>
+    </div>
+  }
+  
+  <ng-template #footer>
+    <div class="card-actions">
+      <p-button 
+        icon="pi pi-eye" 
+        label="Ver Detalles"
+        severity="secondary"
+        [outlined]="true"
+        size="small"
+      />
+      <p-button 
+        icon="pi pi-pencil" 
+        label="Editar"
+        severity="info"
+        size="small"
+      />
+      <p-button 
+        icon="pi pi-trash" 
+        label="Eliminar"
+        severity="danger"
+        [outlined]="true"
+        size="small"
+      />
+    </div>
+  </ng-template>
+</p-card>
+} @else {
+<p-card class="encuesta-card empty-card">
+  <div class="empty-state">
+    <i class="pi pi-exclamation-circle empty-icon"></i>
+    <p>No hay datos de encuesta disponibles</p>
+  </div>
+</p-card>
+}

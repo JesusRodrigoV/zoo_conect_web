@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { Usuario } from '@app/features/auth/models/usuario.model';
+import { Usuario } from '@models/usuario/usuario.model';
 import { UserAvatar } from '@app/shared/components/user-avatar';
 
 @Component({

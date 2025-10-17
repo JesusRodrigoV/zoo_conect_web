@@ -25,6 +25,8 @@ import { authInterceptor } from './core/interceptors';
 import { providePrimeNG } from 'primeng/config';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { MessageService } from 'primeng/api';
+import Aura from '@primeuix/themes/aura';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -38,8 +40,16 @@ export const appConfig: ApplicationConfig = {
       withInMemoryScrolling({ scrollPositionRestoration: 'top' })
     ),
     provideClientHydration(withEventReplay(), withIncrementalHydration()),
-    providePrimeNG(),
+    providePrimeNG({
+      theme: {
+        preset: Aura,
+        options: {
+          darkModeSelector: '.dark-mode',
+        },
+      },
+    }),
     provideAnimations(),
     provideCharts(withDefaultRegisterables()),
+    MessageService,
   ],
 };

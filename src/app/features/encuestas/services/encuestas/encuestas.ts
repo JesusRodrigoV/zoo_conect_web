@@ -1,17 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '@env/envieronment';
+import { environment } from '@env';
 import { Observable, map } from 'rxjs';
 import { 
   EncuestaAdapter, 
   BackendEncuestaResponse 
-} from '../../adapters/encuesta.adapter';
+} from '@adapters/encuesta';
 import { 
   EstadisticaEncuestaAdapter,
   BackendStatsResponse 
-} from '../../adapters/estadistica-encuesta.adapter';
-import { Encuesta } from '../../models/encuesta.model';
-import { EstadisticaEncuesta } from '../../models/estadistica-encuesta.model';
+} from '@adapters/encuesta';
+import { EstadisticaEncuesta } from '@models/encuestas';
+import { Encuesta } from '@models/encuestas';
 
 @Injectable({
   providedIn: 'root',

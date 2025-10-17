@@ -11,15 +11,15 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { AuthStore } from '@app/core/store/auth.store';
 import { Loader } from '@app/shared/components/loader';
 import { FormField } from '@app/shared/components/form-field';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-signup',
-  imports: [MatButtonModule, ReactiveFormsModule, RouterLink, Loader, FormField],
+  imports: [ReactiveFormsModule, RouterLink, Loader, FormField, ButtonModule],
   templateUrl: './signup.html',
   styleUrl: './signup.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,38 +1,44 @@
-@defer{
+@defer(on viewport; prefetch on idle; hydrate on viewport) {
 <div class="login-container">
-  <div class="login-card">
-    <h2>Iniciar Sesión</h2>
+  <p-card header="Bienvenido" subheader="Inicia sesión en Zoo Connect" class="login-card">
+    <div class="login-content">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <zoo-form-field
+          label="Email"
+          type="email"
+          placeholder="Ingresa tu email"
+          [control]="email"
+          [errorMessage]="getEmailError()"
+        />
 
-    @if (error()) {
-    <div class="error-message">
-      {{ error() }}
-      <button type="button" (click)="clearError()">&times;</button>
+        <zoo-form-field
+          label="Contraseña"
+          type="password"
+          placeholder="Ingresa tu contraseña"
+          [control]="password"
+          [errorMessage]="getPasswordError()"
+        />
+
+        <div class="button-container">
+          <p-button
+            type="submit"
+            label="Iniciar Sesión"
+            severity="primary"
+            [rounded]="true"
+            [disabled]="loading()"
+            styleClass="login-button"
+          >
+            @if (loading()) {
+            <zoo-loader [size]="20" />
+            }
+          </p-button>
+        </div>
+      </form>
     </div>
-    }
-
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <zoo-form-field
-        label="Email"
-        type="email"
-        placeholder="Ingresa tu email"
-        [control]="email"
-        [errorMessage]="getEmailError()"
-      />
-
-      <zoo-form-field
-        label="Contraseña"
-        type="password"
-        placeholder="Ingresa tu contraseña"
-        [control]="password"
-        [errorMessage]="getPasswordError()"
-      />
-
-      <button type="submit" matButton="filled" [disabled]="loading()">
-        @if (loading()) {
-        <zoo-loader [size]="20" />
-        } @else { Iniciar Sesión }
-      </button>
-    </form>
-  </div>
+  </p-card>
+</div>
+} @placeholder {
+<div class="login-placeholder">
+  <p>Cargando formulario de inicio de sesión...</p>
 </div>
 }

@@ -1,0 +1,54 @@
+<div class="lista-usuarios-container">
+  <div class="header-actions">
+    <h2>Gestión de Usuarios</h2>
+    <p-button
+      icon="pi pi-plus"
+      label="Crear Usuario"
+      [rounded]="true"
+      severity="primary"
+      (onClick)="navigateToCreate()"
+    />
+  </div>
+
+  @defer(on viewport; prefetch on idle; hydrate on interaction){
+    @let usuarios = this.usuarios$ | async;
+    @if(usuarios){
+      <p-dataview #dv [value]="usuarios">
+        <ng-template #header>
+          <div class="dataview-header">
+            <span>Total: {{ usuarios.length }} usuarios</span>
+          </div>
+        </ng-template>
+        
+        <ng-template #list let-items>
+          @for(usuario of items; track usuario.id){
+            <zoo-usuario-item 
+              [usuario]="usuario"
+              (onEdit)="editUser($event)"
+              (onDelete)="deleteUser($event)"
+              (onToggleStatus)="toggleUserStatus($event)"
+            />
+          } @empty {
+            <div class="empty-state">
+              <p>No hay usuarios disponibles.</p>
+              <p-button
+                icon="pi pi-plus"
+                label="Crear Primer Usuario"
+                [rounded]="true"
+                severity="primary"
+                (onClick)="navigateToCreate()"
+              />
+            </div>
+          }
+        </ng-template>
+      </p-dataview>
+    }
+  } @loading {
+    <zoo-loader />
+  }
+  @placeholder {
+    <div class="loading-placeholder">
+      <p>Cargando usuarios...</p>
+    </div>
+  }
+</div>

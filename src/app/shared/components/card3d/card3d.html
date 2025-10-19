@@ -3,25 +3,36 @@
     #cardElement
     class="card-3d" 
     [ngClass]="className()"
+    (mouseenter)="onMouseEnter($event)"
+    (mouseleave)="onMouseLeave($event)"
+    (mousemove)="onMouseMove($event)"
   >
     <div class="card-body">
-      <ng-content select="[card-title]">
-        <div class="default-title">Título por defecto</div>
-      </ng-content>
+      <div #cardTitle card-title>
+        <ng-content select="[card-title]">
+          <div class="default-title">Título por defecto</div>
+        </ng-content>
+      </div>
       
-      <ng-content select="[card-description]">
-        <div class="default-description">Descripción por defecto</div>
-      </ng-content>
+      <div #cardDescription card-description>
+        <ng-content select="[card-description]">
+          <div class="default-description">Descripción por defecto</div>
+        </ng-content>
+      </div>
       
-      <ng-content select="[card-image]">
-        <div class="default-image">📷 Imagen</div>
-      </ng-content>
+      <div #cardImage card-image>
+        <ng-content select="[card-image]">
+          <div class="default-image">📷 Imagen</div>
+        </ng-content>
+      </div>
       
-      <ng-content select="[card-actions]">
-        <div class="default-actions">
-          <button>Acción por defecto</button>
-        </div>
-      </ng-content>
+      <div #cardActions card-actions>
+        <ng-content select="[card-actions]">
+          <div class="default-actions">
+            <button>Acción por defecto</button>
+          </div>
+        </ng-content>
+      </div>
       
       <ng-content></ng-content>
     </div>

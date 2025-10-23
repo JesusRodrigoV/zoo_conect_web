@@ -1,0 +1,47 @@
+<section class="hero-section">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1 class="hero-title">Bienvenido a Zoo Connect</h1>
+      <p class="hero-subtitle">
+        Conectando personas con la naturaleza
+      </p>
+      <p class="hero-description">
+        Descubre, aprende y participa en la conservación de la vida silvestre.
+        Una experiencia educativa única que te conecta con el mundo animal.
+      </p>
+      <div class="hero-actions">
+        @if(!autenticado()){
+          <button mat-raised-button color="primary" routerLink="/signup" class="cta-button">
+            <mat-icon>person_add</mat-icon>
+            Registrarse Ahora
+          </button>
+          <button mat-stroked-button routerLink="/login" class="secondary-button">
+            <mat-icon>login</mat-icon>
+            Iniciar Sesión
+          </button>
+        } @else {
+          <button mat-raised-button color="primary" routerLink="/admin" class="cta-button">
+            <mat-icon>explore</mat-icon>
+            Explorar Ahora
+          </button>
+        }
+      </div>
+    </div>
+    <div class="hero-image">
+      <zoo-3d-card>
+        <h3 card-title>Vida Salvaje</h3>
+        <p card-description>
+          Explora más de 200 especies en nuestro zoológico
+        </p>
+        <img
+          card-image
+          src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?q=80&w=800&auto=format&fit=crop"
+          alt="León majestuoso"
+        />
+        <div card-actions>
+          <button mat-button color="primary">Ver Más →</button>
+        </div>
+      </zoo-3d-card>
+    </div>
+  </div>
+</section>

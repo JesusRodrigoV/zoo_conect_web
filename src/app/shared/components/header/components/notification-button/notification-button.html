@@ -1,24 +1,43 @@
 <p-overlayBadge [value]="noLeidasCuenta()" badgeSize="small">
-  <a
+  <p-button
+    styleClass="notif-btn p-button-rounded p-button-text"
+    (onClick)="op.toggle($event)"
     pTooltip="Notificaciones"
     tooltipPosition="bottom"
-    (click)="op.toggle($event)"
+    aria-label="Abrir notificaciones"
+    [text]="true"
+    [rounded]="true"
+    [link]="false"
+    [raised]="false"
+    [outlined]="false"
   >
     <span class="material-icons">notifications</span>
-  </a>
+  </p-button>
 </p-overlayBadge>
 
 <p-popover #op>
-  Notificaciones
   <ng-template #content>
-    @for(notificacion of notificaciones(); track notificacion.idNotificacion){
-    <zoo-notification-item [notificacion]="notificacion" />
-    }
-    <p-button
-    label="Todas las notificaciones"
-    variant="text"
-    severity="success"
-  />
+    <div class="popover-header">
+      <h4>Notificaciones</h4>
+      <p-button
+        size="small"
+        label="Leer todas"
+        severity="success"
+        variant="text"
+        icon="pi pi-check-double"
+        (onClick)="markAllRead()"
+      />
+    </div>
+
+    <div class="popover-list">
+      @for (notificacion of notificaciones(); track notificacion.idNotificacion) {
+        <zoo-notification-item
+          [notificacion]="notificacion"
+          (markRead)="markOneRead($event)"
+        />
+      } @empty {
+        <div class="empty">No tienes notificaciones</div>
+      }
+    </div>
   </ng-template>
-  
 </p-popover>

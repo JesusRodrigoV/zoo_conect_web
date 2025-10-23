@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SplitterModule } from 'primeng/splitter';
+import { SplitterLayout } from '../../components/splitter-layout/splitter-layout';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
@@ -18,6 +19,7 @@ interface NavButton {
     RouterLink,
     RouterOutlet,
     ScrollPanelModule,
+    SplitterLayout,
   ],
   templateUrl: './gestion-animales.html',
   styleUrl: './gestion-animales.scss',

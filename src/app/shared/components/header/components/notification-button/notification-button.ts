@@ -35,4 +35,24 @@ export class NotificationButton {
   });
 
   showNotifications(event: Event): void {}
+
+  // Marcar todas las notificaciones como leídas
+  markAllRead(): void {
+    const current = this.notificaciones();
+    if (!current?.length) return;
+    this.notificaciones.set(
+      current.map((n) => ({ ...n, leido: true }))
+    );
+  }
+
+  // Marcar una sola notificación como leída por id
+  markOneRead(idNotificacion: number | string): void {
+    const current = this.notificaciones();
+    if (!current?.length) return;
+    this.notificaciones.set(
+      current.map((n) =>
+        n.idNotificacion === idNotificacion ? { ...n, leido: true } : n
+      )
+    );
+  }
 }

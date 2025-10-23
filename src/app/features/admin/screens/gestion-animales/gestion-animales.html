@@ -1,18 +1,12 @@
-@defer(on viewport; hydrate on hover){
-<p-splitter [panelSizes]="[20, 80]" class="splitter">
-  <ng-template #panel>
+<zoo-splitter-layout>
+  <div splitter-buttons>
     @for(boton of botonesNav; track boton.label){
-    <button matButton [routerLink]="boton.route">
-      {{ boton.label }}
-    </button>
+      <button matButton [routerLink]="boton.route">
+        {{ boton.label }}
+      </button>
     }
-  </ng-template>
-  <ng-template #panel>
-    <p-scrollpanel [style]="{ width: '100%', height: '100%' }">
-      <router-outlet />
-    </p-scrollpanel>
-  </ng-template>
-</p-splitter>
-} @placeholder {
-<p></p>
-}
+  </div>
+  <div splitter-content>
+    <router-outlet />
+  </div>
+</zoo-splitter-layout>

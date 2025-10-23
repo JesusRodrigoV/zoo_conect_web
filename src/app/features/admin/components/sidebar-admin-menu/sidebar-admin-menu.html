@@ -1,9 +1,9 @@
-<mat-nav-list class="navigation-list">
+<mat-nav-list>
   @for (item of navigationItems(); track item.route) {
   <a
     mat-list-item
     [routerLink]="item.route"
-    routerLinkActive="active-item"
+    routerLinkActive="active"
     [class.disabled]="item.disabled"
     class="nav-item"
   >

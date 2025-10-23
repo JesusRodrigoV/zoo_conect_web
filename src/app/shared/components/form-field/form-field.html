@@ -1,25 +1,39 @@
-<div class="form-group">
-  <label [for]="label()">{{ label() }}:</label>
-  
-  <div class="input-container">
-    <input
-      [id]="label()"
-      [type]="getInputType()"
-      [formControl]="control()"
-      [placeholder]="placeholder()"
-      [class.invalid]="control().invalid && control().touched"
-    />
-    
-    @if (showPasswordToggle()) {
-      <button type="button" class="password-toggle" (click)="togglePasswordVisibility()">
-        {{ passwordVisible() ? 'Ocultar' : 'Mostrar' }}
-      </button>
+@defer(on viewport; hydrate on hover; prefetch on idle) {
+  <div class="form-field">
+    <p-floatlabel variant="on">
+      @if (type() === 'password') {
+        <p-password
+          [id]="label()"
+          [formControl]="control()"
+          [placeholder]="placeholder()"
+          [invalid]="isInvalid()"
+          [feedback]="false"
+          [toggleMask]="showPasswordToggle()"
+          autocomplete="off"
+        />
+      } @else {
+        <input
+          [id]="label()"
+          pInputText
+          [type]="type()"
+          [formControl]="control()"
+          [placeholder]="placeholder()"
+          [invalid]="isInvalid()"
+          autocomplete="off"
+        />
+      }
+      <label [for]="label()">{{ label() }}</label>
+    </p-floatlabel>
+
+    @if (errorMessage() && isInvalid()) {
+      <div class="validation-error">
+        <i class="pi pi-exclamation-triangle"></i>
+        <span>{{ errorMessage() }}</span>
+      </div>
     }
   </div>
-
-  @if (errorMessage() && control().invalid && control().touched) {
-    <div class="validation-error">
-      {{ errorMessage() }}
-    </div>
-  }
-</div>
+} @placeholder {
+  <div class="form-field-placeholder">
+    <p>Cargando campo...</p>
+  </div>
+}

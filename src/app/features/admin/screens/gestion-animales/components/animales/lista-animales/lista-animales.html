@@ -1,0 +1,19 @@
+@defer(on viewport; prefetch on idle; hydrate on interaction){
+    @let animals = this.animals$ | async;
+    @if(animals){
+        <p-dataview #dv [value]="animals">
+            <ng-template #list let-items>
+                @for(item of items; track item.id_animal){
+                    <zoo-animal-item [animal]="item"/>
+                } @empty {
+                    <p>No hay animales disponibles.</p>
+                }
+            </ng-template>
+        </p-dataview>
+    }
+} @loading {
+    <zoo-loader />
+}
+@placeholder {
+    <p>Cargando animales...</p>
+}

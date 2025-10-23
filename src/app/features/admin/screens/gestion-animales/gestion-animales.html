@@ -1,1 +1,12 @@
-<p>gestion-animales works!</p>
+<zoo-splitter-layout>
+  <div splitter-buttons>
+    @for(boton of botonesNav; track boton.label){
+      <button matButton [routerLink]="boton.route">
+        {{ boton.label }}
+      </button>
+    }
+  </div>
+  <div splitter-content>
+    <router-outlet />
+  </div>
+</zoo-splitter-layout>

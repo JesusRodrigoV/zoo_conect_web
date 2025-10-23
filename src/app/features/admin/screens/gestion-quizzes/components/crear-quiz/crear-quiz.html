@@ -1,0 +1,77 @@
+<form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
+  <p-floatlabel variant="on">
+    <p-datepicker
+      inputId="fecha-trivia"
+      formControlName="fechaTrivia"
+      [minDate]="minDate()"
+      [invalid]="isInvalid('fechaTrivia')"
+      showIcon
+      dateFormat="dd-mm-yy"
+      iconDisplay="input"
+    />
+    <label for="fecha-trivia">Fecha de la Trivia</label>
+  </p-floatlabel>
+  @if (isInvalid('fechaTrivia')) {
+    <ng-container
+      [ngTemplateOutlet]="alerta"
+      [ngTemplateOutletContext]="{fieldName: 'fechaTrivia'}"
+    />
+  }
+
+  <p-floatlabel variant="on">
+    <p-inputnumber
+      inputId="cantidad-preguntas"
+      formControlName="cantidadPreguntas"
+      [min]="1"
+      [max]="50"
+      [invalid]="isInvalid('cantidadPreguntas')"
+      suffix=" preguntas"
+    />
+    <label for="cantidad-preguntas">Cantidad de Preguntas</label>
+  </p-floatlabel>
+  @if (isInvalid('cantidadPreguntas')) {
+    <ng-container
+      [ngTemplateOutlet]="alerta"
+      [ngTemplateOutletContext]="{fieldName: 'cantidadPreguntas'}"
+    />
+  }
+
+  <p-floatlabel variant="on">
+    <p-select
+      inputId="dificultad"
+      formControlName="dificultad"
+      [options]="dificultades"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Selecciona la dificultad"
+      [invalid]="isInvalid('dificultad')"
+    />
+    <label for="dificultad">Dificultad</label>
+  </p-floatlabel>
+  @if (isInvalid('dificultad')) {
+    <ng-container
+      [ngTemplateOutlet]="alerta"
+      [ngTemplateOutletContext]="{fieldName: 'dificultad'}"
+    />
+  }
+
+  <div class="form-actions">
+    <p-button 
+      type="submit" 
+      label="Crear Quiz"
+      icon="pi pi-plus"
+      [loading]="loading()"
+      [rounded]="true"
+    />
+  </div>
+</form>
+
+<ng-template #alerta let-fieldName="fieldName">
+  <p-message 
+    severity="error"  
+    size="small" 
+    variant="simple"
+  >
+  {{getErrorMessage(fieldName)}}
+</p-message>
+</ng-template>

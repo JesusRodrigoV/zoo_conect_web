@@ -7,7 +7,7 @@ import {
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { UserAvatar } from '@app/shared/components';
-import type { Usuario } from '@app/features/auth/models/usuario.model';
+import type { Usuario } from '@models/usuario/usuario.model';
 
 export interface UserStats {
   quizzes: number;

@@ -1,0 +1,19 @@
+@defer(on viewport; prefetch on idle; hydrate on interaction){
+    @let surveys = this.surveys$ | async;
+    @if(surveys){
+        <p-dataview #dv [value]="surveys">
+            <ng-template #list let-items>
+                @for(item of items; track item.idEncuesta){
+                    <zoo-encuesta-item [encuesta]="item"/>
+                } @empty {
+                    <p>No hay encuestas disponibles.</p>
+                }
+            </ng-template>
+        </p-dataview>
+    }
+} @loading {
+    <zoo-loader />
+}
+@placeholder {
+    <p>Cargando</p>
+}

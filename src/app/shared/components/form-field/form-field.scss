@@ -1,36 +1,41 @@
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.input-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-input {
-  flex: 1;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.form-field {
+  margin-bottom: 1.5rem;
   
-  &.invalid {
-    border-color: #dc3545;
+  p-floatlabel {
+    width: 100%;
+    
+    input, p-password {
+      width: 100%;
+    }
   }
 }
 
-.password-toggle {
-  position: absolute;
-  right: 0.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #666;
+.validation-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: var(--p-red-50);
+  border: 1px solid var(--p-red-200);
+  border-radius: var(--p-border-radius-sm);
+  color: var(--p-red-600);
   font-size: 0.875rem;
+  
+  .pi {
+    font-size: 1rem;
+    color: var(--p-red-500);
+  }
 }
 
-.validation-error {
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+.form-field-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  
+  p {
+    color: var(--p-text-muted-color);
+    font-size: 0.9rem;
+  }
 }

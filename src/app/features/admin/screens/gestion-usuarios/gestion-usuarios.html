@@ -1,1 +1,13 @@
-<p>gestion-usuarios works!</p>
+<zoo-splitter-layout>
+  <div splitter-buttons>
+    <button matButton routerLink="/admin/usuarios/crear">
+      Crear Encuesta
+    </button>
+    <button matButton routerLink="/admin/usuarios/">
+      Lista
+    </button>
+  </div>
+  <div splitter-content>
+    <router-outlet />
+  </div>
+</zoo-splitter-layout>

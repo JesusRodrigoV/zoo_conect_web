@@ -8,10 +8,11 @@ import {
 import { NgOptimizedImage } from '@angular/common';
 import { Theme } from '@app/features/settings/services';
 import { RouterLink } from '@angular/router';
+import { Loader } from '../loader';
 
 @Component({
   selector: 'app-logo-image',
-  imports: [NgOptimizedImage, RouterLink],
+  imports: [NgOptimizedImage, RouterLink, Loader],
   templateUrl: './logo-image.html',
   styleUrl: './logo-image.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

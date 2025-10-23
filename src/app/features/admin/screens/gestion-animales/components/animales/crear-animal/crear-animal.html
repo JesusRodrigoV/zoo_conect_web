@@ -1,0 +1,164 @@
+@defer(on immediate; prefetch on idle; hydrate on interaction) {
+  <p-card header="Crear Nuevo Animal" class="crear-animal-card">
+    <form [formGroup]="animalForm" (ngSubmit)="onSubmit()" class="animal-form">
+      
+      <!-- Información básica -->
+      <div class="form-section">
+        <h4>Información Básica</h4>
+        
+        <div class="form-row">
+          <p-floatlabel>
+            <input 
+              id="nombre"
+              type="text" 
+              pInputText 
+              formControlName="nombre"
+              [class.ng-invalid]="animalForm.get('nombre')?.invalid && animalForm.get('nombre')?.touched"
+            />
+            <label for="nombre">Nombre del Animal *</label>
+          </p-floatlabel>
+        </div>
+
+        <div class="form-row">
+          <label class="checkbox-label">
+            <p-checkbox 
+              formControlName="genero" 
+              [binary]="true"
+              inputId="genero"
+            />
+            <span>Macho (desmarcar si es hembra)</span>
+          </label>
+        </div>
+
+        <div class="form-row-group">
+          <p-floatlabel>
+            <p-datepicker 
+              formControlName="fecha_nacimiento"
+              inputId="fechaNac"
+              dateFormat="yy-mm-dd"
+              [showIcon]="true"
+            />
+            <label for="fechaNac">Fecha de Nacimiento *</label>
+          </p-floatlabel>
+
+          <p-floatlabel>
+            <p-datepicker 
+              formControlName="fecha_ingreso"
+              inputId="fechaIng"
+              dateFormat="yy-mm-dd"
+              [showIcon]="true"
+            />
+            <label for="fechaIng">Fecha de Ingreso *</label>
+          </p-floatlabel>
+        </div>
+
+        <div class="form-row">
+          <p-floatlabel>
+            <input 
+              id="procedencia"
+              type="text" 
+              pInputText 
+              formControlName="procedencia"
+            />
+            <label for="procedencia">Procedencia *</label>
+          </p-floatlabel>
+        </div>
+      </div>
+
+      <!-- Estado y visibilidad -->
+      <div class="form-section">
+        <h4>Estado y Configuración</h4>
+        
+        <div class="form-row-group">
+          <p-floatlabel>
+            <p-select 
+              formControlName="estado_operativo"
+              [options]="estadosOperativos"
+              optionLabel="label"
+              optionValue="value"
+              inputId="estado"
+            />
+            <label for="estado">Estado Operativo *</label>
+          </p-floatlabel>
+
+          <label class="checkbox-label">
+            <p-checkbox 
+              formControlName="es_publico" 
+              [binary]="true"
+              inputId="publico"
+            />
+            <span>Animal visible para el público</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Descripción -->
+      <div class="form-section">
+        <h4>Descripción</h4>
+        
+        <div class="form-row">
+          <p-floatlabel>
+            <textarea 
+              id="descripcion"
+              pTextarea 
+              formControlName="descripcion"
+              rows="4"
+              [autoResize]="true"
+            ></textarea>
+            <label for="descripcion">Descripción del Animal *</label>
+          </p-floatlabel>
+        </div>
+      </div>
+
+      <!-- Relaciones (Temporal - serán dropdowns con datos reales) -->
+      <div class="form-section">
+        <h4>Clasificación</h4>
+        
+        <div class="form-row-group">
+          <p-floatlabel>
+            <input 
+              id="especieId"
+              type="number" 
+              pInputText 
+              formControlName="especie_id"
+              placeholder="ID de la especie"
+            />
+            <label for="especieId">ID Especie * (temporal)</label>
+          </p-floatlabel>
+
+          <p-floatlabel>
+            <input 
+              id="habitatId"
+              type="number" 
+              pInputText 
+              formControlName="habitat_id"
+              placeholder="ID del hábitat"
+            />
+            <label for="habitatId">ID Hábitat * (temporal)</label>
+          </p-floatlabel>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="form-actions">
+        <p-button 
+          type="button"
+          label="Cancelar" 
+          severity="secondary"
+          (onClick)="onCancel()"
+          [disabled]="isLoading()"
+        />
+        <p-button 
+          type="submit"
+          label="Crear Animal"
+          [disabled]="!canSubmit()"
+          [loading]="isLoading()"
+        />
+      </div>
+    </form>
+  </p-card>
+} @placeholder {
+  <div class="crear-animal-skeleton">
+    <p>Cargando formulario...</p>
+  </div>
+}

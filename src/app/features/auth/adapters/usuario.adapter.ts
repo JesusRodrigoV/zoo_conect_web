@@ -1,4 +1,4 @@
-import { Rol, RolId, Usuario } from "../models/usuario.model";
+import { Rol, RolId, Usuario } from "../../../core/models/usuario/usuario.model";
 
 export class UsuarioAdapter {
   private static mapRoleIdToRol(idRol: number): Rol {

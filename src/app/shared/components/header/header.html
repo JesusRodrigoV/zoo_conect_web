@@ -1,25 +1,56 @@
+@defer(on viewport; hydrate on hover; prefetch on idle) {
 <header class="header">
   <div class="header-left">
-    <ng-content></ng-content>
-    <app-logo-image [size]="60"/>
+    <app-logo-image [size]="60" />
   </div>
-  
+
+  <nav class="navbar">
+    @for (navButton of navigationButtons(); track navButton.route) {
+    <button
+      matButton
+      [routerLink]="navButton.route"
+      routerLinkActive="active-nav-button"
+      [routerLinkActiveOptions]="{ exact: navButton.route === '/' }"
+      class="nav-button"
+    >
+      @if (navButton.icon) {
+      <mat-icon>{{ navButton.icon }}</mat-icon>
+      }
+      <span>{{ navButton.label }}</span>
+    </button>
+    }
+  </nav>
+
   <div class="header-right">
     @if(!autenticado()){
-        <button routerLink="/login" matButton>Iniciar Sesión</button>
-        <button routerLink="/signup" matButton>Registrarse</button>
+    <p-button 
+      routerLink="/login" 
+      label="Iniciar Sesión"
+      variant="text"
+      rounded
+    />
+    <p-button 
+      routerLink="/signup" 
+      label="Registrarse"
+      variant="text"
+      rounded
+    />
     } @else {
-        <zoo-profile-button />
-        @if (isAdmin()) {
-        <button
-        matMiniFab
-        matTooltip="Panel de administración"
-        matTooltipShowDelay="500"
-        routerLink="/admin"
-        >
-        <mat-icon>admin_panel_settings</mat-icon>
-        </button>
-        } 
-    }
+    <zoo-notification-button />
+    <zoo-profile-button />
+    <ng-content></ng-content>
+    @if (isAdmin()) {
+    <p-button
+      routerLink="/admin"
+      icon="pi pi-cog"
+      pTooltip="Panel de administración"
+      variant="text"
+      rounded
+      size="small"
+    />
+    } }
   </div>
 </header>
+} @placeholder{
+<p>Hola, aqui espero</p>
+}

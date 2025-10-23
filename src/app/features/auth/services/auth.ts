@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { LoginResponse, LogoutRequest, LogoutResponse, RegisterRequest } from '../models/request_response.model';
-import { Usuario } from '../models/usuario.model';
+import { LoginResponse, LogoutRequest, LogoutResponse, RegisterRequest } from '../../../core/models/usuario/request_response.model';
+import { Usuario } from '../../../core/models/usuario/usuario.model';
 import { UsuarioAdapter } from '../adapters/usuario.adapter';
-import { environment } from '@env/environment';
+import { environment } from '@env';
 
 @Injectable({
   providedIn: 'root',

@@ -1,13 +1,47 @@
-<h2 mat-dialog-title>Cerrar Sesión</h2>
+<p-dialog
+  [visible]="visible()"
+  [modal]="true"
+  [closable]="false"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="logout-dialog"
+  contentStyleClass="logout-dialog-content"
+>
+  <ng-template pTemplate="header">
+    <div class="dialog-header">
+      <i
+        class="pi pi-sign-out"
+        style="color: #ff6b6b; margin-right: 0.5rem"
+      ></i>
+      <span>Cerrar Sesión</span>
+    </div>
+  </ng-template>
 
-<mat-dialog-content>
-  <p>¿Estás seguro de que deseas cerrar sesión?</p>
-</mat-dialog-content>
+  <ng-template pTemplate="content">
+    <div class="dialog-content">
+      <p>¿Estás seguro de que deseas cerrar sesión?</p>
+      <p class="text-muted">
+        Se cerrará tu sesión actual y serás redirigido al login.
+      </p>
+    </div>
+  </ng-template>
 
-<mat-dialog-actions align="end">
-  <button mat-button (click)="cancel()">Cancelar</button>
-  <button matButton="filled" (click)="confirm()">
-    <mat-icon>logout</mat-icon>
-    Cerrar Sesión
-  </button>
-</mat-dialog-actions>
+  <ng-template pTemplate="footer">
+    <div class="dialog-actions">
+      <p-button
+        label="Cancelar"
+        [text]="true"
+        (onClick)="cancel()"
+        styleClass="p-button-secondary"
+      >
+      </p-button>
+      <p-button
+        label="Cerrar Sesión"
+        icon="pi pi-sign-out"
+        (onClick)="confirm()"
+        styleClass="p-button-danger"
+      >
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>

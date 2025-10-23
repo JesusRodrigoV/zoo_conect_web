@@ -3,7 +3,6 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1.5rem;
-  background-color: var(--mat-app-background-color, #fff);
   border-bottom: 1px solid var(--mat-divider-color, rgba(0, 0, 0, 0.12));
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   height: 64px;
@@ -16,10 +15,41 @@
     align-items: center;
     gap: 1rem;
 
-    // Estilo para el contenido proyectado del nav-toggle
     ::ng-deep [slot="nav-toggle"] {
       display: flex;
       align-items: center;
+    }
+  }
+
+  .navbar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .nav-button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 8px 16px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+
+      &:hover {
+        background-color: var(--mat-sys-primary);
+        color: var(--mat-sys-on-primary);
+      }
+
+      &.active-nav-button {
+        background-color: var(--mat-sys-primary);
+        color: var(--mat-sys-on-primary);
+        font-weight: 600;
+      }
     }
   }
 
@@ -33,17 +63,35 @@
     }
   }
 
-  // Responsive design
   @media (max-width: 768px) {
     padding: 0.5rem 1rem;
     height: 56px;
+
+    .navbar {
+      gap: 0.25rem;
+
+      .nav-button {
+        padding: 6px 12px;
+        font-size: 0.875rem;
+
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+        }
+
+        span {
+          display: none;
+        }
+      }
+    }
 
     .header-right {
       gap: 0.5rem;
 
       button {
         font-size: 0.875rem;
-        
+
         &.mat-mdc-mini-fab {
           width: 40px;
           height: 40px;
@@ -52,10 +100,12 @@
     }
   }
 
-  // Tema oscuro
-  :host-context(.dark-mode) & {
-    background-color: var(--mat-app-background-color, #121212);
-    border-bottom-color: var(--mat-divider-color, rgba(255, 255, 255, 0.12));
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  @media (max-width: 480px) {
+    .navbar {
+      .nav-button {
+        padding: 4px 8px;
+        min-width: 40px;
+      }
+    }
   }
 }

@@ -1,27 +1,32 @@
-<div class="admin-layout">
-  <zoo-header>
-    <button slot="nav-toggle" matIconButton (click)="drawer.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-  </zoo-header>
-  
-  <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav 
-      #drawer 
-      mode="over" 
-      class="sidenav"
-      fixedInViewport="true"
-      fixedTopGap="64"
-    >
-      <div class="sidenav-header">
-        <h3>Panel Admin</h3>
-      </div>
-      <zoo-sidebar-admin-menu />
-    </mat-sidenav>
+@defer (on viewport; prefetch on idle;hydrate on hover) {
+  <div class="admin-layout">
+    <zoo-header>
+      <button slot="nav-toggle" matIconButton (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </zoo-header>
     
-    <mat-sidenav-content class="main-content">
-      <router-outlet />
-      <zoo-footer />
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-</div>
+    <mat-sidenav-container class="sidenav-container" hasBackdrop="true">
+      <mat-sidenav 
+        #drawer 
+        mode="over" 
+        position="end"
+        class="sidenav"
+        fixedInViewport="true"
+        fixedTopGap="64"
+      >
+        <div class="sidenav-header">
+          <h3>Panel Admin</h3>
+        </div>
+        <zoo-sidebar-admin-menu />
+      </mat-sidenav>
+      
+      <mat-sidenav-content class="main-content">
+        <router-outlet />
+        <zoo-footer />
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+}@placeholder {
+  <p>Hola, aqui espero</p>
+}

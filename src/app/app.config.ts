@@ -14,6 +14,7 @@ import { routes } from './app.routes';
 import {
   provideClientHydration,
   withEventReplay,
+  withIncrementalHydration,
 } from '@angular/platform-browser';
 import {
   provideHttpClient,
@@ -23,6 +24,9 @@ import {
 import { authInterceptor } from './core/interceptors';
 import { providePrimeNG } from 'primeng/config';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { MessageService } from 'primeng/api';
+import Aura from '@primeuix/themes/aura';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,8 +39,17 @@ export const appConfig: ApplicationConfig = {
       withViewTransitions(),
       withInMemoryScrolling({ scrollPositionRestoration: 'top' })
     ),
-    provideClientHydration(withEventReplay()),
-    providePrimeNG(),
-    provideAnimations()
+    provideClientHydration(withEventReplay(), withIncrementalHydration()),
+    providePrimeNG({
+      theme: {
+        preset: Aura,
+        options: {
+          darkModeSelector: '.dark-mode',
+        },
+      },
+    }),
+    provideAnimations(),
+    provideCharts(withDefaultRegisterables()),
+    MessageService,
   ],
 };

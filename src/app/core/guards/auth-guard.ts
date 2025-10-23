@@ -3,6 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthStore } from '../store/auth.store';
 
 export const authGuard: CanActivateFn = (route, state) => {
+  /*
   const router = inject(Router);
   const authStore = inject(AuthStore);
   const requiredRoles = route.data['requiredRoles'] as string[];
@@ -23,11 +24,13 @@ export const authGuard: CanActivateFn = (route, state) => {
       return false;
     }
   }
+  */
 
   return true;
 };
 
 export const loginGuard: CanActivateFn = () => {
+  /*
   const router = inject(Router);
   const authStore = inject(AuthStore);
 
@@ -35,6 +38,7 @@ export const loginGuard: CanActivateFn = () => {
     router.navigate(['/inicio']);
     return false;
   }
+    */
 
   return true;
 };

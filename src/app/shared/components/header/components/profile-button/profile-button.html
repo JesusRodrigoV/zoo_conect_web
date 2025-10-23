@@ -2,33 +2,19 @@
 <div class="profile-button-container">
   <button
     mat-icon-button
-    [matMenuTriggerFor]="profileMenu"
+    [pTooltip]="user.username"
+    tooltipPosition="bottom"
+    (click)="menu.toggle($event)"
     class="avatar-button"
   >
     <zoo-user-avatar [size]="36" cssClass="user-avatar" />
   </button>
-
-  <mat-menu #profileMenu="matMenu" class="profile-menu">
-    <button mat-menu-item (click)="navigateToProfile()">
-      <mat-icon>person</mat-icon>
-      <span>Mi Perfil</span>
-    </button>
-
-    <button mat-menu-item (click)="navigateToSettings()">
-      <mat-icon>settings</mat-icon>
-      <span>Ajustes</span>
-    </button>
-
-    <mat-divider></mat-divider>
-
-    <button mat-menu-item (click)="logout()">
-      <mat-icon>logout</mat-icon>
-      <span>Cerrar Sesión</span>
-    </button>
-
-    <div class="user-info-section">
-        <zoo-user-info [user]="user" />
-      </div>
-  </mat-menu>
 </div>
+
+  <p-menu #menu [model]="items()" [popup]="true">
+    <ng-template #end>
+      <zoo-user-info [user]="user" />
+    </ng-template>
+  </p-menu>
 }
+

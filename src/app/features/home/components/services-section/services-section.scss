@@ -1,0 +1,129 @@
+section {
+  padding: 4rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    .section-icon {
+      font-size: 3rem;
+      width: 3rem;
+      height: 3rem;
+      color: var(--mat-sys-primary);
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--mat-sys-on-surface);
+      margin: 0;
+    }
+  }
+}
+
+.services-section {
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+
+    .service-card {
+      transition: all 0.3s ease;
+
+      &:hover {
+        box-shadow: var(--mat-sys-shadow-elevation-4);
+        transform: translateY(-8px);
+      }
+
+      mat-card-header {
+        mat-icon {
+          font-size: 2.5rem;
+          width: 2.5rem;
+          height: 2.5rem;
+          color: var(--mat-sys-primary);
+        }
+      }
+
+      mat-card-content {
+        padding-top: 1rem;
+
+        p {
+          margin-bottom: 1rem;
+          color: var(--mat-sys-on-surface-variant);
+        }
+
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+
+          li {
+            padding: 0.5rem 0;
+            color: var(--mat-sys-on-surface-variant);
+            display: flex;
+            align-items: center;
+
+            &::before {
+              content: "✓";
+              color: var(--mat-sys-primary);
+              font-weight: bold;
+              margin-right: 0.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .advantages {
+    text-align: center;
+    padding: 2rem;
+    background: var(--mat-sys-primary-container);
+    border-radius: 16px;
+    margin-top: 2rem;
+
+    h3 {
+      font-size: 2rem;
+      margin: 0 0 2rem 0;
+      color: var(--mat-sys-on-primary-container);
+    }
+
+    .advantages-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+
+      .advantage-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: var(--mat-sys-surface);
+        border-radius: 12px;
+        box-shadow: var(--mat-sys-shadow-elevation-1);
+
+        mat-icon {
+          color: var(--mat-sys-primary);
+        }
+
+        span {
+          font-weight: 500;
+          color: var(--mat-sys-on-surface);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: 2rem 1rem;
+  }
+}

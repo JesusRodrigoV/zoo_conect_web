@@ -1,0 +1,10 @@
+<p-splitter [panelSizes]="[22, 78]" class="splitter-layout">
+    <ng-template #panel>
+    <ng-content select="[splitter-buttons]"></ng-content>
+  </ng-template>
+  <ng-template #panel>
+    <p-scrollpanel [style]="{ width: '100%', height: '100%' }">
+    <ng-content select="[splitter-content]"></ng-content>  
+    </p-scrollpanel>
+  </ng-template>
+</p-splitter>

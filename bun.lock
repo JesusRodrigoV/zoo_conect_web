@@ -14,7 +14,7 @@
         "@angular/platform-server": "^20.3.7",
         "@angular/router": "^20.3.7",
         "@angular/ssr": "^20.3.7",
-        "@ngrx/signals": "^20.0.1",
+        "@ngrx/signals": "^20.1.0",
         "@primeuix/themes": "^1.2.5",
         "animejs": "^4.1.4",
         "chart.js": "^4.3.0",
@@ -319,7 +319,7 @@
 
     "@napi-rs/nice-win32-x64-msvc": ["@napi-rs/nice-win32-x64-msvc@1.1.1", "", { "os": "win32", "cpu": "x64" }, "sha512-vB+4G/jBQCAh0jelMTY3+kgFy00Hlx2f2/1zjMoH821IbplbWZOkLiTYXQkygNTzQJTq5cvwBDgn2ppHD+bglQ=="],
 
-    "@ngrx/signals": ["@ngrx/signals@20.0.1", "", { "dependencies": { "tslib": "^2.3.0" }, "peerDependencies": { "@angular/core": "^20.0.0", "rxjs": "^6.5.3 || ^7.4.0" }, "optionalPeers": ["rxjs"] }, "sha512-7YYPH4nTkmLEgibJnwi527toEm3tsnlCzp5AzT9osS8JxN9cHxkG6iQ7fzhw9N4bTt+8wyUZb7PF0YLFYD2RHA=="],
+    "@ngrx/signals": ["@ngrx/signals@20.1.0", "", { "dependencies": { "tslib": "^2.3.0" }, "peerDependencies": { "@angular/core": "^20.0.0", "rxjs": "^6.5.3 || ^7.4.0" }, "optionalPeers": ["rxjs"] }, "sha512-ARAHp5yA131Sw6FEtY8XtYcdGcwW5lgpZaJoDIRxc6i12VO3ZDZYp3M/FQhpIDMDXkXHR+pDqoitrqvzI69aQA=="],
 
     "@npmcli/agent": ["@npmcli/agent@3.0.0", "", { "dependencies": { "agent-base": "^7.1.0", "http-proxy-agent": "^7.0.0", "https-proxy-agent": "^7.0.1", "lru-cache": "^10.0.1", "socks-proxy-agent": "^8.0.3" } }, "sha512-S79NdEgDQd/NGCay6TCoVzXSj74skRZIKJcpJjC5lOq34SZzyI6MqtiiWoiVWoVrTcGjNeC4ipbh1VIHlpfF5Q=="],
 

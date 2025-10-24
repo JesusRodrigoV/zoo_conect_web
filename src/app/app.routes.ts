@@ -227,9 +227,12 @@ export const routes: Routes = [
     redirectTo: 'inicio',
     pathMatch: 'full',
   },
-
   {
     path: '404',
     loadComponent: () => import('./features/not-found/not-found'),
   },
+  {
+    path: '**',
+    redirectTo: '404',
+  }
 ];

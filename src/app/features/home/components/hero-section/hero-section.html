@@ -1,47 +1,68 @@
 <section class="hero-section">
+  <div class="hero-overlay"></div>
   <div class="hero-content">
     <div class="hero-text">
-      <h1 class="hero-title">Bienvenido a Zoo Connect</h1>
-      <p class="hero-subtitle">
-        Conectando personas con la naturaleza
-      </p>
+      <span class="hero-badge">🦁 Descubre la naturaleza</span>
+      <h1 class="hero-title">
+        Conecta con la
+        <span class="highlight" data-text="vida salvaje">vida salvaje</span>
+      </h1>
       <p class="hero-description">
-        Descubre, aprende y participa en la conservación de la vida silvestre.
-        Una experiencia educativa única que te conecta con el mundo animal.
+        Una experiencia única que combina educación, conservación y
+        entretenimiento. Descubre más de 200 especies en sus hábitats
+        naturalizados.
       </p>
       <div class="hero-actions">
         @if(!autenticado()){
-          <button mat-raised-button color="primary" routerLink="/signup" class="cta-button">
-            <mat-icon>person_add</mat-icon>
-            Registrarse Ahora
-          </button>
-          <button mat-stroked-button routerLink="/login" class="secondary-button">
-            <mat-icon>login</mat-icon>
-            Iniciar Sesión
-          </button>
+        <button mat-flat-button class="cta-primary" routerLink="/signup">
+          Comenzar Ahora
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+        <button mat-button class="cta-secondary" routerLink="/login">
+          Iniciar Sesión
+        </button>
         } @else {
-          <button mat-raised-button color="primary" routerLink="/admin" class="cta-button">
-            <mat-icon>explore</mat-icon>
-            Explorar Ahora
-          </button>
+        <button mat-flat-button class="cta-primary" routerLink="/admin">
+          Explorar
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
         }
       </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">200+</span>
+          <span class="stat-label">Especies</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">30</span>
+          <span class="stat-label">Años</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">1M+</span>
+          <span class="stat-label">Visitantes</span>
+        </div>
+      </div>
     </div>
-    <div class="hero-image">
-      <zoo-3d-card>
-        <h3 card-title>Vida Salvaje</h3>
-        <p card-description>
-          Explora más de 200 especies en nuestro zoológico
-        </p>
+    <div class="hero-visual">
+      <div class="visual-card main-card">
         <img
-          card-image
           src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?q=80&w=800&auto=format&fit=crop"
           alt="León majestuoso"
         />
-        <div card-actions>
-          <button mat-button color="primary">Ver Más →</button>
+        <div class="card-badge">
+          <mat-icon>workspace_premium</mat-icon>
+          <span>Conservación Premium</span>
         </div>
-      </zoo-3d-card>
+      </div>
+      <div class="visual-card floating-card">
+        <div class="floating-content">
+          <mat-icon>eco</mat-icon>
+          <div>
+            <strong>Ecosistema Protegido</strong>
+            <p>Hábitats naturales</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

@@ -10,8 +10,7 @@ import { AuthStore } from '@app/core/store/auth.store';
   imports: [
     RouterLink,
     MatButtonModule,
-    MatIconModule,
-    Zoo3DCard,
+    MatIconModule
   ],
   templateUrl: './hero-section.html',
   styleUrl: './hero-section.scss',

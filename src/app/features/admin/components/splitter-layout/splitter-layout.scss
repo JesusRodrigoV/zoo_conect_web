@@ -15,7 +15,6 @@
 :host ::ng-deep {
   .p-splitter {
     border: none;
-    border-radius: inherit;
     height: 100%;
   }
 
@@ -25,11 +24,6 @@
   }
 
   .menu-panel {
-    background: linear-gradient(
-      135deg,
-      var(--p-teagreen-900),
-      var(--p-teagreen-800)
-    );
     color: var(--p-primary-contrast-color);
     display: flex;
     flex-direction: column;
@@ -39,18 +33,16 @@
   .menu-content {
     display: flex;
     flex-direction: column;
-    // 1. Más "espaciado" entre los botones
+  
     gap: 0.75rem; 
   }
 
   [splitter-menu] p-button {
     width: 100%;
-    // 2. Contenido "centradito" (icono + label)
     justify-content: center;
     transition: all 0.2s ease;
     padding: 0.75rem 1rem;
     background: transparent;
-    // 3. Estilos clave para que se vea "bonito"
     border: 1px solid transparent;
     border-radius: 0.75rem;
 
@@ -69,7 +61,6 @@
       transform: translateX(4px);
     }
     
-    // Estilo para el botón activo
     &.p-button-active {
       background: var(--p-teagreen-600);
       border-color: var(--p-teagreen-400);
@@ -79,38 +70,39 @@
   .content-panel {
     background: var(--p-surface-ground);
     height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 
-    .p-scrollpanel {
-      height: 100%;
-      width: 100%;
-    }
-
-    .p-scrollpanel-wrapper {
-      border-radius: 0;
-    }
-
-    .p-scrollpanel-content {
+    .content-wrapper {
       padding: 1.5rem;
+      min-height: 100%;
     }
+}
 
-    .p-scrollpanel-bar {
-      background: var(--p-surface-300);
-      opacity: 0.6;
-      transition: all 0.2s ease;
+:host ::ng-deep {
+    .custom-scrollbar {
+      .p-scrollpanel-wrapper {
+        border-radius: 0;
+      }
 
-      &:hover {
-        background: var(--p-surface-400);
-        opacity: 0.8;
+      .p-scrollpanel-bar {
+        background: var(--p-surface-300);
+        border-radius: 0;
+        
+        &:hover {
+          background: var(--p-surface-400);
+        }
       }
     }
 
     zoo-main-container {
       display: block;
+      height: 100%;
       padding: 0;
     }
   }
 
-  // Divisor del Splitter
   .p-splitter-gutter {
     width: 1px;
     min-width: 1px;

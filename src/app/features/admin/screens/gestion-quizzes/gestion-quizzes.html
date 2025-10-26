@@ -1,13 +1,11 @@
 <zoo-splitter-layout>
-  <div splitter-buttons>
-    <button matButton routerLink="/admin/quizzes/crear">
-      Crear Quiz
-    </button>
-    <button matButton routerLink="/admin/quizzes/">
-      Lista
-    </button>
+  <div splitter-menu>
+    <button matButton routerLink="/admin/quizzes/crear">Crear Quiz</button>
+    <button matButton routerLink="/admin/quizzes/">Lista</button>
   </div>
   <div splitter-content>
-    <router-outlet />
+    <zoo-main-container>
+      <router-outlet />
+    </zoo-main-container>
   </div>
 </zoo-splitter-layout>

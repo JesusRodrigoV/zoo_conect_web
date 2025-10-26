@@ -1,19 +1,49 @@
-@defer(on viewport; prefetch on idle; hydrate on interaction){
+<div class="lista-animales-container">
+  <div class="header-actions">
+    <h2>Gestión de Animales</h2>
+    <p-button
+      icon="pi pi-plus"
+      label="Registrar Animal"
+      [rounded]="true"
+      severity="primary"
+      routerLink="/admin/animal/crear"
+    />
+  </div>
+
+  @defer(on viewport; prefetch on idle; hydrate on interaction){
     @let animals = this.animals$ | async;
     @if(animals){
-        <p-dataview #dv [value]="animals">
-            <ng-template #list let-items>
-                @for(item of items; track item.id_animal){
-                    <zoo-animal-item [animal]="item"/>
-                } @empty {
-                    <p>No hay animales disponibles.</p>
-                }
-            </ng-template>
-        </p-dataview>
+      <p-dataview #dv [value]="animals">
+        <ng-template #header>
+          <div class="dataview-header">
+            <span>Total: {{ animals.length }} animales</span>
+          </div>
+        </ng-template>
+        
+        <ng-template #list let-items>
+          @for(item of items; track item.id_animal){
+            <zoo-animal-item [animal]="item"/>
+          } @empty {
+            <div class="empty-state">
+              <p>No hay animales disponibles.</p>
+              <p-button
+                icon="pi pi-plus"
+                label="Registrar Primer Animal"
+                [rounded]="true"
+                severity="primary"
+                routerLink="/admin/animal/crear"
+              />
+            </div>
+          }
+        </ng-template>
+      </p-dataview>
     }
-} @loading {
+  } @loading {
     <zoo-loader />
-}
-@placeholder {
-    <p>Cargando animales...</p>
-}
+  }
+  @placeholder {
+    <div class="loading-placeholder">
+      <p>Cargando animales...</p>
+    </div>
+  }
+</div>

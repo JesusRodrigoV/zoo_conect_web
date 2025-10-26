@@ -5,11 +5,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import {
-  Validators,
-  FormBuilder,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
 import { MessageModule } from 'primeng/message';
 import { InputTextModule } from 'primeng/inputtext';
@@ -22,6 +18,8 @@ import { ShowToast } from '@app/shared/services';
 import { Router } from '@angular/router';
 import { AdminQuizzes } from '@app/features/admin/services/admin-quizzes';
 import { finalize } from 'rxjs/operators';
+import { CardModule } from 'primeng/card';
+import { MainContainer } from '@app/shared/components/main-container';
 
 interface CreateQuizRequest {
   fechaTrivia: string;
@@ -40,7 +38,9 @@ interface CreateQuizRequest {
     SelectModule,
     InputNumberModule,
     NgTemplateOutlet,
-    ButtonModule
+    ButtonModule,
+    CardModule,
+    MainContainer,
   ],
   templateUrl: './crear-quiz.html',
   styleUrl: './crear-quiz.scss',
@@ -53,19 +53,22 @@ export default class CrearQuiz {
   private quizService = inject(AdminQuizzes);
 
   protected readonly loading = signal(false);
-  
+
   protected readonly dificultades = [
     { label: 'Fácil', value: 'Fácil' },
     { label: 'Medio', value: 'Medio' },
-    { label: 'Difícil', value: 'Difícil' }
+    { label: 'Difícil', value: 'Difícil' },
   ];
 
   protected readonly minDate = computed(() => new Date());
 
   protected readonly quizForm = this.fb.group({
     fechaTrivia: ['', [Validators.required]],
-    cantidadPreguntas: [10, [Validators.required, Validators.min(1), Validators.max(50)]],
-    dificultad: ['', [Validators.required]]
+    cantidadPreguntas: [
+      10,
+      [Validators.required, Validators.min(1), Validators.max(50)],
+    ],
+    dificultad: ['', [Validators.required]],
   });
 
   protected isInvalid(field: string): boolean {
@@ -93,7 +96,7 @@ export default class CrearQuiz {
     const displayNames: Record<string, string> = {
       fechaTrivia: 'Fecha de la trivia',
       cantidadPreguntas: 'Cantidad de preguntas',
-      dificultad: 'Dificultad'
+      dificultad: 'Dificultad',
     };
     return displayNames[field] || field;
   }
@@ -101,19 +104,18 @@ export default class CrearQuiz {
   protected onSubmit(): void {
     if (this.quizForm.valid) {
       this.loading.set(true);
-      
+
       const formValue = this.quizForm.value;
       const fechaTrivia = formValue.fechaTrivia as unknown as Date;
       const quizData: CreateQuizRequest = {
         fechaTrivia: fechaTrivia.toISOString(),
         cantidadPreguntas: formValue.cantidadPreguntas!,
-        dificultad: formValue.dificultad!
+        dificultad: formValue.dificultad!,
       };
 
-      this.quizService.createQuiz(quizData)
-        .pipe(
-          finalize(() => this.loading.set(false))
-        )
+      this.quizService
+        .createQuiz(quizData)
+        .pipe(finalize(() => this.loading.set(false)))
         .subscribe({
           next: () => {
             this.showToast.showSuccess('Éxito', 'Quiz creado exitosamente');
@@ -122,7 +124,7 @@ export default class CrearQuiz {
           error: (error) => {
             console.error('Error al crear quiz:', error);
             this.showToast.showError('Error', 'Error al crear el quiz');
-          }
+          },
         });
     } else {
       this.markFormGroupTouched();
@@ -130,7 +132,7 @@ export default class CrearQuiz {
   }
 
   private markFormGroupTouched(): void {
-    Object.keys(this.quizForm.controls).forEach(key => {
+    Object.keys(this.quizForm.controls).forEach((key) => {
       const control = this.quizForm.get(key);
       control?.markAsTouched();
     });

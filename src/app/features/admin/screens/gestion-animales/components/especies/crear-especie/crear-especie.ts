@@ -21,6 +21,9 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { CreateEspecie } from '@app/core/models/animales/especie.model';
 import { Loader } from '@app/shared/components';
 import { MatButtonModule } from '@angular/material/button';
+import { CardModule } from 'primeng/card';
+import { MainContainer } from '@app/shared/components/main-container';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-crear-especie',
@@ -35,6 +38,9 @@ import { MatButtonModule } from '@angular/material/button';
     ConfirmPopupModule,
     Loader,
     MatButtonModule,
+    CardModule,
+    MainContainer,
+    ButtonModule
   ],
   providers: [ConfirmationService],
   templateUrl: './crear-especie.html',

@@ -1,65 +1,70 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SplitterModule } from 'primeng/splitter';
-import { SplitterLayout } from '../../components/splitter-layout/splitter-layout';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { SplitterLayout } from '../../components/splitter-layout';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { ScrollPanelModule } from 'primeng/scrollpanel';
-
-interface NavButton {
-  label: string;
-  route: string;
-  icon?: string;
-}
+import { MenuButton } from '../../models';
+import { ButtonModule } from 'primeng/button';
+import { MainContainer } from '@app/shared/components/main-container';
 
 @Component({
   selector: 'app-gestion-animales',
   imports: [
-    MatButtonModule,
-    SplitterModule,
+    ButtonModule,
     RouterLink,
     RouterOutlet,
-    ScrollPanelModule,
     SplitterLayout,
+    MainContainer,
   ],
   templateUrl: './gestion-animales.html',
   styleUrl: './gestion-animales.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class GestionAnimales {
-  rutaAdmin = '/admin/animales';
-  rutaEspecies = `${this.rutaAdmin}/especies`;
-  rutaHabitats = `${this.rutaAdmin}/habitat`;
+  private readonly rutaAdmin = '/admin/animales';
+  private readonly rutaEspecies = `${this.rutaAdmin}/especies`;
+  private readonly rutaHabitats = `${this.rutaAdmin}/habitat`;
 
-  botonesNav: NavButton[] = [
+  protected readonly botonesNav = signal<MenuButton[]>([
     {
-      label: 'Lista de Especies',
-      route: `${this.rutaEspecies}/lista`,
-      icon: 'pi pi-list',
+      texto: 'Lista de Especies',
+      ruta: `${this.rutaEspecies}/lista`,
+      icono: 'pi pi-list',
+      descripcion: 'Ver todas las especies registradas',
+      exacto: true,
     },
     {
-      label: 'Añadir Especie',
-      route: `${this.rutaEspecies}/crear`,
-      icon: 'pi pi-plus',
+      texto: 'Añadir Especie',
+      ruta: `${this.rutaEspecies}/crear`,
+      icono: 'pi pi-plus',
+      descripcion: 'Crear una nueva especie',
+      exacto: false,
     },
     {
-      label: 'Lista de Hábitats',
-      route: `${this.rutaHabitats}/lista`,
-      icon: 'pi pi-tags',
+      texto: 'Lista de Hábitats',
+      ruta: `${this.rutaHabitats}/lista`,
+      icono: 'pi pi-map-marker',
+      descripcion: 'Ver todos los hábitats',
+      exacto: true,
     },
     {
-      label: 'Añadir Hábitat',
-      route: `${this.rutaHabitats}/crear`,
-      icon: 'pi pi-map',
+      texto: 'Añadir Hábitat',
+      ruta: `${this.rutaHabitats}/crear`,
+      icono: 'pi pi-image',
+      descripcion: 'Crear un nuevo hábitat',
+      exacto: false,
     },
     {
-      label: 'Lista de Animales',
-      route: `${this.rutaAdmin}/lista`,
-      icon: 'pi pi-tags',
+      texto: 'Lista de Animales',
+      ruta: `${this.rutaAdmin}/lista`,
+      icono: 'pi pi-users',
+      descripcion: 'Ver y gestionar todos los animales',
+      exacto: true,
     },
     {
-      label: 'Añadir Animal',
-      route: `${this.rutaAdmin}/crear`,
-      icon: 'pi pi-map',
+      texto: 'Añadir Animal',
+      ruta: `${this.rutaAdmin}/crear`,
+      icono: 'pi pi-plus-circle',
+      descripcion: 'Registrar un nuevo animal',
+      exacto: false,
     },
-  ];
+  ]);
 }

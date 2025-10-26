@@ -1,5 +1,6 @@
 @use "@angular/material" as mat;
-@import "primeicons/primeicons.css";
+@use "tailwindcss" as *;
+@use "primeicons/primeicons.css" as *;
 
 html {
   color-scheme: light;

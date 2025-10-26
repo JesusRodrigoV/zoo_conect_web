@@ -23,6 +23,7 @@ import { Router } from '@angular/router';
 import { AdminAnimales } from '@app/features/admin/services/admin-animales';
 import { CreateAnimalRequest } from '@adapters/animales';
 import { finalize } from 'rxjs/operators';
+import { MainContainer } from '@app/shared/components/main-container';
 
 @Component({
   selector: 'zoo-crear-animal',
@@ -36,6 +37,7 @@ import { finalize } from 'rxjs/operators';
     CardModule,
     SelectModule,
     CheckboxModule,
+    MainContainer
   ],
   templateUrl: './crear-animal.html',
   styleUrl: './crear-animal.scss',

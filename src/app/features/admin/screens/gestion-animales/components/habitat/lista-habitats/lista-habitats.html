@@ -1,13 +1,13 @@
 <div class="lista-habitats-container">
   <div class="header-actions">
-    <button 
-      mat-raised-button 
-      color="primary" 
-      (click)="navigateToCreate()"
-    >
-      <mat-icon>add</mat-icon>
-      Crear Nuevo Hábitat
-    </button>
+    <h2>Gestión de Hábitats</h2>
+    <p-button
+      icon="pi pi-plus"
+      label="Registrar Hábitat"
+      [rounded]="true"
+      severity="primary"
+      (onClick)="navigateToCreate()"
+    />
   </div>
 
   @defer(on viewport; prefetch on idle; hydrate on interaction){

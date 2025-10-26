@@ -5,10 +5,11 @@ import { isPlatformBrowser } from '@angular/common';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { Toast } from 'primeng/toast';
 import { ShowToast } from './shared/services';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ScrollTopModule, Toast],
+  imports: [RouterOutlet, ScrollTopModule, Toast, ButtonModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

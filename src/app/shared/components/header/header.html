@@ -4,53 +4,148 @@
     <app-logo-image [size]="60" />
   </div>
 
-  <nav class="navbar">
+  <div class="header-right">
+    <div class="desktop-menu">
+      @for (navButton of navigationButtons(); track navButton.route) {
+      <button
+        matButton
+        [routerLink]="!navButton.disabled ? navButton.route : null"
+        routerLinkActive="active-nav-button"
+        [routerLinkActiveOptions]="{ exact: navButton.route === '/' }"
+        class="nav-button"
+        [class.disabled]="navButton.disabled"
+        [matTooltip]="navButton.comingSoon ? 'Próximamente' : ''"
+        [matTooltipDisabled]="!navButton.disabled"
+      >
+        @if (navButton.icon) {
+        <mat-icon>{{ navButton.icon }}</mat-icon>
+        }
+        <span>{{ navButton.label }}</span>
+        @if (navButton.comingSoon) {
+        <span class="coming-soon-badge">Pronto</span>
+        }
+      </button>
+      }
+    </div>
+
+    <div class="auth-buttons">
+      @if(!autenticado()){
+        <div class="desktop-auth">
+          <p-button 
+            routerLink="/login" 
+            label="Iniciar Sesión"
+            variant="text"
+            rounded
+          />
+          <p-button 
+            routerLink="/signup" 
+            label="Registrarse"
+            variant="text"
+            rounded
+          />
+        </div>
+        <div class="mobile-auth">
+          <p-button 
+            routerLink="/login" 
+            icon="pi pi-sign-in"
+            pTooltip="Iniciar Sesión"
+            variant="text"
+            rounded
+          />
+          <p-button 
+            routerLink="/signup" 
+            icon="pi pi-user-plus"
+            pTooltip="Registrarse"
+            variant="text"
+            rounded
+          />
+        </div>
+      } @else {
+        <zoo-notification-button />
+        <zoo-profile-button />
+        <ng-content></ng-content>
+        @if (isAdmin()) {
+        <p-button
+          routerLink="/admin"
+          icon="pi pi-cog"
+          pTooltip="Panel de administración"
+          variant="text"
+          rounded
+          size="small"
+        />
+        }
+      }
+    </div>
+
+    <button 
+      class="menu-button"
+      mat-icon-button 
+      (click)="menuVisible.set(true)"
+      pTooltip="Menú"
+      aria-label="Abrir menú"
+      aria-expanded="{{menuVisible()}}"
+      aria-controls="menu-drawer"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+</header>
+
+  <p-drawer
+  [visible]="menuVisible()"
+  (visibleChange)="showMenu($event)"
+  position="right"
+  [modal]="true"
+  [showCloseIcon]="false"
+  [baseZIndex]="1000"
+  styleClass="menu-drawer"
+  id="menu-drawer"
+  [closeOnEscape]="true"
+>
+  <ng-template pTemplate="header">
+    <div class="menu-header">
+      <h2>Menú</h2>
+      <button 
+        mat-icon-button 
+        (click)="menuVisible.set(false)"
+        aria-label="Cerrar menú"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </ng-template>
+
+  <nav class="menu-items">
     @for (navButton of navigationButtons(); track navButton.route) {
     <button
-      matButton
-      [routerLink]="navButton.route"
+      mat-button
+      [routerLink]="!navButton.disabled ? navButton.route : null"
       routerLinkActive="active-nav-button"
       [routerLinkActiveOptions]="{ exact: navButton.route === '/' }"
-      class="nav-button"
+      class="menu-item"
+      [class.disabled]="navButton.disabled"
+      [matTooltip]="navButton.comingSoon ? 'Próximamente' : ''"
+      [matTooltipDisabled]="!navButton.disabled"
+      (click)="!navButton.disabled && menuVisible.set(false)"
     >
       @if (navButton.icon) {
       <mat-icon>{{ navButton.icon }}</mat-icon>
       }
       <span>{{ navButton.label }}</span>
+      @if (navButton.comingSoon) {
+      <span class="coming-soon-badge">Pronto</span>
+      }
     </button>
     }
   </nav>
-
-  <div class="header-right">
-    @if(!autenticado()){
-    <p-button 
-      routerLink="/login" 
-      label="Iniciar Sesión"
-      variant="text"
-      rounded
-    />
-    <p-button 
-      routerLink="/signup" 
-      label="Registrarse"
-      variant="text"
-      rounded
-    />
-    } @else {
-    <zoo-notification-button />
-    <zoo-profile-button />
-    <ng-content></ng-content>
-    @if (isAdmin()) {
-    <p-button
-      routerLink="/admin"
-      icon="pi pi-cog"
-      pTooltip="Panel de administración"
-      variant="text"
-      rounded
-      size="small"
-    />
-    } }
-  </div>
-</header>
-} @placeholder{
-<p>Hola, aqui espero</p>
+</p-drawer>
+} @placeholder {
+  <header class="header header-placeholder">
+    <div class="header-left">
+      <div class="placeholder-logo"></div>
+    </div>
+    <div class="header-right">
+      <div class="placeholder-actions"></div>
+    </div>
+  </header>
 }

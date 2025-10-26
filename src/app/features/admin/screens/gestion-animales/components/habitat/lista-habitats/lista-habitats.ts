@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'zoo-lista-habitats',
@@ -16,7 +17,8 @@ import { Router } from '@angular/router';
     DataView, 
     MatButtonModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
+    ButtonModule
   ],
   templateUrl: './lista-habitats.html',
   styleUrl: './lista-habitats.scss',

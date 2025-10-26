@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { Zoo3DCard } from '@app/shared/components';
 import { AuthStore } from '@app/core/store/auth.store';
 
 @Component({

@@ -18,6 +18,9 @@ import { Router } from '@angular/router';
 import { AdminHabitat } from '@app/features/admin/services/admin-habitat';
 import { finalize } from 'rxjs/operators';
 import { Habitat } from '@app/core/models/habitat';
+import { CardModule } from 'primeng/card';
+import { MainContainer } from '@app/shared/components/main-container';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-crear-habitat',
@@ -31,6 +34,9 @@ import { Habitat } from '@app/core/models/habitat';
     InputTextModule,
     TextareaModule,
     FloatLabel,
+    CardModule,
+    MainContainer,
+    ButtonModule
   ],
   templateUrl: './crear-habitat.html',
   styleUrl: './crear-habitat.scss',

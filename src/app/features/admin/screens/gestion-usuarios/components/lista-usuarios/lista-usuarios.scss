@@ -11,15 +11,15 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 1.5rem;
-    background: var(--surface-card);
+    background: var(--p-surface-card);
     border-radius: .75rem;
-    box-shadow: var(--shadow-1);
+    box-shadow: var(--p-shadow-1);
 
     h2 {
       margin: 0;
       font-size: 1.75rem;
       font-weight: 600;
-      color: var(--text-color);
+      color: var(--p-text-color);
     }
   }
 
@@ -28,13 +28,13 @@
     justify-content: space-between;
     align-items: center;
     padding: .75rem 1rem;
-    background: var(--surface-50);
+    background: var(--p-surface-50);
     border-radius: .5rem;
     margin-bottom: 1rem;
 
     span {
       font-weight: 500;
-      color: var(--text-color-secondary);
+      color: var(--p-text-muted-color);
     }
   }
 
@@ -47,13 +47,13 @@
     gap: 1rem;
     padding: 3rem 1rem;
     text-align: center;
-    background: var(--surface-card);
+    background: var(--p-surface-card);
     border-radius: .75rem;
-    box-shadow: var(--shadow-1);
+    box-shadow: var(--p-shadow-1); 
 
     p {
       margin: 0;
-      color: var(--text-color-secondary);
+      color: var(--p-text-muted-color);
       font-size: 1.125rem;
     }
   }
@@ -62,13 +62,41 @@
     .p-dataview {
       background: transparent;
       border: none;
+    }
 
-      .p-dataview-content {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        background: transparent;
+    .p-dataview-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      background: transparent;
+    }
+    
+    .p-paginator {
+      background: var(--p-surface-card);
+      border-top: 1px solid var(--p-surface-border);
+      border-radius: 0 0 .75rem .75rem;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .p-paginator-page,
+    .p-paginator-next,
+    .p-paginator-prev,
+    .p-paginator-first,
+    .p-paginator-last {
+      color: var(--p-text-color);
+      &:not(.p-disabled):hover {
+        background: var(--p-surface-100);
       }
+    }
+
+    .p-paginator-page.p-highlight {
+      background: var(--p-primary-color);
+      color: var(--p-primary-contrast-color);
+    }
+    
+    .p-dropdown {
+      background: var(--p-surface-ground);
     }
   }
 }

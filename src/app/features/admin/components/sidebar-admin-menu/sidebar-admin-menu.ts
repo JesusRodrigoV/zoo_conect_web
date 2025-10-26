@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 export interface NavigationItem {
@@ -8,12 +9,20 @@ export interface NavigationItem {
   readonly icon: string;
   readonly route: string;
   readonly disabled?: boolean;
+  readonly comingSoon?: boolean;
   readonly badge?: string | number;
+  readonly tooltip?: string;
 }
 
 @Component({
   selector: 'zoo-sidebar-admin-menu',
-  imports: [MatListModule, MatIconModule, RouterLink, RouterLinkActive],
+  imports: [
+    MatListModule,
+    MatIconModule,
+    MatTooltipModule,
+    RouterLink,
+    RouterLinkActive
+  ],
   templateUrl: './sidebar-admin-menu.html',
   styleUrl: './sidebar-admin-menu.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,6 +33,8 @@ export class SidebarAdminMenu {
       text: 'Dashboard',
       icon: 'dashboard',
       route: '/admin/dashboard',
+      disabled: true,
+      comingSoon: true
     },
     {
       text: 'Gestión de Usuarios',
@@ -51,6 +62,8 @@ export class SidebarAdminMenu {
       text: 'Reportes',
       icon: 'assessment',
       route: '/admin/reportes',
+      disabled: true,
+      comingSoon: true
     },
     /*
     {

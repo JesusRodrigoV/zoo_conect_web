@@ -1,19 +1,49 @@
-@defer(on viewport; prefetch on idle; hydrate on interaction){
+<div class="lista-quizzes-container">
+  <div class="header-actions">
+    <h2>Gestión de Quizzes</h2>
+    <p-button
+      icon="pi pi-plus"
+      label="Crear Quiz"
+      [rounded]="true"
+      severity="primary"
+      routerLink="/admin/quizzes/crear"
+    />
+  </div>
+
+  @defer(on viewport; prefetch on idle; hydrate on interaction){
     @let quizzes = this.quizzes$ | async;
     @if(quizzes){
-        <p-dataview #dv [value]="quizzes">
-            <ng-template #list let-items>
-                @for(item of items; track item.idTrivia){
-                    <zoo-quiz-item [quiz]="item"/>
-                } @empty {
-                    <p>No hay quizzes disponibles.</p>
-                }
-            </ng-template>
-        </p-dataview>
+      <p-dataview #dv [value]="quizzes">
+        <ng-template #header>
+          <div class="dataview-header">
+            <span>Total: {{ quizzes.length }} quizzes</span>
+          </div>
+        </ng-template>
+        
+        <ng-template #list let-items>
+          @for(item of items; track item.idTrivia){
+            <zoo-quiz-item [quiz]="item"/>
+          } @empty {
+            <div class="empty-state">
+              <p>No hay quizzes disponibles.</p>
+              <p-button
+                icon="pi pi-plus"
+                label="Crear Primer Quiz"
+                [rounded]="true"
+                severity="primary"
+                routerLink="/admin/quizzes/crear"
+              />
+            </div>
+          }
+        </ng-template>
+      </p-dataview>
     }
-} @loading {
+  } @loading {
     <zoo-loader />
-}
-@placeholder {
-    <p>Cargando quizzes...</p>
-}
+  }
+  @placeholder {
+    <div class="loading-placeholder">
+      <p>Cargando quizzes...</p>
+    </div>
+  }
+</div>

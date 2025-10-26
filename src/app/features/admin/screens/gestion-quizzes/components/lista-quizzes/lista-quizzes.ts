@@ -4,10 +4,19 @@ import { AdminQuizzes } from '@app/features/admin/services/admin-quizzes';
 import { Loader } from '@app/shared/components';
 import { DataView } from 'primeng/dataview';
 import { QuizItem } from '../quiz-item';
+import { ButtonModule } from 'primeng/button';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'zoo-lista-quizzes',
-  imports: [AsyncPipe, Loader, DataView, QuizItem],
+  imports: [
+    AsyncPipe,
+    Loader,
+    DataView,
+    ButtonModule,
+    QuizItem,
+    RouterLink
+],
   templateUrl: './lista-quizzes.html',
   styleUrl: './lista-quizzes.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

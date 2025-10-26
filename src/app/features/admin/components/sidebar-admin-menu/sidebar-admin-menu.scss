@@ -3,9 +3,24 @@
   cursor: pointer;
   text-decoration: none;
   color: inherit;
+  position: relative;
 
-  &:hover {
+  &:not(.disabled):hover {
     background-color: rgba(var(--mat-primary-palette-500), 0.08);
+  }
+
+  &.disabled {
+    opacity: 0.6;
+    cursor: default;
+    pointer-events: none;
+
+    &:hover {
+      background-color: transparent;
+    }
+
+    mat-icon {
+      opacity: 0.7;
+    }
   }
 
   &.active {
@@ -22,6 +37,17 @@
   padding: 2px 8px;
   font-size: 12px;
   text-align: center;
+}
+
+.coming-soon-badge {
+  background-color: var(--mat-primary-palette-300);
+  color: var(--mat-primary-palette-contrast-300);
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
 }
 
 .active-item {

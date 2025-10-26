@@ -34,6 +34,10 @@ import { AdminEncuestas } from '@app/features/admin/services/admin-encuestas';
 import { finalize } from 'rxjs/operators';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { CardModule } from 'primeng/card';
+import { MainContainer } from '@app/shared/components/main-container';
+import { ButtonModule } from 'primeng/button';
+import { AccordionModule } from 'primeng/accordion';
 
 interface OpcionPregunta {
   texto_opcion: string;
@@ -77,6 +81,10 @@ interface CreateEncuestaRequest {
     FloatLabel,
     AgregarPregunta,
     ConfirmPopupModule,
+    CardModule,
+    MainContainer,
+    ButtonModule,
+    AccordionModule
   ],
   providers: [ConfirmationService],
   templateUrl: './crear-encuesta.html',

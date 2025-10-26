@@ -28,6 +28,19 @@ export const routes: Routes = [
         path: 'encuestas',
         loadComponent: () =>
           import('./features/encuestas/screens/encuestas/encuestas'),
+        children: [
+          
+        ],
+      },
+      {
+        path: 'encuestas/:id',
+        loadComponent: () =>
+          import('./features/encuestas/screens/encuesta-detalle/encuesta-detalle'),
+      },
+      {
+        path: 'quizzes',
+        loadComponent: () =>
+          import('./features/quizzes/screens/quizzes/quizzes'),
       },
       {
         path: 'acerca-de',
@@ -234,5 +247,5 @@ export const routes: Routes = [
   {
     path: '**',
     redirectTo: '404',
-  }
+  },
 ];

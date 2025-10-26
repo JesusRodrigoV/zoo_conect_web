@@ -2,15 +2,20 @@
   @for (item of navigationItems(); track item.route) {
   <a
     mat-list-item
-    [routerLink]="item.route"
+    [routerLink]="!item.disabled ? item.route : null"
     routerLinkActive="active"
     [class.disabled]="item.disabled"
     class="nav-item"
+    [matTooltip]="item.disabled ? (item.tooltip || (item.comingSoon ? 'Próximamente' : 'No disponible')) : ''"
+    [matTooltipPosition]="'right'"
   >
     <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
     <span matListItemTitle>{{ item.text }}</span>
-    @if (item.badge) {
-    <span class="nav-badge" matListItemMeta>{{ item.badge }}</span>
+    @if (item.badge && !item.disabled) {
+      <span class="nav-badge" matListItemMeta>{{ item.badge }}</span>
+    }
+    @if (item.comingSoon) {
+      <span class="coming-soon-badge" matListItemMeta>Pronto</span>
     }
   </a>
   }

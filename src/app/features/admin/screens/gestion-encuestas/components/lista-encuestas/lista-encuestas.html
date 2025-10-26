@@ -1,19 +1,49 @@
-@defer(on viewport; prefetch on idle; hydrate on interaction){
+<div class="lista-encuestas-container">
+  <div class="header-actions">
+    <h2>Gestión de Encuestas</h2>
+    <p-button
+      icon="pi pi-plus"
+      label="Crear Encuesta"
+      [rounded]="true"
+      severity="primary"
+      routerLink="/admin/encuestas/crear"
+    />
+  </div>
+
+  @defer(on viewport; prefetch on idle; hydrate on interaction){
     @let surveys = this.surveys$ | async;
     @if(surveys){
-        <p-dataview #dv [value]="surveys">
-            <ng-template #list let-items>
-                @for(item of items; track item.idEncuesta){
-                    <zoo-encuesta-item [encuesta]="item"/>
-                } @empty {
-                    <p>No hay encuestas disponibles.</p>
-                }
-            </ng-template>
-        </p-dataview>
+      <p-dataview #dv [value]="surveys">
+        <ng-template #header>
+          <div class="dataview-header">
+            <span>Total: {{ surveys.length }} encuestas</span>
+          </div>
+        </ng-template>
+        
+        <ng-template #list let-items>
+          @for(item of items; track item.idEncuesta){
+            <zoo-encuesta-item [encuesta]="item"/>
+          } @empty {
+            <div class="empty-state">
+              <p>No hay encuestas disponibles.</p>
+              <p-button
+                icon="pi pi-plus"
+                label="Crear Primera Encuesta"
+                [rounded]="true"
+                severity="primary"
+                routerLink="/admin/encuestas/crear"
+              />
+            </div>
+          }
+        </ng-template>
+      </p-dataview>
     }
-} @loading {
+  } @loading {
     <zoo-loader />
-}
-@placeholder {
-    <p>Cargando</p>
-}
+  }
+  @placeholder {
+    <div class="loading-placeholder">
+      <p>Cargando encuestas...</p>
+    </div>
+  }
+</div>

@@ -1,58 +1,69 @@
-@defer{
-<section>
-  <h1>Crear Cuenta</h1>
+@defer(on viewport; prefetch on idle; hydrate on viewport) {
+<zoo-main-container>
+  <p-card header="Crear Cuenta" subheader="Únete a Zoo Connect" class="signup-card">
+    <div class="signup-content">
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <zoo-form-field
+          label="Email"
+          type="email"
+          placeholder="Ingresa tu email"
+          [control]="email"
+          [errorMessage]="getEmailError()"
+        />
 
-  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-    <zoo-form-field
-      label="Email"
-      type="email"
-      placeholder="Ingresa tu email"
-      [control]="email"
-      [errorMessage]="getEmailError()"
-    />
+        <zoo-form-field
+          label="Usuario"
+          type="text"
+          placeholder="Ingresa tu nombre de usuario"
+          [control]="username"
+          [errorMessage]="getUsernameError()"
+        />
 
-    <zoo-form-field
-      label="Usuario"
-      type="text"
-      placeholder="Ingresa tu nombre de usuario"
-      [control]="username"
-      [errorMessage]="getUsernameError()"
-    />
+        <zoo-form-field
+          label="Contraseña"
+          type="password"
+          placeholder="Ingresa tu contraseña"
+          [control]="password"
+          [errorMessage]="getPasswordError()"
+          [showPasswordToggle]="true"
+          (togglePassword)="togglePasswordVisibility()"
+        />
 
-    <zoo-form-field
-      label="Contraseña"
-      type="password"
-      placeholder="Ingresa tu contraseña"
-      [control]="password"
-      [errorMessage]="getPasswordError()"
-      [showPasswordToggle]="true"
-      (togglePassword)="togglePasswordVisibility()"
-    />
+        <zoo-form-field
+          label="Confirmar Contraseña"
+          type="password"
+          placeholder="Confirma tu contraseña"
+          [control]="confirmPassword"
+          [errorMessage]="getConfirmPasswordError()"
+          [showPasswordToggle]="true"
+          (togglePassword)="toggleConfirmPasswordVisibility()"
+        />
 
-    <zoo-form-field
-      label="Confirmar Contraseña"
-      type="password"
-      placeholder="Confirma tu contraseña"
-      [control]="confirmPassword"
-      [errorMessage]="getConfirmPasswordError()"
-      [showPasswordToggle]="true"
-      (togglePassword)="toggleConfirmPasswordVisibility()"
-    />
+        <div class="button-container">
+          <p-button
+            type="submit"
+            label="Crear Cuenta"
+            severity="primary"
+            [rounded]="true"
+            [disabled]="isLoading()"
+            styleClass="signup-button"
+          >
+            @if (isLoading()) {
+              <zoo-loader [size]="20" />
+            }
+          </p-button>
+        </div>
+      </form>
 
-    <p-button
-        type="submit"
-        [rounded]="true"
-        [disabled]="isLoading()"
-      >
-        @if (isLoading()) {
-        <zoo-loader [size]="20" />
-        } @else { Crear Cuenta }
-      </p-button>
-  </form>
-
-  <p>
-    ¿Ya tienes cuenta?
-    <a routerLink="/login">Inicia sesión aquí</a>
-  </p>
-</section>
+      <p class="login-link">
+        ¿Ya tienes cuenta?
+        <a routerLink="/login">Inicia sesión aquí</a>
+      </p>
+    </div>
+  </p-card>
+</zoo-main-container>
+} @placeholder {
+<zoo-main-container>
+  <p class="signup-placeholder">Cargando formulario de registro...</p>
+</zoo-main-container>
 }

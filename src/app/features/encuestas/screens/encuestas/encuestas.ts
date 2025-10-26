@@ -1,12 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { EncuestaService } from '../../services/encuestas';
 import { AsyncPipe } from '@angular/common';
-import { Loader } from '@app/shared/components';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MainContainer } from '@app/shared/components/main-container';
+import { SkeletonModule } from 'primeng/skeleton';
+import { EncuestaService } from '../../services/encuestas';
+import { EncuestaItem } from './components/encuesta-item/encuesta-item';
+import { Loader } from '@app/shared/components/loader';
+
 
 @Component({
   selector: 'app-encuestas',
-  imports: [AsyncPipe, Loader, MainContainer],
+  imports: [AsyncPipe, Loader, MainContainer, SkeletonModule, EncuestaItem],
   templateUrl: './encuestas.html',
   styleUrl: './encuestas.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

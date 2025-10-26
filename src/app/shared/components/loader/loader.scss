@@ -2,7 +2,7 @@
   height: 30px;
   aspect-ratio: 2.5;
   --_g: no-repeat
-    radial-gradient(farthest-side, var(--mat-sys-on-surface) 90%, #0000);
+    radial-gradient(farthest-side, var(--loader-color, var(--p-primary-color)) 90%, #0000);
   background: var(--_g), var(--_g), var(--_g), var(--_g);
   background-size: 20% 50%;
   animation: l43 1s infinite linear;

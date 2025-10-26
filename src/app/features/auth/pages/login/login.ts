@@ -11,10 +11,22 @@ import { Loader } from '@app/shared/components/loader';
 import { FormField } from '@app/shared/components/form-field';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { RouterLink } from '@angular/router';
+import { MainContainer } from '@app/shared/components/main-container';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, Loader, FormField, ButtonModule, CardModule],
+  imports: [
+    ReactiveFormsModule,
+    Loader,
+    FormField,
+    ButtonModule,
+    CardModule,
+    RouterLink,
+    MainContainer,
+    NgOptimizedImage,
+  ],
   templateUrl: './login.html',
   styleUrl: './login.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

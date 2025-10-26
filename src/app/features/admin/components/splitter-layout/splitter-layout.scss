@@ -1,38 +1,174 @@
+:host {
+  display: block;
+  height: 100vh;
+  min-height: 400px;
+}
+
 .splitter-layout {
   height: 100%;
-  min-height: 400px;
-  border-radius: 1.2rem;
-  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.07);
+  border-radius: 1.5rem;
   overflow: hidden;
+  background: var(--p-surface-card);
+  border: 1px solid var(--p-surface-border);
+}
 
-  .p-splitter-panel {
-    display: flex;
-    flex-direction: column;
-    padding: 1.5rem 1.2rem;
-    gap: 1.2rem;
-    background: transparent;
+:host ::ng-deep {
+  .p-splitter {
+    border: none;
+    border-radius: inherit;
+    height: 100%;
   }
 
+  .p-splitter-panel {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .menu-panel {
+    background: linear-gradient(
+      135deg,
+      var(--p-teagreen-900),
+      var(--p-teagreen-800)
+    );
+    color: var(--p-primary-contrast-color);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  .menu-content {
+    display: flex;
+    flex-direction: column;
+    // 1. Más "espaciado" entre los botones
+    gap: 0.75rem; 
+  }
+
+  [splitter-menu] p-button {
+    width: 100%;
+    // 2. Contenido "centradito" (icono + label)
+    justify-content: center;
+    transition: all 0.2s ease;
+    padding: 0.75rem 1rem;
+    background: transparent;
+    // 3. Estilos clave para que se vea "bonito"
+    border: 1px solid transparent;
+    border-radius: 0.75rem;
+
+    .p-button-label {
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .p-button-icon {
+      font-size: 1rem;
+      margin-right: 0.75rem;
+    }
+
+    &:hover {
+      background: var(--p-surface-white-alpha-10);
+      transform: translateX(4px);
+    }
+    
+    // Estilo para el botón activo
+    &.p-button-active {
+      background: var(--p-teagreen-600);
+      border-color: var(--p-teagreen-400);
+    }
+  }
+
+  .content-panel {
+    background: var(--p-surface-ground);
+    height: 100%;
+
+    .p-scrollpanel {
+      height: 100%;
+      width: 100%;
+    }
+
+    .p-scrollpanel-wrapper {
+      border-radius: 0;
+    }
+
+    .p-scrollpanel-content {
+      padding: 1.5rem;
+    }
+
+    .p-scrollpanel-bar {
+      background: var(--p-surface-300);
+      opacity: 0.6;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: var(--p-surface-400);
+        opacity: 0.8;
+      }
+    }
+
+    zoo-main-container {
+      display: block;
+      padding: 0;
+    }
+  }
+
+  // Divisor del Splitter
   .p-splitter-gutter {
-    width: 8px;
-    min-width: 8px;
-    cursor: col-resize;
-    transition: background 0.2s;
+    width: 1px;
+    min-width: 1px;
+    background: var(--p-surface-border);
+
+    .p-splitter-gutter-handle {
+      background: transparent;
+      transition: background-color 0.2s ease;
+    }
+
+    &:hover .p-splitter-gutter-handle {
+      background: var(--p-primary-color);
+    }
+  }
+}
+
+:host-context(.dark-mode) ::ng-deep {
+  .menu-panel {
+    background: linear-gradient(
+      135deg,
+      var(--p-darkgreen-900),
+      var(--p-darkgreen-800)
+    );
+  }
+
+  [splitter-menu] p-button.p-button-active {
+    background: var(--p-teagreen-500);
+    border-color: var(--p-teagreen-300);
   }
 }
 
 @media (max-width: 900px) {
   .splitter-layout {
-    flex-direction: column;
-    .p-splitter-panel {
-      padding: 1rem 0.5rem;
+    border-radius: 0;
+  }
+
+  :host ::ng-deep {
+    .p-splitter {
+      flex-direction: column;
     }
+
+    .p-splitter-panel {
+      height: auto;
+    }
+
+    .menu-panel {
+      padding: 1rem;
+    }
+
+    .content-panel {
+      height: 1px;
+      flex-grow: 1;
+    }
+
     .p-splitter-gutter {
+      height: 1px;
       width: 100%;
-      height: 8px;
-      min-width: 0;
-      min-height: 8px;
-      cursor: row-resize;
+      min-height: 1px;
     }
   }
 }

@@ -13,7 +13,15 @@
   @defer(on viewport; prefetch on idle; hydrate on interaction){
     @let usuarios = this.usuarios$ | async;
     @if(usuarios){
-      <p-dataview #dv [value]="usuarios">
+      <p-dataview 
+        #dv 
+        [value]="usuarios"
+        [paginator]="true"
+        [rows]="10"
+        [totalRecords]="usuarios.length"
+        paginatorPosition="bottom"
+        [rowsPerPageOptions]="[10, 20, 50]"
+      >
         <ng-template #header>
           <div class="dataview-header">
             <span>Total: {{ usuarios.length }} usuarios</span>
@@ -22,12 +30,7 @@
         
         <ng-template #list let-items>
           @for(usuario of items; track usuario.id){
-            <zoo-usuario-item 
-              [usuario]="usuario"
-              (onEdit)="editUser($event)"
-              (onDelete)="deleteUser($event)"
-              (onToggleStatus)="toggleUserStatus($event)"
-            />
+            <zoo-usuario-item [usuario]="usuario" />
           } @empty {
             <div class="empty-state">
               <p>No hay usuarios disponibles.</p>

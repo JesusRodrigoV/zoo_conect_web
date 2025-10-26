@@ -5,8 +5,7 @@ import { Loader } from '@app/shared/components';
 import { DataView } from 'primeng/dataview';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
-import { Usuario } from '@app/core/models/usuario';
-import { UsuarioItem } from './components/usuario-item';
+import { UsuarioItem } from '../usuario-item';
 
 @Component({
   selector: 'zoo-lista-usuarios',
@@ -29,17 +28,5 @@ export default class ListaUsuarios {
 
   protected navigateToCreate(): void {
     this.router.navigate(['/admin/usuarios/crear']);
-  }
-
-  protected editUser(usuario: Usuario): void {
-    console.log('Editar usuario:', usuario);
-  }
-
-  protected deleteUser(usuario: Usuario): void {
-    console.log('Eliminar usuario:', usuario);
-  }
-
-  protected toggleUserStatus(usuario: Usuario): void {
-    console.log('Cambiar estado usuario:', usuario);
   }
 }

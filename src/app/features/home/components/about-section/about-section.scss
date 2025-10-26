@@ -1,6 +1,6 @@
 .about-section {
   padding: 6rem 2rem;
-  background: var(--surface-section);
+  background: var(--p-surface-ground);
   position: relative;
   overflow: hidden;
 
@@ -9,11 +9,12 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 40%;
+    width: 50%;
     height: 100%;
-    background: linear-gradient(135deg, transparent 0%, var(--primary-50) 100%);
-    opacity: 0.3;
+    background: radial-gradient(circle at 70% 50%, var(--p-primary-color) 0%, transparent 70%);
+    opacity: 0.1;
     pointer-events: none;
+    animation: pulse 15s ease-in-out infinite;
   }
 
   .about-container {
@@ -31,20 +32,21 @@
     .section-badge {
       display: inline-block;
       padding: 0.5rem 1.25rem;
-      background: var(--primary-100);
-      color: var(--primary-700);
+      background: var(--p-surface-card);
+      color: var(--p-primary-color);
       border-radius: 2rem;
       font-size: 0.875rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 1rem;
+      box-shadow: var(--p-card-shadow);
     }
 
     .section-title {
       font-size: 2.75rem;
-      font-weight: 700;
-      color: var(--text-color);
+      font-weight: 800;
+      color: var(--p-text-color);
       margin: 0 0 1rem 0;
       line-height: 1.2;
     }
@@ -78,25 +80,20 @@
       }
 
       &.featured {
-        background: linear-gradient(
-          135deg,
-          var(--primary-500),
-          var(--primary-700)
-        );
-        color: var(--primary-contrast-500);
+        background: var(--p-primary-color);
         border: none;
-
+        
         .card-icon {
-          background: rgba(255, 255, 255, 0.2);
+          background: var(--p-primary-hover-color);
 
           mat-icon {
-            color: var(--primary-contrast-500);
+            color: var(--p-primary-contrast-color);
           }
         }
 
         h3,
         p {
-          color: var(--primary-contrast-500);
+          color: var(--p-primary-contrast-color);
         }
 
         .card-highlight {
@@ -115,18 +112,24 @@
       .card-icon {
         width: 64px;
         height: 64px;
-        background: var(--primary-100);
-        border-radius: 1rem;
+        background: var(--p-highlight-background);
+        border-radius: 1.25rem;
         display: flex;
         align-items: center;
         justify-content: center;
         margin-bottom: 1.5rem;
-
+        transition: all 0.3s ease;
+        
         mat-icon {
           font-size: 2rem;
           width: 2rem;
           height: 2rem;
-          color: var(--primary-500);
+          color: var(--p-primary-color);
+          transition: transform 0.3s ease;
+        }
+
+        &:hover mat-icon {
+          transform: scale(1.1);
         }
       }
 
@@ -146,16 +149,15 @@
     }
   }
 
-  .about-features {
+    .about-features {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
-    padding: 2rem;
-    background: var(--surface-card);
-    border-radius: 1.5rem;
-    border: 1px solid var(--surface-border);
-
-    .feature-item {
+    padding: 3rem;
+    background: var(--p-surface-card);
+    border-radius: 2rem;
+    border: 1px solid var(--p-surface-border);
+    box-shadow: var(--p-card-shadow);    .feature-item {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -166,13 +168,13 @@
         font-size: 2rem;
         width: 2rem;
         height: 2rem;
-        color: var(--primary-500);
+        color: var(--p-primary-color);
       }
 
       span {
         font-size: 0.875rem;
         font-weight: 500;
-        color: var(--text-color);
+        color: var(--p-text-color);
       }
     }
   }

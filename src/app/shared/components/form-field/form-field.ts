@@ -3,11 +3,11 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { ButtonModule } from 'primeng/button';
+import { MessageModule } from 'primeng/message';
 
 @Component({
   selector: 'zoo-form-field',
-  imports: [ReactiveFormsModule, FloatLabelModule, InputTextModule, PasswordModule, ButtonModule],
+  imports: [ReactiveFormsModule, FloatLabelModule, InputTextModule, PasswordModule, MessageModule],
   templateUrl: './form-field.html',
   styleUrl: './form-field.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

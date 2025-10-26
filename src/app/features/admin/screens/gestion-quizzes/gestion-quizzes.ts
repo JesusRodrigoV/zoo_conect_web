@@ -6,6 +6,7 @@ import { CardModule } from 'primeng/card';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { SplitterModule } from 'primeng/splitter';
 import { SplitterLayout } from '../../components/splitter-layout/splitter-layout';
+import { MainContainer } from '@app/shared/components/main-container';
 
 @Component({
   selector: 'app-gestion-quizzes',
@@ -17,7 +18,8 @@ import { SplitterLayout } from '../../components/splitter-layout/splitter-layout
     SplitterModule,
     ScrollPanelModule,
     MatButtonModule,
-    SplitterLayout
+    SplitterLayout, 
+    MainContainer
   ],
   templateUrl: './gestion-quizzes.html',
   styleUrl: './gestion-quizzes.scss',

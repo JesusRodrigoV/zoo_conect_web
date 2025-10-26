@@ -16,10 +16,12 @@ import { AuthStore } from '@app/core/store/auth.store';
 import { Loader } from '@app/shared/components/loader';
 import { FormField } from '@app/shared/components/form-field';
 import { ButtonModule } from 'primeng/button';
+import { MainContainer } from '@app/shared/components/main-container';
+import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-signup',
-  imports: [ReactiveFormsModule, RouterLink, Loader, FormField, ButtonModule],
+  imports: [ReactiveFormsModule, RouterLink, Loader, FormField, ButtonModule, MainContainer, CardModule],
   templateUrl: './signup.html',
   styleUrl: './signup.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

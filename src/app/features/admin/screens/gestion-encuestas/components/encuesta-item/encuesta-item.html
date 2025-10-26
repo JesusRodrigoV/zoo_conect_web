@@ -1,78 +1,60 @@
 @if (encuesta(); as enc) {
 <p-card class="encuesta-card">
-  <ng-template #header>
-    <div class="card-header">
-      <div class="header-content">
-        <i class="pi pi-clipboard card-icon"></i>
-        <div class="header-text">
-          <h3 class="encuesta-titulo">{{enc.titulo}}</h3>
-          <p-tag 
-            [value]="estadoEncuesta().texto" 
-            [severity]="estadoEncuesta().severity"
-            class="estado-tag"
-          />
+  <div class="encuesta-content">
+    <div class="encuesta-info">
+      <div class="encuesta-header">
+        <h3 class="encuesta-titulo">{{enc.titulo}}</h3>
+        <p-tag 
+          [value]="estadoEncuesta().texto" 
+          [severity]="estadoEncuesta().severity"
+        />
+      </div>
+      <p class="descripcion-texto">{{enc.descripcion}}</p>
+      
+      <div class="fecha-info">
+        <div class="fecha-rango">
+          <i class="pi pi-calendar"></i>
+          <span>{{enc.fechaInicio | date:'d MMM'}} - {{enc.fechaFin | date:'d MMM, y'}}</span>
         </div>
+        @if (diasRestantes() > 0 && estadoEncuesta().severity === 'success') {
+          <div class="dias-restantes">
+            <i class="pi pi-clock"></i>
+            <span>{{diasRestantes()}}d</span>
+          </div>
+        }
       </div>
     </div>
-  </ng-template>
 
-  <!-- Descripción -->
-  <div class="encuesta-descripcion">
-    <p class="descripcion-texto">{{enc.descripcion}}</p>
-  </div>
-  
-  <p-divider />
-  
-  <!-- Información de fechas -->
-  <div class="fechas-info">
-    <div class="fecha-item">
-      <i class="pi pi-calendar-plus fecha-icon inicio"></i>
-      <div class="fecha-details">
-        <span class="fecha-label">Fecha de Inicio</span>
-        <span class="fecha-valor">{{enc.fechaInicio | date:'dd/MM/yyyy'}}</span>
-      </div>
-    </div>
-    
-    <div class="fecha-item">
-      <i class="pi pi-calendar-times fecha-icon fin"></i>
-      <div class="fecha-details">
-        <span class="fecha-label">Fecha de Fin</span>
-        <span class="fecha-valor">{{enc.fechaFin | date:'dd/MM/yyyy'}}</span>
-      </div>
-    </div>
-  </div>
-  
-  @if (diasRestantes() > 0 && estadoEncuesta().severity === 'success') {
-    <div class="dias-restantes">
-      <i class="pi pi-clock"></i>
-      <span>{{diasRestantes()}} días restantes</span>
-    </div>
-  }
-  
-  <ng-template #footer>
-    <div class="card-actions">
+    <div class="encuesta-actions">
       <p-button 
-        icon="pi pi-eye" 
-        label="Ver Detalles"
+        icon="pi pi-pencil"
+        [rounded]="true"
+        severity="info"
+        [outlined]="true"
+        pTooltip="Editar encuesta"
+        tooltipPosition="top"
+        (onClick)="onEdit.emit(enc)"
+      />
+      <p-button 
+        icon="pi pi-chart-line"
+        [rounded]="true"
         severity="secondary"
         [outlined]="true"
-        size="small"
+        pTooltip="Ver estadísticas"
+        tooltipPosition="top"
+        (onClick)="onView.emit(enc)"
       />
-      <p-button 
-        icon="pi pi-pencil" 
-        label="Editar"
-        severity="info"
-        size="small"
-      />
-      <p-button 
-        icon="pi pi-trash" 
-        label="Eliminar"
+      <p-button
+        icon="pi pi-trash"
+        [rounded]="true"
         severity="danger"
         [outlined]="true"
-        size="small"
+        pTooltip="Eliminar encuesta"
+        tooltipPosition="top"
+        (onClick)="onDelete.emit(enc)"
       />
     </div>
-  </ng-template>
+  </div>
 </p-card>
 } @else {
 <p-card class="encuesta-card empty-card">

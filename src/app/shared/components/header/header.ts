@@ -15,11 +15,14 @@ import { LogoImage } from '../logo-image';
 import { ButtonModule } from 'primeng/button';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { NotificationButton } from './components/notification-button/notification-button';
+import { DrawerModule } from 'primeng/drawer';
 
 export interface NavButton {
   readonly label: string;
   readonly route: string;
   readonly icon?: string;
+  readonly disabled?: boolean;
+  readonly comingSoon?: boolean;
 }
 
 @Component({
@@ -34,7 +37,8 @@ export interface NavButton {
     LogoImage,
     ButtonModule,
     OverlayBadgeModule,
-    NotificationButton
+    NotificationButton,
+    DrawerModule
   ],
   templateUrl: './header.html',
   styleUrl: './header.scss',
@@ -44,6 +48,12 @@ export class Header {
   private authStore = inject(AuthStore);
   readonly autenticado = computed(() => this.authStore.isAuthenticated());
   readonly isAdmin = computed(() => this.authStore.isAdmin());
+  
+  protected menuVisible = signal(false);
+  
+  protected showMenu(show: boolean) {
+    this.menuVisible.set(show);
+  }
 
   protected readonly navigationButtons = signal<NavButton[]>([
     {
@@ -54,7 +64,7 @@ export class Header {
     {
       label: 'Animales',
       route: '/animales',
-      icon: 'pets',
+      icon: 'pets'
     },
     {
       label: 'Encuestas',
@@ -65,6 +75,8 @@ export class Header {
       label: 'Acerca de nosotros',
       route: '/acerca-de',
       icon: 'info',
+      disabled: true,
+      comingSoon: true
     },
   ]);
 

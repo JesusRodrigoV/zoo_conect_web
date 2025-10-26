@@ -1,10 +1,17 @@
 @defer(on immediate; prefetch on idle; hydrate on interaction) {
-  <p-card header="Crear Nuevo Animal" class="crear-animal-card">
-    <form [formGroup]="animalForm" (ngSubmit)="onSubmit()" class="animal-form">
-      
-      <!-- Información básica -->
-      <div class="form-section">
-        <h4>Información Básica</h4>
+  <zoo-main-container>
+    <p-card class="crear-form-card">
+      <ng-template pTemplate="header">
+        <div class="card-header">
+          <h2>Crear Nuevo Animal</h2>
+          <p class="subtitle">Ingresa los datos del nuevo animal</p>
+        </div>
+      </ng-template>
+
+      <form [formGroup]="animalForm" (ngSubmit)="onSubmit()" class="form">
+        <!-- Información básica -->
+        <div class="form-section">
+          <h4>Información Básica</h4>
         
         <div class="form-row">
           <p-floatlabel>
@@ -157,6 +164,7 @@
       </div>
     </form>
   </p-card>
+</zoo-main-container>
 } @placeholder {
   <div class="crear-animal-skeleton">
     <p>Cargando formulario...</p>

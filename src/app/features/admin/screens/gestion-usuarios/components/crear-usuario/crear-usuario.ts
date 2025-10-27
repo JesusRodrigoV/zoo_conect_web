@@ -105,16 +105,15 @@ export default class CrearUsuario {
     if (this.usuarioForm.valid) {
       this.isCreating.set(true);
 
-      const generatedPassword = this.usuarioForm.value.username! + '123';
+      const generatedPassword = this.usuarioForm.value.username! + 'ABC123!';
 
-      const usuarioData: Omit<Usuario, 'id' | 'creadoEn'> & {
+      const usuarioData: Omit<Usuario, 'id' | 'creadoEn' | 'activo'> & {
         password: string;
       } = {
         email: this.usuarioForm.value.email!,
         username: this.usuarioForm.value.username!,
         password: generatedPassword,
         fotoUrl: '',
-        activo: true,
         rol: {
           id: this.usuarioForm.value.rol!,
           nombre: this.getRoleName(this.usuarioForm.value.rol!),

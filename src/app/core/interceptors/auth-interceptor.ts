@@ -5,7 +5,7 @@ import {
   HttpRequest,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { AuthStore } from '../store/auth.store';
+import { AuthStore } from '../stores/auth.store';
 import { inject } from '@angular/core';
 import {
   Observable,
@@ -18,11 +18,9 @@ import {
   from,
 } from 'rxjs';
 
-// ✅ Variables globales para manejar el refresh de tokens
 let isRefreshing = false;
 let refreshTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-// ✅ Resetear el estado del refresh
 function resetRefreshState(): void {
   isRefreshing = false;
   refreshTokenSubject.next(null);
@@ -78,6 +76,9 @@ function isAuthRoute(url: string): boolean {
     '/auth/login',
     '/auth/register', 
     '/auth/refresh',
+    '/auth/forgot-password',
+    '/auth/reset-password',
+    '/auth/2fa/verify-login',
   ];
   
   return authPaths.some(path => url.includes(path));

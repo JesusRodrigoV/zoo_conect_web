@@ -5,17 +5,15 @@ import {
   signal,
   computed,
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthStore } from '@app/core/store/auth.store';
+import { AuthStore } from '@app/core/stores/auth.store';
 import { ProfileButton } from './components/profile-button';
 import { LogoImage } from '../logo-image';
 import { ButtonModule } from 'primeng/button';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
-import { NotificationButton } from './components/notification-button/notification-button';
+import { NotificationButton } from './components/notification-button';
 import { DrawerModule } from 'primeng/drawer';
+import { TooltipModule } from 'primeng/tooltip';
 
 export interface NavButton {
   readonly label: string;
@@ -28,17 +26,15 @@ export interface NavButton {
 @Component({
   selector: 'zoo-header',
   imports: [
-    MatButtonModule,
-    MatIconModule,
     RouterLink,
     RouterLinkActive,
     ProfileButton,
-    MatTooltipModule,
     LogoImage,
     ButtonModule,
     OverlayBadgeModule,
     NotificationButton,
-    DrawerModule
+    DrawerModule,
+    TooltipModule
   ],
   templateUrl: './header.html',
   styleUrl: './header.scss',

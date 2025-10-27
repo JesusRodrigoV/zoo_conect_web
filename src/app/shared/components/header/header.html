@@ -7,24 +7,23 @@
   <div class="header-right">
     <div class="desktop-menu">
       @for (navButton of navigationButtons(); track navButton.route) {
-      <button
-        matButton
+      <a
         [routerLink]="!navButton.disabled ? navButton.route : null"
         routerLinkActive="active-nav-button"
         [routerLinkActiveOptions]="{ exact: navButton.route === '/' }"
         class="nav-button"
         [class.disabled]="navButton.disabled"
-        [matTooltip]="navButton.comingSoon ? 'Próximamente' : ''"
-        [matTooltipDisabled]="!navButton.disabled"
+        [pTooltip]="navButton.comingSoon ? 'Próximamente' : ''"
+        [tooltipDisabled]="!navButton.disabled"
       >
         @if (navButton.icon) {
-        <mat-icon>{{ navButton.icon }}</mat-icon>
+        <i class="pi pi-{{navButton.icon}}"></i>
         }
         <span>{{ navButton.label }}</span>
         @if (navButton.comingSoon) {
         <span class="coming-soon-badge">Pronto</span>
         }
-      </button>
+      </a>
       }
     </div>
 
@@ -34,14 +33,14 @@
           <p-button 
             routerLink="/login" 
             label="Iniciar Sesión"
-            variant="text"
-            rounded
+            [text]="true"
+            [rounded]="true"
           />
           <p-button 
             routerLink="/signup" 
             label="Registrarse"
-            variant="text"
-            rounded
+            [text]="true"
+            [rounded]="true"
           />
         </div>
         <div class="mobile-auth">
@@ -49,15 +48,15 @@
             routerLink="/login" 
             icon="pi pi-sign-in"
             pTooltip="Iniciar Sesión"
-            variant="text"
-            rounded
+            [text]="true"
+            [rounded]="true"
           />
           <p-button 
             routerLink="/signup" 
             icon="pi pi-user-plus"
             pTooltip="Registrarse"
-            variant="text"
-            rounded
+            [text]="true"
+            [rounded]="true"
           />
         </div>
       } @else {
@@ -69,29 +68,29 @@
           routerLink="/admin"
           icon="pi pi-cog"
           pTooltip="Panel de administración"
-          variant="text"
-          rounded
+          [text]="true"
+          [rounded]="true"
           size="small"
         />
         }
       }
     </div>
 
-    <button 
+    <p-button 
       class="menu-button"
-      mat-icon-button 
-      (click)="menuVisible.set(true)"
+      icon="pi pi-bars"
+      (onClick)="menuVisible.set(true)"
       pTooltip="Menú"
+      [text]="true"
+      [rounded]="true"
       aria-label="Abrir menú"
-      aria-expanded="{{menuVisible()}}"
+      [attr.aria-expanded]="menuVisible()"
       aria-controls="menu-drawer"
-    >
-      <mat-icon>menu</mat-icon>
-    </button>
+    />
   </div>
 </header>
 
-  <p-drawer
+<p-drawer
   [visible]="menuVisible()"
   (visibleChange)="showMenu($event)"
   position="right"
@@ -105,37 +104,36 @@
   <ng-template pTemplate="header">
     <div class="menu-header">
       <h2>Menú</h2>
-      <button 
-        mat-icon-button 
-        (click)="menuVisible.set(false)"
+      <p-button 
+        icon="pi pi-times"
+        (onClick)="menuVisible.set(false)"
+        [text]="true"
+        [rounded]="true"
         aria-label="Cerrar menú"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
+      />
     </div>
   </ng-template>
 
   <nav class="menu-items">
     @for (navButton of navigationButtons(); track navButton.route) {
-    <button
-      mat-button
+    <a
       [routerLink]="!navButton.disabled ? navButton.route : null"
       routerLinkActive="active-nav-button"
       [routerLinkActiveOptions]="{ exact: navButton.route === '/' }"
       class="menu-item"
       [class.disabled]="navButton.disabled"
-      [matTooltip]="navButton.comingSoon ? 'Próximamente' : ''"
-      [matTooltipDisabled]="!navButton.disabled"
+      [pTooltip]="navButton.comingSoon ? 'Próximamente' : ''"
+      [tooltipDisabled]="!navButton.disabled"
       (click)="!navButton.disabled && menuVisible.set(false)"
     >
       @if (navButton.icon) {
-      <mat-icon>{{ navButton.icon }}</mat-icon>
+      <i class="pi pi-{{navButton.icon}}"></i>
       }
       <span>{{ navButton.label }}</span>
       @if (navButton.comingSoon) {
       <span class="coming-soon-badge">Pronto</span>
       }
-    </button>
+    </a>
     }
   </nav>
 </p-drawer>

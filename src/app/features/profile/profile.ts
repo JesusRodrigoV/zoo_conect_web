@@ -6,7 +6,7 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthStore } from '@app/core/store/auth.store';
+import { AuthStore } from '@app/core/stores/auth.store';
 import { Loader } from '@app/shared/components';
 import {
   LogoutDialogComponent,

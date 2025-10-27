@@ -65,6 +65,21 @@ export const routes: Routes = [
         path: 'signup',
         loadComponent: () => import('./features/auth/pages/signup/signup'),
       },
+      {
+        path: 'forgot-password',
+        loadComponent: () =>
+          import('./features/auth/pages/forgot-password/forgot-password'),
+      },
+      {
+        path: 'reset-password',
+        loadComponent: () =>
+          import('./features/auth/pages/reset-password/reset-password'),
+      },
+      {
+        path: 'verify-2fa',
+        loadComponent: () =>
+          import('./features/auth/pages/two-factor/two-factor'),
+      }
     ],
   },
   {
@@ -166,6 +181,11 @@ export const routes: Routes = [
               },
             ],
           },
+          {
+            path: '',
+            redirectTo: 'lista',
+            pathMatch: 'full',
+          }
         ],
       },
       {

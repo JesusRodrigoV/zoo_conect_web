@@ -6,52 +6,65 @@
       label="Crear Usuario"
       [rounded]="true"
       severity="primary"
-      (onClick)="navigateToCreate()"
+      routerLink="/admin/usuarios/crear"
     />
   </div>
 
-  @defer(on viewport; prefetch on idle; hydrate on interaction){
-    @let usuarios = this.usuarios$ | async;
-    @if(usuarios){
-      <p-dataview 
-        #dv 
-        [value]="usuarios"
-        [paginator]="true"
-        [rows]="10"
-        [totalRecords]="usuarios.length"
-        paginatorPosition="bottom"
-        [rowsPerPageOptions]="[10, 20, 50]"
-      >
-        <ng-template #header>
-          <div class="dataview-header">
-            <span>Total: {{ usuarios.length }} usuarios</span>
-          </div>
-        </ng-template>
-        
-        <ng-template #list let-items>
-          @for(usuario of items; track usuario.id){
-            <zoo-usuario-item [usuario]="usuario" />
-          } @empty {
-            <div class="empty-state">
-              <p>No hay usuarios disponibles.</p>
-              <p-button
-                icon="pi pi-plus"
-                label="Crear Primer Usuario"
-                [rounded]="true"
-                severity="primary"
-                (onClick)="navigateToCreate()"
-              />
-            </div>
-          }
-        </ng-template>
-      </p-dataview>
-    }
-  } @loading {
+  @if(loading() && !userData()){
     <zoo-loader />
-  }
-  @placeholder {
-    <div class="loading-placeholder">
-      <p>Cargando usuarios...</p>
+  } @else if(error(); as errorMsg) {
+    <div class="error-state">
+      <i class="pi pi-times-circle"></i>
+      <p>Error al cargar usuarios:</p>
+      <p>{{ errorMsg }}</p>
+      <p-button
+        label="Reintentar"
+        (onClick)="loadUsers(currentPage(), pageSize())"
+        icon="pi pi-refresh"
+        severity="danger"
+        [rounded]="true"
+      />
     </div>
+  } @else if (userData(); as response) {
+    <p-dataview
+      #dv
+      [value]="response.items"
+      [paginator]="true"
+      [rows]="response.size"
+      [totalRecords]="response.total"
+      [first]="(response.page - 1) * response.size"
+      paginatorPosition="bottom"
+      [rowsPerPageOptions]="[10, 20, 50]"
+      (onPage)="onPageChange($event)"
+      [lazy]="true" [loading]="loading()" >
+      <ng-template #header>
+        <div class="dataview-header">
+          <span>Total: {{ response.total }} usuarios</span>
+          <span>Página {{ response.page }}</span>
+        </div>
+      </ng-template>
+
+      <ng-template #list let-items>
+        @for(usuario of items; track usuario.id){
+          <zoo-usuario-item [usuario]="usuario" />
+        } @empty {
+          <div class="empty-state">
+            <p>No hay usuarios disponibles.</p>
+            <p-button
+              icon="pi pi-plus"
+              label="Crear Primer Usuario"
+              [rounded]="true"
+              severity="primary"
+              routerLink="/admin/usuarios/crear"
+            />
+          </div>
+        }
+      </ng-template>
+    </p-dataview>
+  } @else {
+     <div class="loading-placeholder">
+       <p>Cargando usuarios...</p>
+     </div>
   }
+
 </div>

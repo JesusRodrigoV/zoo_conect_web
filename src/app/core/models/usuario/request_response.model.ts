@@ -8,6 +8,8 @@ export interface LoginResponse {
   refresh_token: string;
   token_type: string;
   expires_in: number | null;
+  session_token?: string;
+  step?: string;
 }
 
 export interface RegisterRequest {

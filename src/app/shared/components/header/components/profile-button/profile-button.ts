@@ -5,30 +5,24 @@ import {
   inject,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
-import { AuthStore } from '@app/core/store/auth.store';
+import { AuthStore } from '@app/core/stores/auth.store';
 import { Usuario } from '@models/usuario/usuario.model';
 import { UserAvatar } from '@app/shared/components/user-avatar';
 import { UserInfo } from '../user-info';
 import { MenuModule } from 'primeng/menu';
 import { RippleModule } from 'primeng/ripple';
 import { TooltipModule } from 'primeng/tooltip';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'zoo-profile-button',
   imports: [
-    MatMenuModule,
-    MatButtonModule,
-    MatIconModule,
     TooltipModule,
-    MatDividerModule,
     MenuModule,
     RippleModule,
     UserAvatar,
     UserInfo,
+    ButtonModule,
   ],
   templateUrl: './profile-button.html',
   styleUrl: './profile-button.scss',

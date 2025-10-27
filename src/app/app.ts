@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AuthStore } from './core/store/auth.store';
+import { AuthStore } from './core/stores/auth.store';
 import { isPlatformBrowser } from '@angular/common';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { Toast } from 'primeng/toast';

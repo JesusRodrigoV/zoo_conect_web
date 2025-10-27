@@ -6,13 +6,12 @@ import {
   ReactiveFormsModule,
   FormControl,
 } from '@angular/forms';
-import { AuthStore } from '@app/core/store/auth.store';
+import { AuthStore } from '@app/core/stores/auth.store';
 import { Loader } from '@app/shared/components/loader';
 import { FormField } from '@app/shared/components/form-field';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { RouterLink } from '@angular/router';
-import { MainContainer } from '@app/shared/components/main-container';
 import { NgOptimizedImage } from '@angular/common';
 
 @Component({
@@ -24,7 +23,6 @@ import { NgOptimizedImage } from '@angular/common';
     ButtonModule,
     CardModule,
     RouterLink,
-    MainContainer,
     NgOptimizedImage,
   ],
   templateUrl: './login.html',

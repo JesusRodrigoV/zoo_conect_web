@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { FormsModule } from '@angular/forms';
 import { Theme } from './services';
 import { MainContainer } from '@app/shared/components/main-container';
+import { Enable2faDialog, Disable2faDialog } from './components';
 
 interface NotificationSettings {
   pushEnabled: boolean;
@@ -19,13 +21,23 @@ interface NotificationPreferences {
 
 @Component({
   selector: 'zoo-settings',
-  imports: [MatSlideToggleModule, MainContainer],
+  imports: [
+    ToggleSwitchModule,
+    FormsModule,
+    MainContainer,
+    Enable2faDialog,
+    Disable2faDialog,
+  ],
   templateUrl: './settings.html',
   styleUrl: './settings.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class Settings {
   private themeService = inject(Theme);
+
+  protected readonly is2FAEnabled = signal(false);
+  protected readonly showEnable2FA = signal(false);
+  protected readonly showDisable2FA = signal(false);
 
   protected readonly notificationSettings = signal<NotificationSettings>({
     pushEnabled: true,
@@ -47,6 +59,32 @@ export default class Settings {
 
   onThemeChange(isDark: boolean): void {
     this.themeService.setTheme(isDark ? 'dark' : 'light');
+  }
+
+  protected on2FAToggle(enabled: boolean): void {
+    if (enabled) {
+      this.showEnable2FA.set(true);
+    } else {
+      this.showDisable2FA.set(true);
+    }
+  }
+
+  protected on2FAEnabled(): void {
+    this.is2FAEnabled.set(true);
+    this.showEnable2FA.set(false);
+  }
+
+  protected on2FADisabled(): void {
+    this.is2FAEnabled.set(false);
+    this.showDisable2FA.set(false);
+  }
+
+  protected onEnable2FACancelled(): void {
+    this.showEnable2FA.set(false);
+  }
+
+  protected onDisable2FACancelled(): void {
+    this.showDisable2FA.set(false);
   }
 
   protected updateNotificationSetting(key: keyof NotificationSettings, value: boolean): void {

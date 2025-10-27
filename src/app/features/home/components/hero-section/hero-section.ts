@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { AuthStore } from '@app/core/store/auth.store';
+import { AuthStore } from '@app/core/stores/auth.store';
 
 @Component({
   selector: 'app-hero-section',

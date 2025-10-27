@@ -1,10 +1,8 @@
-@use "@angular/material" as mat;
-
 .footer {
-  background: var(--mat-sys-surface-container);
-  color: var(--mat-sys-on-surface);
+  background: var(--p-surface-card);
+  color: var(--p-text-color);
   padding-top: 3rem;
-  border-top: 1px solid var(--mat-sys-outline-variant);
+  border-top: 1px solid var(--p-surface-border);
 
   .footer-content {
     max-width: 1400px;
@@ -25,14 +23,14 @@
       font-size: 1.25rem;
       font-weight: 600;
       margin: 0 0 1.5rem 0;
-      color: var(--mat-sys-on-surface);
+      color: var(--p-text-color);
     }
 
     &.about {
       .footer-description {
         margin: 1rem 0 1.5rem 0;
         line-height: 1.6;
-        color: var(--mat-sys-on-surface-variant);
+        color: var(--p-text-muted-color);
       }
 
       .social-links {
@@ -48,19 +46,9 @@
           align-items: center;
           justify-content: center;
           transition: all 0.3s ease;
-          background: var(--mat-sys-primary-container);
-          color: var(--mat-sys-on-primary-container);
 
           &:hover {
-            background: var(--mat-sys-primary);
-            color: var(--mat-sys-on-primary);
             transform: translateY(-3px);
-          }
-
-          mat-icon {
-            font-size: 20px;
-            width: 20px;
-            height: 20px;
           }
         }
       }
@@ -76,14 +64,14 @@
           margin-bottom: 0.5rem;
 
           a {
-            color: var(--mat-sys-on-surface-variant);
-            text-align: left;
-            justify-content: flex-start;
-            padding-left: 0;
+            color: var(--p-text-muted-color);
+            text-decoration: none;
+            display: inline-block;
+            padding: 0.25rem 0;
+            transition: color 0.2s ease;
             
             &:hover {
-              color: var(--mat-sys-primary);
-              background: transparent;
+              color: var(--p-primary-color);
             }
           }
         }
@@ -97,20 +85,21 @@
         margin-bottom: 1.5rem;
         align-items: start;
 
-        mat-icon {
-          color: var(--mat-sys-primary);
+        i {
+          color: var(--p-primary-color);
           margin-top: 0.25rem;
+          font-size: 1.25rem;
         }
 
         div {
           p {
             margin: 0.25rem 0;
-            color: var(--mat-sys-on-surface-variant);
+            color: var(--p-text-muted-color);
             font-size: 0.95rem;
           }
 
           a {
-            color: var(--mat-sys-primary);
+            color: var(--p-primary-color);
             text-decoration: none;
             font-size: 0.9rem;
             
@@ -133,21 +122,22 @@
           gap: 1rem;
           align-items: start;
 
-          mat-icon {
-            color: var(--mat-sys-primary);
+          i {
+            color: var(--p-primary-color);
             margin-top: 0.25rem;
+            font-size: 1.25rem;
           }
 
           div {
             strong {
               display: block;
-              color: var(--mat-sys-on-surface);
+              color: var(--p-text-color);
               margin-bottom: 0.25rem;
             }
 
             p {
               margin: 0;
-              color: var(--mat-sys-on-surface-variant);
+              color: var(--p-text-muted-color);
               font-size: 0.95rem;
             }
           }
@@ -160,7 +150,7 @@
     max-width: 1400px;
     margin: 0 auto;
     padding: 2rem 2rem 1.5rem 2rem;
-    border-top: 1px solid var(--mat-sys-outline-variant);
+    border-top: 1px solid var(--p-surface-border);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -174,7 +164,7 @@
 
     p {
       margin: 0;
-      color: var(--mat-sys-on-surface-variant);
+      color: var(--p-text-muted-color);
       font-size: 0.9rem;
     }
 
@@ -185,17 +175,18 @@
       flex-wrap: wrap;
 
       a {
-        color: var(--mat-sys-on-surface-variant);
+        color: var(--p-text-muted-color);
         font-size: 0.9rem;
+        text-decoration: none;
+        transition: color 0.2s ease;
         
         &:hover {
-          color: var(--mat-sys-primary);
-          background: transparent;
+          color: var(--p-primary-color);
         }
       }
 
       span {
-        color: var(--mat-sys-outline-variant);
+        color: var(--p-surface-border);
       }
     }
   }

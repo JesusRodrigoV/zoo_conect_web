@@ -12,7 +12,7 @@ import {
   FormControl,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { AuthStore } from '@app/core/store/auth.store';
+import { AuthStore } from '@app/core/stores/auth.store';
 import { Loader } from '@app/shared/components/loader';
 import { FormField } from '@app/shared/components/form-field';
 import { ButtonModule } from 'primeng/button';
@@ -21,7 +21,14 @@ import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-signup',
-  imports: [ReactiveFormsModule, RouterLink, Loader, FormField, ButtonModule, MainContainer, CardModule],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    Loader,
+    FormField,
+    ButtonModule,
+    CardModule,
+  ],
   templateUrl: './signup.html',
   styleUrl: './signup.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

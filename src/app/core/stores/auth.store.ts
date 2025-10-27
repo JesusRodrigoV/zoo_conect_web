@@ -13,6 +13,7 @@ import { Auth } from '@app/features/auth/services';
 import { LoginResponse } from '@models/usuario/request_response.model';
 import { isPlatformBrowser } from '@angular/common';
 import { ShowToast } from '@app/shared/services';
+import { Theme } from '@app/features/settings/services/theme-service';
 
 interface AuthState {
   usuario: Usuario | null;
@@ -48,7 +49,8 @@ export const AuthStore = signalStore(
     authService = inject(Auth),
     router = inject(Router),
     platformId = inject(PLATFORM_ID),
-    toastService = inject(ShowToast)
+    toastService = inject(ShowToast),
+    themeService = inject(Theme)
   ) => {
     
     const setTokenInStorage = (key: string, value: string): void => {
@@ -73,6 +75,7 @@ export const AuthStore = signalStore(
     const clearTokens = () => {
       removeTokenFromStorage('access_token');
       removeTokenFromStorage('refresh_token');
+      removeTokenFromStorage(themeService.THEME_KEY);
     };
 
     const isTokenValid = (token: string): boolean => {
@@ -99,6 +102,17 @@ export const AuthStore = signalStore(
         const loginResponse: LoginResponse = await firstValueFrom(
           authService.login(email, password)
         );
+
+        if ('session_token' in loginResponse && loginResponse.session_token) {
+          patchState(store, {
+            loading: false,
+          });
+          
+          await router.navigate(['/verify-2fa'], {
+            queryParams: { session_token: loginResponse.session_token }
+          });
+          return;
+        }
 
         setTokenInStorage('access_token', loginResponse.access_token);
         setTokenInStorage('refresh_token', loginResponse.refresh_token);
@@ -207,6 +221,7 @@ export const AuthStore = signalStore(
         toastService.showError("Error al cerrar sesión en el servidor", "Error");
       } finally {
         clearTokens();
+        themeService.setTheme('light');
         patchState(store, {
           usuario: null,
           accessToken: null,
@@ -277,6 +292,22 @@ export const AuthStore = signalStore(
 
     clearError() {
       patchState(store, { error: null });
+    },
+
+    setTokens(accessToken: string, refreshToken: string) {
+      setTokenInStorage('access_token', accessToken);
+      setTokenInStorage('refresh_token', refreshToken);
+
+      patchState(store, {
+        accessToken,
+        refreshToken,
+        error: null,
+      });
+    },
+
+    async loadProfile() {
+      const usuario = await firstValueFrom(authService.getProfile());
+      patchState(store, { usuario });
     },
 
     async initializeAuth() {

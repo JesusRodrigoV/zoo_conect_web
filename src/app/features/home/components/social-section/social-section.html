@@ -2,9 +2,9 @@
   <h3>Síguenos en Redes Sociales</h3>
   <div class="social-links">
     @for (button of socialButtons; track $index) {
-      <a #socialBtn [href]="button.link" target="_blank" mat-icon-button class="social-button">
-        <i [class]="button.icon"></i>
-      </a>
+    <a #socialBtn [href]="button.link" target="_blank" class="social-button">
+      <i [class]="button.icon"></i>
+    </a>
     }
   </div>
 </section>

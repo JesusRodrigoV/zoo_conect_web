@@ -1,19 +1,19 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
-import { AuthStore } from '@app/core/stores/auth.store';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from "@angular/core";
+import { RouterLink } from "@angular/router";
+import { AuthStore } from "@app/core/stores/auth.store";
+import { ButtonModule } from "primeng/button";
 
 @Component({
-  selector: 'app-hero-section',
-  imports: [
-    RouterLink,
-    MatButtonModule,
-    MatIconModule
-  ],
-  templateUrl: './hero-section.html',
-  styleUrl: './hero-section.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: "app-hero-section",
+  imports: [RouterLink, ButtonModule],
+  templateUrl: "./hero-section.html",
+  styleUrl: "./hero-section.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroSection {
   private readonly authStore = inject(AuthStore);

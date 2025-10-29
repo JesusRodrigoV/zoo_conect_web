@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ButtonModule } from "primeng/button";
 
 @Component({
-  selector: 'app-services-section',
-  imports: [MatCardModule, MatIconModule],
-  templateUrl: './services-section.html',
-  styleUrl: './services-section.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: "app-services-section",
+  imports: [ButtonModule],
+  templateUrl: "./services-section.html",
+  styleUrl: "./services-section.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServicesSection {}

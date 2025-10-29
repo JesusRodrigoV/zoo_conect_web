@@ -1,22 +1,22 @@
-<mat-nav-list>
+<ul class="admin-menu-list">
   @for (item of navigationItems(); track item.route) {
-  <a
-    mat-list-item
+  <li
     [routerLink]="!item.disabled ? item.route : null"
     routerLinkActive="active"
-    [class.disabled]="item.disabled"
     class="nav-item"
-    [matTooltip]="item.disabled ? (item.tooltip || (item.comingSoon ? 'Próximamente' : 'No disponible')) : ''"
-    [matTooltipPosition]="'right'"
+    [class.disabled]="item.disabled"
+    [pTooltip]="item.disabled ? (item.tooltip || (item.comingSoon ? 'Próximamente' : 'No disponible')) : ''"
+    tooltipPosition="right"
+    pRipple
   >
-    <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-    <span matListItemTitle>{{ item.text }}</span>
+    <i [class]="item.icon"></i>
+    <span>{{ item.text }}</span>
+
     @if (item.badge && !item.disabled) {
-      <span class="nav-badge" matListItemMeta>{{ item.badge }}</span>
+    <p-badge [value]="item.badge" styleClass="nav-badge" />
+    } @if (item.comingSoon) {
+    <p-badge value="Pronto" styleClass="coming-soon-badge" />
     }
-    @if (item.comingSoon) {
-      <span class="coming-soon-badge" matListItemMeta>Pronto</span>
-    }
-  </a>
+  </li>
   }
-</mat-nav-list>
+</ul>

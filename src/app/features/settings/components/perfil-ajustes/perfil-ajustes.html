@@ -1,0 +1,20 @@
+<p-card styleClass="ajustes-card">
+  <ng-template pTemplate="title"> Perfil y Apariencia </ng-template>
+  <ng-template pTemplate="subtitle">
+    Ajusta la apariencia y tu información personal.
+  </ng-template>
+
+  <div class="settings-section">
+    <h3 class="section-title">Apariencia</h3>
+    <div class="setting-item">
+      <div class="setting-info">
+        <h4>Modo Oscuro</h4>
+        <p>Cambia entre tema claro y oscuro</p>
+      </div>
+      <p-toggleswitch
+        [(ngModel)]="darkModeModel"
+        (ngModelChange)="onThemeChange($event)"
+      />
+    </div>
+  </div>
+</p-card>

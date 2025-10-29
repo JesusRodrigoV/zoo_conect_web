@@ -1,3 +1,15 @@
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.5);
+  }
+}
+
 .about-section {
   padding: 6rem 2rem;
   background: var(--p-surface-ground);
@@ -5,13 +17,17 @@
   overflow: hidden;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     right: 0;
     width: 50%;
     height: 100%;
-    background: radial-gradient(circle at 70% 50%, var(--p-primary-color) 0%, transparent 70%);
+    background: radial-gradient(
+      circle at 70% 50%,
+      var(--p-primary-color) 0%,
+      transparent 70%
+    );
     opacity: 0.1;
     pointer-events: none;
     animation: pulse 15s ease-in-out infinite;
@@ -40,7 +56,7 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 1rem;
-      box-shadow: var(--p-card-shadow);
+      box-shadow: var(--p-shadow-1);
     }
 
     .section-title {
@@ -53,7 +69,7 @@
 
     .section-description {
       font-size: 1.125rem;
-      color: var(--text-color-secondary);
+      color: var(--p-text-muted-color);
       line-height: 1.7;
       margin: 0;
     }
@@ -68,25 +84,26 @@
     .about-card {
       position: relative;
       padding: 2.5rem 2rem;
-      background: var(--surface-card);
+      background: var(--p-surface-card);
       border-radius: 1.5rem;
-      border: 1px solid var(--surface-border);
+      border: 1px solid var(--p-surface-border);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
       &:hover {
         transform: translateY(-8px);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-        border-color: var(--primary-200);
+        box-shadow: var(--p-shadow-3);
+        border-color: var(--p-primary-200);
       }
 
       &.featured {
         background: var(--p-primary-color);
         border: none;
-        
+        color: var(--p-primary-contrast-color);
+
         .card-icon {
           background: var(--p-primary-hover-color);
 
-          mat-icon {
+          i {
             color: var(--p-primary-contrast-color);
           }
         }
@@ -102,7 +119,7 @@
           right: 1rem;
           width: 8px;
           height: 8px;
-          background: var(--primary-contrast-500);
+          background: var(--p-primary-contrast-color);
           opacity: 0.8;
           border-radius: 50%;
           animation: pulse 2s ease-in-out infinite;
@@ -119,16 +136,14 @@
         justify-content: center;
         margin-bottom: 1.5rem;
         transition: all 0.3s ease;
-        
-        mat-icon {
+
+        i {
           font-size: 2rem;
-          width: 2rem;
-          height: 2rem;
           color: var(--p-primary-color);
           transition: transform 0.3s ease;
         }
 
-        &:hover mat-icon {
+        &:hover i {
           transform: scale(1.1);
         }
       }
@@ -136,20 +151,20 @@
       h3 {
         font-size: 1.5rem;
         font-weight: 600;
-        color: var(--text-color);
+        color: var(--p-text-color);
         margin: 0 0 1rem 0;
       }
 
       p {
         font-size: 1rem;
-        color: var(--text-color-secondary);
+        color: var(--p-text-muted-color);
         line-height: 1.6;
         margin: 0;
       }
     }
   }
 
-    .about-features {
+  .about-features {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
@@ -157,17 +172,16 @@
     background: var(--p-surface-card);
     border-radius: 2rem;
     border: 1px solid var(--p-surface-border);
-    box-shadow: var(--p-card-shadow);    .feature-item {
+    box-shadow: var(--p-shadow-2);
+    .feature-item {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 0.75rem;
       text-align: center;
 
-      mat-icon {
+      i {
         font-size: 2rem;
-        width: 2rem;
-        height: 2rem;
         color: var(--p-primary-color);
       }
 
@@ -176,18 +190,6 @@
         font-weight: 500;
         color: var(--p-text-color);
       }
-    }
-  }
-
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.5;
-      transform: scale(1.5);
     }
   }
 
@@ -208,6 +210,7 @@
     .about-features {
       grid-template-columns: repeat(2, 1fr);
       gap: 1.5rem;
+      padding: 2rem;
     }
   }
 

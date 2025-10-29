@@ -18,6 +18,15 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   }
 }
+.ajustes-content-wrapper {
+  min-height: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
 
 .section-title {
   font-size: 1.5rem;

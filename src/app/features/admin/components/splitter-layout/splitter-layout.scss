@@ -6,7 +6,6 @@
 
 .splitter-layout {
   height: 100%;
-  border-radius: 1.5rem;
   overflow: hidden;
   background: var(--p-surface-card);
   border: 1px solid var(--p-surface-border);
@@ -24,17 +23,17 @@
   }
 
   .menu-panel {
-    color: var(--p-primary-contrast-color);
     display: flex;
     flex-direction: column;
+    height: 100%;
     padding: 1.5rem;
   }
 
   .menu-content {
     display: flex;
     flex-direction: column;
-  
-    gap: 0.75rem; 
+
+    gap: 0.75rem;
   }
 
   [splitter-menu] p-button {
@@ -60,7 +59,7 @@
       background: var(--p-surface-white-alpha-10);
       transform: translateX(4px);
     }
-    
+
     &.p-button-active {
       background: var(--p-teagreen-600);
       border-color: var(--p-teagreen-400);
@@ -78,9 +77,9 @@
       padding: 1.5rem;
       min-height: 100%;
     }
-}
+  }
 
-:host ::ng-deep {
+  :host ::ng-deep {
     .custom-scrollbar {
       .p-scrollpanel-wrapper {
         border-radius: 0;
@@ -89,7 +88,7 @@
       .p-scrollpanel-bar {
         background: var(--p-surface-300);
         border-radius: 0;
-        
+
         &:hover {
           background: var(--p-surface-400);
         }

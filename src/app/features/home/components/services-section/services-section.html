@@ -13,22 +13,22 @@
       <div class="service-card primary">
         <div class="card-header">
           <div class="icon-wrapper">
-            <mat-icon>school</mat-icon>
+            <i class="pi pi-book"></i>
           </div>
           <h3>Educación Ambiental</h3>
         </div>
         <p>Programas educativos innovadores para todas las edades</p>
         <ul class="service-features">
           <li>
-            <mat-icon>check</mat-icon>
+            <i class="pi pi-check"></i>
             <span>Talleres interactivos</span>
           </li>
           <li>
-            <mat-icon>check</mat-icon>
+            <i class="pi pi-check"></i>
             <span>Charlas con expertos</span>
           </li>
           <li>
-            <mat-icon>check</mat-icon>
+            <i class="pi pi-check"></i>
             <span>Material didáctico</span>
           </li>
         </ul>
@@ -37,22 +37,22 @@
       <div class="service-card">
         <div class="card-header">
           <div class="icon-wrapper">
-            <mat-icon>pets</mat-icon>
+            <i class="pi pi-id-card"></i>
           </div>
           <h3>Exhibiciones</h3>
         </div>
         <p>Más de 200 especies en hábitats naturalizados</p>
         <ul class="service-features">
           <li>
-            <mat-icon>check</mat-icon>
+            <i class="pi pi-check"></i>
             <span>Mamíferos exóticos</span>
           </li>
           <li>
-            <mat-icon>check</mat-icon>
+            <i class="pi pi-check"></i>
             <span>Aves tropicales</span>
           </li>
           <li>
-            <mat-icon>check</mat-icon>
+            <i class="pi pi-check"></i>
             <span>Reptiles fascinantes</span>
           </li>
         </ul>
@@ -61,22 +61,22 @@
       <div class="service-card">
         <div class="card-header">
           <div class="icon-wrapper">
-            <mat-icon>eco</mat-icon>
+            <i class="pi pi-leaf"></i>
           </div>
           <h3>Conservación</h3>
         </div>
         <p>Programas activos de reproducción y rescate</p>
         <ul class="service-features">
           <li>
-            <mat-icon>check</mat-icon>
+            <i class="pi pi-check"></i>
             <span>Especies en peligro</span>
           </li>
           <li>
-            <mat-icon>check</mat-icon>
+            <i class="pi pi-check"></i>
             <span>Rehabilitación</span>
           </li>
           <li>
-            <mat-icon>check</mat-icon>
+            <i class="pi pi-check"></i>
             <span>Reintroducción</span>
           </li>
         </ul>
@@ -85,22 +85,22 @@
       <div class="service-card">
         <div class="card-header">
           <div class="icon-wrapper">
-            <mat-icon>quiz</mat-icon>
+            <i class="pi pi-question-circle"></i>
           </div>
           <h3>Experiencias Interactivas</h3>
         </div>
         <p>Participa en actividades educativas únicas</p>
         <ul class="service-features">
           <li>
-            <mat-icon>check</mat-icon>
+            <i class="pi pi-check"></i>
             <span>Quizzes temáticos</span>
           </li>
           <li>
-            <mat-icon>check</mat-icon>
+            <i class="pi pi-check"></i>
             <span>Encuestas</span>
           </li>
           <li>
-            <mat-icon>check</mat-icon>
+            <i class="pi pi-check"></i>
             <span>Tours virtuales</span>
           </li>
         </ul>
@@ -110,12 +110,17 @@
     <div class="cta-banner">
       <div class="banner-content">
         <h3>¿Listo para comenzar tu aventura?</h3>
-        <p>Únete a miles de visitantes que ya disfrutan de nuestras experiencias</p>
+        <p>
+          Únete a miles de visitantes que ya disfrutan de nuestras experiencias
+        </p>
       </div>
-      <button mat-flat-button class="banner-cta">
-        Explorar Servicios
-        <mat-icon>arrow_forward</mat-icon>
-      </button>
+      <p-button
+        styleClass="banner-cta"
+        label="Explorar Servicios"
+        icon="pi pi-arrow-right"
+        iconPos="right"
+        [rounded]="true"
+      />
     </div>
   </div>
 </section>

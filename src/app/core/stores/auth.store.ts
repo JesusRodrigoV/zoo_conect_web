@@ -1,24 +1,24 @@
-import { computed, inject, PLATFORM_ID } from '@angular/core';
+import { computed, inject, PLATFORM_ID } from "@angular/core";
 import {
   signalStore,
   withComputed,
   withMethods,
   withState,
   patchState,
-} from '@ngrx/signals';
-import { Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
-import { Usuario } from '@models/usuario/usuario.model';
-import { Auth } from '@app/features/auth/services';
-import { LoginResponse } from '@models/usuario/request_response.model';
-import { isPlatformBrowser } from '@angular/common';
-import { ShowToast } from '@app/shared/services';
-import { Theme } from '@app/features/settings/services/theme-service';
+} from "@ngrx/signals";
+import { Router } from "@angular/router";
+import { firstValueFrom } from "rxjs";
+import { RolId, Usuario } from "@models/usuario/usuario.model";
+import { Auth } from "@app/features/auth/services";
+import { LoginResponse } from "@models/usuario/request_response.model";
+import { isPlatformBrowser } from "@angular/common";
+import { ShowToast } from "@app/shared/services";
+import { Theme } from "@app/features/settings/services/theme-service";
 
 interface AuthState {
   usuario: Usuario | null;
+  twoFA: boolean;
   accessToken: string | null;
-  refreshToken: string | null;
   loading: boolean;
   error: string | null;
 }
@@ -26,340 +26,301 @@ interface AuthState {
 function getInitialState(): AuthState {
   return {
     usuario: null,
+    twoFA: false,
     accessToken: null,
-    refreshToken: null,
     loading: false,
     error: null,
   };
 }
 
+const ACCESS_TOKEN_KEY = "access_token";
+
 export const AuthStore = signalStore(
-  { providedIn: 'root' },
+  { providedIn: "root" },
   withState(getInitialState()),
-  withComputed(({ usuario, accessToken }) => ({
+  withComputed(({ usuario, accessToken, twoFA }) => ({
+    suggest2FA: computed(
+      () => usuario()?.rol.id !== RolId.VISITANTE && !twoFA(),
+    ),
+    twoFAenabled: computed(() => twoFA()),
     isAuthenticated: computed(() => !!usuario() && !!accessToken()),
     userRole: computed(() => usuario()?.rol),
-    isAdmin: computed(() => usuario()?.rol.nombre === 'Administrador'),
-    isVeterinario: computed(() => usuario()?.rol.nombre === 'Veterinario'),
-    isCuidador: computed(() => usuario()?.rol.nombre === 'Cuidador'),
-    isVisitante: computed(() => usuario()?.rol.nombre === 'Visitante'), 
+    isAdmin: computed(() => usuario()?.rol.id === RolId.ADMIN),
+    isVeterinario: computed(() => usuario()?.rol.id === RolId.VETERINARIO),
+    isCuidador: computed(() => usuario()?.rol.id === RolId.CUIDADOR),
+    isVisitante: computed(() => usuario()?.rol.id === RolId.VISITANTE),
   })),
-  withMethods((
-    store,
-    authService = inject(Auth),
-    router = inject(Router),
-    platformId = inject(PLATFORM_ID),
-    toastService = inject(ShowToast),
-    themeService = inject(Theme)
-  ) => {
-    
-    const setTokenInStorage = (key: string, value: string): void => {
-      if (isPlatformBrowser(platformId)) {
-        localStorage.setItem(key, value);
-      }
-    };
+  withMethods(
+    (
+      store,
+      authService = inject(Auth),
+      router = inject(Router),
+      platformId = inject(PLATFORM_ID),
+      toastService = inject(ShowToast),
+      themeService = inject(Theme),
+    ) => {
+      const setTokenInStorage = (key: string, value: string): void => {
+        if (isPlatformBrowser(platformId)) {
+          localStorage.setItem(key, value);
+        }
+      };
 
-    const getTokenFromStorage = (key: string): string | null => {
-      if (isPlatformBrowser(platformId)) {
-        return localStorage.getItem(key);
-      }
-      return null;
-    };
+      const getTokenFromStorage = (key: string): string | null => {
+        if (isPlatformBrowser(platformId)) {
+          return localStorage.getItem(key);
+        }
+        return null;
+      };
 
-    const removeTokenFromStorage = (key: string): void => {
-      if (isPlatformBrowser(platformId)) {
-        localStorage.removeItem(key);
-      }
-    };
+      const removeTokenFromStorage = (key: string): void => {
+        if (isPlatformBrowser(platformId)) {
+          localStorage.removeItem(key);
+        }
+      };
 
-    const clearTokens = () => {
-      removeTokenFromStorage('access_token');
-      removeTokenFromStorage('refresh_token');
-      removeTokenFromStorage(themeService.THEME_KEY);
-    };
+      const clearAuthStateAndStorage = () => {
+        removeTokenFromStorage(ACCESS_TOKEN_KEY);
+        removeTokenFromStorage(themeService.THEME_KEY);
+        patchState(store, getInitialState());
+      };
 
-    const isTokenValid = (token: string): boolean => {
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        const exp = payload.exp * 1000;
-        const now = Date.now();
-        const buffer = 5 * 60 * 1000;
-        return exp > (now + buffer);
-      } catch (error) {
-        return false;
-      }
-    };
+      const isTokenValid = (
+        token: string | null,
+        bufferSeconds: number = 300,
+      ): boolean => {
+        if (!token) return false;
+        try {
+          const payload = JSON.parse(atob(token.split(".")[1]));
+          const exp = payload.exp * 1000;
+          const now = Date.now();
+          const buffer = bufferSeconds * 1000;
+          return exp > now + buffer;
+        } catch (error) {
+          console.error("Error decoding token:", error);
+          return false;
+        }
+      };
 
-    const methods = {
-    
-    async login(email: string, password: string) {
-      patchState(store, { 
-        loading: true, 
-        error: null 
-      });
-
-      try {
-        const loginResponse: LoginResponse = await firstValueFrom(
-          authService.login(email, password)
-        );
-
-        if ('session_token' in loginResponse && loginResponse.session_token) {
-          patchState(store, {
-            loading: false,
-          });
-          
-          await router.navigate(['/verify-2fa'], {
-            queryParams: { session_token: loginResponse.session_token }
-          });
-          return;
+      const handleError = (error: any, context: string): string => {
+        console.error(`Error en ${context}:`, error);
+        let errorMessage = `Error en ${context}`;
+        if (typeof error === "string") {
+          errorMessage = error;
+        } else if (error?.status === 401) {
+          errorMessage =
+            context === "login"
+              ? "Email o contraseña incorrectos"
+              : "Sesión expirada o no autorizado";
+        } else if (error?.status === 400 && context === "login") {
+          errorMessage = "Usuario inactivo. Contacte al administrador";
+        } else if (error?.status === 400 && context === "register") {
+          errorMessage = error.error?.message?.includes("email")
+            ? "Este email ya está registrado. Intente con otro email"
+            : "Datos de registro inválidos";
+        } else if (error?.status === 422 && context === "register") {
+          errorMessage = "Formato de email inválido o contraseña muy débil";
+        } else if (error?.status === 429) {
+          errorMessage = "Demasiados intentos. Intenta de nuevo más tarde";
+        } else if (
+          error?.message?.includes("NetworkError") ||
+          error?.status === 0
+        ) {
+          errorMessage =
+            "No se pudo conectar con el servidor. Verifique su conexión";
+        } else if (error?.error?.detail) {
+          errorMessage = Array.isArray(error.error.detail)
+            ? error.error.detail[0].msg
+            : error.error.detail;
+        } else if (error?.message) {
+          errorMessage = error.message;
         }
 
-        setTokenInStorage('access_token', loginResponse.access_token);
-        setTokenInStorage('refresh_token', loginResponse.refresh_token);
+        patchState(store, { error: errorMessage, loading: false });
+        toastService.showError(`Error en ${context}`, errorMessage);
 
-        patchState(store, {
-          accessToken: loginResponse.access_token,
-          refreshToken: loginResponse.refresh_token,
-          loading: false,
-          error: null,
-        });
-
-        const usuario = await firstValueFrom(authService.getProfile());
-
-        patchState(store, {
-          usuario,
-        });
-
-        toastService.showSuccess("Inicio de sesión exitoso", "Éxito");
-        await router.navigate(['/inicio']);
-        
-      } catch (error: any) {
-        console.error('Error de inicio de sesión:', error);
-        let errorMessage = 'Error en el inicio de sesión';
-        
-        if (error.status === 401) {
-          errorMessage = 'Email o contraseña incorrectos';
-        } else if (error.status === 400) {
-          errorMessage = 'Usuario inactivo. Contacte al administrador';
-        } else if (error.message?.includes('NetworkError')) {
-          errorMessage = 'No se pudo conectar con el servidor. Verifique su conexión a internet';
-        } else if (error.status === 0) {
-          errorMessage = 'No se puede conectar al servidor. Intente más tarde';
-        }
-
-        patchState(store, {
-          error: errorMessage,
-          loading: false,
-          usuario: null,
-          accessToken: null,
-          refreshToken: null,
-        });
-
-        toastService.showError("Error", errorMessage);
-
-        clearTokens();
-      }
-    },
-
-    async register(email: string, username: string, password: string) {
-      patchState(store, { 
-        loading: true, 
-        error: null 
-      });
-
-      try {
-        const usuario = await firstValueFrom(
-          authService.register(email, username, password)
-        );
-
-        patchState(store, {
-          loading: false,
-          error: null,
-        });
-        toastService.showSuccess("Registro exitoso. Por favor, inicie sesión.", "Éxito");
-        await router.navigate(['/login']);
-        
-        return usuario;
-        
-      } catch (error: any) {
-        console.error('Error de registro:', error);
-        let errorMessage = 'Error en el registro de usuario';
-        
-        if (error.status === 400) {
-          if (error.error?.message?.includes('email')) {
-            errorMessage = 'Este email ya está registrado. Intente con otro email';
-          } else {
-            errorMessage = 'Datos de registro inválidos. Verifique la información ingresada';
+        if (error?.status === 401 || error?.status === 403) {
+          if (context !== "login" && context !== "register") {
+            methods.logoutSilently();
+          } else if (context === "login") {
+            clearAuthStateAndStorage();
           }
-        } else if (error.status === 422) {
-          errorMessage = 'Formato de email inválido o contraseña muy débil';
-        } else if (error.status === 0) {
-          errorMessage = 'No se puede conectar al servidor. Intente más tarde';
         }
+        return errorMessage;
+      };
 
-        patchState(store, {
-          error: errorMessage,
-          loading: false,
-        });
-
-        toastService.showError("Error", errorMessage);
-
-        throw error;
-      }
-    },
-
-    async logout() {
-      patchState(store, { loading: true, error: null });
-
-      try {
-        const refreshToken = store.refreshToken();
-        if (refreshToken) {
-          await firstValueFrom(authService.logout(refreshToken));
-        }
-      } catch (error: any) {
-        console.warn('Error al cerrar sesión en el servidor:', error);
-        toastService.showError("Error al cerrar sesión en el servidor", "Error");
-      } finally {
-        clearTokens();
-        themeService.setTheme('light');
-        patchState(store, {
-          usuario: null,
-          accessToken: null,
-          refreshToken: null,
-          loading: false,
-          error: null,
-        });
-        toastService.showSuccess("Sesión cerrada exitosamente", "Éxito");
-        await router.navigate(['/login']);
-      }
-    },
-
-    async loadUserProfile() {
-      const currentToken = store.accessToken();
-      if (!currentToken) {
-        return;
-      }
-
-      try {
-        patchState(store, { loading: true, error: null });
-        const usuario = await firstValueFrom(authService.getProfile());
-        patchState(store, { 
-          usuario,
-          loading: false,
-          error: null 
-        });
-      } catch (error: any) {
-        patchState(store, { loading: false });
-        
-        if (error.status === 401 || error.status === 403) {
-          await methods.logout();
-        } else {
-          patchState(store, { error: 'Error al cargar perfil' });
-        }
-      }
-    },
-
-    async refreshTokens() {
-      const currentRefreshToken = store.refreshToken();
-      if (!currentRefreshToken) {
-        await methods.logout();
-        throw new Error('No refresh token available');
-      }
-
-      try {
-        const response: LoginResponse = await firstValueFrom(
-          authService.refreshToken(currentRefreshToken)
-        );
-
-        setTokenInStorage('access_token', response.access_token);
-        setTokenInStorage('refresh_token', response.refresh_token);
-
-        patchState(store, {
-          accessToken: response.access_token,
-          refreshToken: response.refresh_token,
-          error: null
-        });
-
-        return response;
-      } catch (error: any) {
-        if (error.status === 401 || error.status === 403) {
-          await methods.logout();
-        }
-        
-        throw error;
-      }
-    },
-
-    clearError() {
-      patchState(store, { error: null });
-    },
-
-    setTokens(accessToken: string, refreshToken: string) {
-      setTokenInStorage('access_token', accessToken);
-      setTokenInStorage('refresh_token', refreshToken);
-
-      patchState(store, {
-        accessToken,
-        refreshToken,
-        error: null,
-      });
-    },
-
-    async loadProfile() {
-      const usuario = await firstValueFrom(authService.getProfile());
-      patchState(store, { usuario });
-    },
-
-    async initializeAuth() {
-      try {
-        const accessToken = getTokenFromStorage('access_token');
-        const refreshToken = getTokenFromStorage('refresh_token');
-        
-        if (accessToken && refreshToken) {
-          patchState(store, { 
-            accessToken, 
-            refreshToken 
+      const methods = {
+        async login(email: string, password: string) {
+          patchState(store, {
+            loading: true,
+            error: null,
           });
-          
-          if (isTokenValid(accessToken)) {
+
+          try {
+            const loginResponse: LoginResponse = await firstValueFrom(
+              authService.login(email, password),
+            );
+
+            if (
+              "session_token" in loginResponse &&
+              loginResponse.session_token
+            ) {
+              patchState(store, {
+                twoFA: true,
+                loading: false,
+              });
+
+              await router.navigate(["/verify-2fa"], {
+                queryParams: { session_token: loginResponse.session_token },
+              });
+              return;
+            }
+
+            methods.setTokens(loginResponse.access_token);
             await methods.loadUserProfile();
-          } else {
+            toastService.showSuccess("Inicio de sesión exitoso", "Éxito");
+            await router.navigate(["/inicio"]);
+          } catch (error: any) {
+            handleError(error, "login");
+          }
+        },
+
+        set2FAStatus(status: boolean) {
+          patchState(store, {
+            twoFA: status,
+          });
+        },
+
+        async register(email: string, username: string, password: string) {
+          patchState(store, { loading: true, twoFA: false, error: null });
+          try {
+            await firstValueFrom(
+              authService.register(email, username, password),
+            );
+            patchState(store, { loading: false });
+            toastService.showSuccess(
+              "Éxito",
+              "Registro exitoso. Por favor, inicie sesión.",
+            );
+            await router.navigate(["/login"]);
+          } catch (error: any) {
+            handleError(error, "register");
+            throw error;
+          }
+        },
+
+        async logout() {
+          patchState(store, { loading: true, twoFA: false, error: null });
+          try {
+            await firstValueFrom(authService.logout());
+          } catch (error: any) {
+            console.warn(
+              "Error al cerrar sesión en el servidor (ignorado):",
+              error,
+            );
+          } finally {
+            clearAuthStateAndStorage();
+            themeService.setTheme("light");
+            toastService.showSuccess("Sesión cerrada exitosamente", "Éxito");
+            await router.navigate(["/login"]);
+          }
+        },
+
+        logoutSilently() {
+          clearAuthStateAndStorage();
+          themeService.setTheme("light");
+          router.navigate(["/login"], {
+            queryParams: { sessionExpired: true },
+          });
+        },
+
+        async loadUserProfile() {
+          const currentToken = store.accessToken();
+          if (!currentToken || !isTokenValid(currentToken, 0)) {
             try {
               await methods.refreshTokens();
-              await methods.loadUserProfile();
-            } catch (refreshError) {
-              clearTokens();
-              patchState(store, getInitialState());
+            } catch (e) {
+              patchState(store, { usuario: null, twoFA: false });
+              handleError(e, "cargar perfil (refresh fallido)");
+              return;
             }
           }
-        } else {
-          patchState(store, getInitialState());
-        }
-      } catch (error) {
-        clearTokens();
-        patchState(store, getInitialState());
-      }
-    },
 
-    isTokenExpired(): boolean {
-      const token = store.accessToken();
-      if (!token) {
-        return true;
-      }
-      
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        const exp = payload.exp * 1000;
-        const now = Date.now();
-        const buffer = 2 * 60 * 1000;
-        
-        return exp <= (now + buffer);
-      } catch (error) {
-        return true;
-      }
-    },
-    };
+          patchState(store, { loading: true, error: null });
+          try {
+            const usuario = await firstValueFrom(authService.getProfile());
+            patchState(store, {
+              usuario,
+              loading: false,
+              error: null,
+            });
+          } catch (error: any) {
+            handleError(error, "cargar perfil");
+          }
+        },
 
-    return methods;
-  }),
+        async refreshTokens() {
+          try {
+            patchState(store, { loading: true });
+            const response: LoginResponse = await firstValueFrom(
+              authService.refreshToken(),
+            );
+            methods.setTokens(response.access_token);
+            patchState(store, { loading: false });
+            return response;
+          } catch (error: any) {
+            handleError(error, "refrescar token");
+            throw error;
+          }
+        },
+
+        clearError() {
+          patchState(store, { error: null });
+        },
+
+        setTokens(accessToken: string) {
+          setTokenInStorage(ACCESS_TOKEN_KEY, accessToken);
+          patchState(store, { accessToken, error: null });
+        },
+
+        async initializeAuth() {
+          patchState(store, { loading: true });
+          try {
+            const accessToken = getTokenFromStorage(ACCESS_TOKEN_KEY);
+
+            if (accessToken) {
+              patchState(store, { accessToken });
+
+              if (isTokenValid(accessToken)) {
+                await methods.loadUserProfile();
+              } else {
+                try {
+                  await methods.refreshTokens();
+                  await methods.loadUserProfile();
+                } catch (refreshError) {
+                  clearAuthStateAndStorage();
+                }
+              }
+            } else {
+              try {
+                const response: LoginResponse = await firstValueFrom(
+                  authService.refreshToken(),
+                );
+
+                methods.setTokens(response.access_token);
+                await methods.loadUserProfile();
+              } catch (e) {
+                clearAuthStateAndStorage();
+              }
+            }
+          } catch (error) {
+            console.error("Error durante inicialización:", error);
+            clearAuthStateAndStorage();
+          } finally {
+            patchState(store, { loading: false });
+          }
+        },
+      };
+      return methods;
+    },
+  ),
 );

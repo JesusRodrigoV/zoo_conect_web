@@ -1,18 +1,25 @@
-import { ChangeDetectionStrategy, Component, inject, output, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DialogModule } from 'primeng/dialog';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { FloatLabel } from 'primeng/floatlabel';
-import { MessageModule } from 'primeng/message';
-import { TwoFactorAuth } from '../../services';
-import { ShowToast } from '@app/shared/services';
-import { finalize } from 'rxjs/operators';
-import { Loader } from '@app/shared/components/loader';
-import { ClipboardModule } from '@angular/cdk/clipboard';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  output,
+  signal,
+} from "@angular/core";
+import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
+import { DialogModule } from "primeng/dialog";
+import { ButtonModule } from "primeng/button";
+import { InputTextModule } from "primeng/inputtext";
+import { FloatLabel } from "primeng/floatlabel";
+import { MessageModule } from "primeng/message";
+import { TwoFactorAuth } from "../../services";
+import { ShowToast } from "@app/shared/services";
+import { finalize } from "rxjs/operators";
+import { Loader } from "@app/shared/components/loader";
+import { ClipboardModule } from "@angular/cdk/clipboard";
+import { AuthStore } from "@stores/auth.store";
 
 @Component({
-  selector: 'app-enable-2fa-dialog',
+  selector: "app-enable-2fa-dialog",
   imports: [
     ReactiveFormsModule,
     DialogModule,
@@ -23,14 +30,15 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     Loader,
     ClipboardModule,
   ],
-  templateUrl: './enable-2fa-dialog.html',
-  styleUrls: ['./enable-2fa-dialog.scss'],
+  templateUrl: "./enable-2fa-dialog.html",
+  styleUrls: ["./enable-2fa-dialog.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Enable2faDialog {
   private readonly fb = inject(FormBuilder);
   private readonly twoFactorService = inject(TwoFactorAuth);
   private readonly toastService = inject(ShowToast);
+  private readonly authStore = inject(AuthStore);
 
   readonly confirmed = output<void>();
   readonly cancelled = output<void>();
@@ -40,12 +48,12 @@ export class Enable2faDialog {
   protected readonly isVerifying = signal(false);
   protected readonly formSubmitted = signal(false);
   protected readonly showBackupCodes = signal(false);
-  protected readonly secret = signal('');
-  protected readonly qrCodeDataUrl = signal('');
+  protected readonly secret = signal("");
+  protected readonly qrCodeDataUrl = signal("");
   protected readonly backupCodes = signal<string[]>([]);
 
   protected readonly verifyForm = this.fb.group({
-    code: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]],
+    code: ["", [Validators.required, Validators.pattern(/^\d{6}$/)]],
   });
 
   constructor() {
@@ -54,7 +62,7 @@ export class Enable2faDialog {
 
   private loadQRCode(): void {
     this.isLoading.set(true);
-    
+
     this.twoFactorService
       .enable2FA()
       .pipe(finalize(() => this.isLoading.set(false)))
@@ -64,17 +72,23 @@ export class Enable2faDialog {
           this.generateQRCode(response.otpauth_uri);
         },
         error: (error: any) => {
-          this.toastService.showError('Error', 'No se pudo generar el código QR');
+          this.toastService.showError(
+            "Error",
+            "No se pudo generar el código QR",
+          );
           this.onCancel();
         },
       });
   }
 
   private generateQRCode(otpauthUri: string): void {
-    import('qrcode').then((QRCode) => {
+    import("qrcode").then((QRCode) => {
       QRCode.default.toDataURL(otpauthUri, { width: 200 }, (err, url) => {
         if (err) {
-          this.toastService.showError('Error', 'No se pudo generar el código QR');
+          this.toastService.showError(
+            "Error",
+            "No se pudo generar el código QR",
+          );
           return;
         }
         this.qrCodeDataUrl.set(url);
@@ -84,7 +98,10 @@ export class Enable2faDialog {
 
   protected isInvalid(fieldName: string): boolean {
     const field = this.verifyForm.get(fieldName);
-    return !!(field?.invalid && (field?.dirty || field?.touched || this.formSubmitted()));
+    return !!(
+      field?.invalid &&
+      (field?.dirty || field?.touched || this.formSubmitted())
+    );
   }
 
   protected onVerify(): void {
@@ -100,44 +117,61 @@ export class Enable2faDialog {
           next: (response) => {
             this.backupCodes.set(response.backup_codes);
             this.showBackupCodes.set(true);
-            this.toastService.showSuccess('2FA Habilitado', 'La autenticación de dos factores ha sido activada');
+            this.toastService.showSuccess(
+              "2FA Habilitado",
+              "La autenticación de dos factores ha sido activada",
+            );
+            this.authStore.set2FAStatus(true);
           },
           error: (error: any) => {
-            console.error('Error al verificar 2FA:', error);
-            let errorMessage = 'Código incorrecto. Verifica tu app de autenticación';
-            
+            console.error("Error al verificar 2FA:", error);
+            let errorMessage =
+              "Código incorrecto. Verifica tu app de autenticación";
+
             if (error.status === 400) {
               const detail = error.error?.detail || error.error?.message;
-              errorMessage = detail || 'Código inválido o expirado. Asegúrate de ingresar el código actual de tu app';
+              errorMessage =
+                detail ||
+                "Código inválido o expirado. Asegúrate de ingresar el código actual de tu app";
             } else if (error.status === 422) {
-              errorMessage = 'Formato de código inválido. Debe ser 6 dígitos';
+              errorMessage = "Formato de código inválido. Debe ser 6 dígitos";
             }
-            
-            this.toastService.showError('Error al verificar 2FA', errorMessage);
+
+            this.toastService.showError("Error al verificar 2FA", errorMessage);
+            this.authStore.set2FAStatus(false);
           },
         });
     }
   }
 
   protected onSecretCopied(): void {
-    this.toastService.showSuccess('Copiado', 'Código secreto copiado al portapapeles');
+    this.toastService.showSuccess(
+      "Copiado",
+      "Código secreto copiado al portapapeles",
+    );
   }
 
   protected onBackupCodesCopied(): void {
-    this.toastService.showSuccess('Copiado', 'Códigos de respaldo copiados al portapapeles');
+    this.toastService.showSuccess(
+      "Copiado",
+      "Códigos de respaldo copiados al portapapeles",
+    );
   }
 
   protected downloadBackupCodes(): void {
-    const content = `Códigos de Respaldo 2FA - ZooConnect\n\nGuarda estos códigos en un lugar seguro.\nCada código solo puede usarse una vez.\n\n${this.backupCodes().join('\n')}`;
-    const blob = new Blob([content], { type: 'text/plain' });
+    const content = `Códigos de Respaldo 2FA - ZooConnect\n\nGuarda estos códigos en un lugar seguro.\nCada código solo puede usarse una vez.\n\n${this.backupCodes().join("\n")}`;
+    const blob = new Blob([content], { type: "text/plain" });
     const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
-    link.download = 'zooconnect-backup-codes.txt';
+    link.download = "zooconnect-backup-codes.txt";
     link.click();
     window.URL.revokeObjectURL(url);
-    
-    this.toastService.showSuccess('Descargado', 'Códigos guardados exitosamente');
+
+    this.toastService.showSuccess(
+      "Descargado",
+      "Códigos guardados exitosamente",
+    );
   }
 
   protected onClose(): void {

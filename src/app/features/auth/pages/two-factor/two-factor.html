@@ -32,17 +32,17 @@
                 <label for="code">Código de Verificación</label>
               </p-floatlabel>
               @if (isInvalid('code')) {
-                <ng-container
-                  [ngTemplateOutlet]="alerta"
-                  [ngTemplateOutletContext]="{fieldName: 'code'}"
-                />
+              <ng-container
+                [ngTemplateOutlet]="alerta"
+                [ngTemplateOutletContext]="{fieldName: 'code'}"
+              />
               }
             </div>
 
             <div class="info-box">
               <i class="pi pi-info-circle"></i>
               <p>
-                Abre tu app de autenticación (Google Authenticator, Authy, etc.) 
+                Abre tu app de autenticación (Google Authenticator, Authy, etc.)
                 y ingresa el código de 6 dígitos que aparece.
               </p>
             </div>
@@ -50,30 +50,28 @@
             <div class="button-container">
               <p-button
                 label="Cancelar"
+                [rounded]="true"
                 severity="secondary"
                 [outlined]="true"
                 (onClick)="onCancel()"
                 [disabled]="isVerifying()"
               />
-              <button
+              <p-button
                 type="submit"
-                class="p-button p-component p-button-success verify-button"
+                [rounded]="true"
                 [disabled]="verifyForm.invalid || isVerifying()"
               >
                 @if (isVerifying()) {
-                  <zoo-loader
-                    [size]="20"
-                    [color]="'white'"
-                  />
+                <zoo-loader [size]="20" [color]="'white'" />
                 } @else {
-                  <span class="p-button-label">Verificar</span>
+                <span class="p-button-label">Verificar</span>
                 }
-              </button>
+              </p-button>
             </div>
           </form>
 
           <div class="help-link">
-            ¿Problemas para verificar? 
+            ¿Problemas para verificar?
             <a routerLink="/login">Volver al inicio de sesión</a>
           </div>
         </div>

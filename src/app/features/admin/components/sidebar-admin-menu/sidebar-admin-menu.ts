@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
+import { RouterLink, RouterLinkActive } from "@angular/router";
+import { BadgeModule } from "primeng/badge";
+import { RippleModule } from "primeng/ripple";
+import { TooltipModule } from "primeng/tooltip";
 
 export interface NavigationItem {
   readonly text: string;
@@ -15,62 +15,61 @@ export interface NavigationItem {
 }
 
 @Component({
-  selector: 'zoo-sidebar-admin-menu',
+  selector: "zoo-sidebar-admin-menu",
   imports: [
-    MatListModule,
-    MatIconModule,
-    MatTooltipModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    BadgeModule,
+    TooltipModule,
+    RippleModule,
   ],
-  templateUrl: './sidebar-admin-menu.html',
-  styleUrl: './sidebar-admin-menu.scss',
+  templateUrl: "./sidebar-admin-menu.html",
+  styleUrl: "./sidebar-admin-menu.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarAdminMenu {
   protected readonly navigationItems = signal<NavigationItem[]>([
     {
-      text: 'Dashboard',
-      icon: 'dashboard',
-      route: '/admin/dashboard',
+      text: "Dashboard",
+      icon: "pi pi-th-large",
+      route: "/admin/dashboard",
       disabled: true,
-      comingSoon: true
+      comingSoon: true,
     },
     {
-      text: 'Gestión de Usuarios',
-      icon: 'group',
-      route: '/admin/usuarios',
-      badge: '12',
+      text: "Gestión de Usuarios",
+      icon: "pi pi-users",
+      route: "/admin/usuarios",
+      badge: "12",
     },
     {
-      text: 'Gestión de Animales',
-      icon: 'pets',
-      route: '/admin/animales',
+      text: "Gestión de Animales",
+      icon: "pi pi-id-card",
+      route: "/admin/animales",
     },
     {
-      text: 'Encuestas',
-      icon: 'poll',
-      route: '/admin/encuestas',
-    },
-
-    {
-      text: 'Quizzes',
-      icon: 'quiz',
-      route: '/admin/quizzes',
+      text: "Encuestas",
+      icon: "pi pi-chart-line",
+      route: "/admin/encuestas",
     },
     {
-      text: 'Reportes',
-      icon: 'assessment',
-      route: '/admin/reportes',
+      text: "Quizzes",
+      icon: "pi pi-question-circle",
+      route: "/admin/quizzes",
+    },
+    {
+      text: "Reportes",
+      icon: "pi pi-chart-bar",
+      route: "/admin/reportes",
       disabled: true,
-      comingSoon: true
+      comingSoon: true,
     },
     /*
-    {
-      text: 'Configuración',
-      icon: 'settings',
-      route: '/admin/configuracion'
-    }
-    */
+      {
+        text: 'Configuración',
+        icon: 'pi pi-cog', // PrimeIcon
+        route: '/admin/configuracion'
+      }
+      */
   ]);
 }

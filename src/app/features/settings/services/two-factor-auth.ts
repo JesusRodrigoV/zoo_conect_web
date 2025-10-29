@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { environment } from '@env';
-import { Observable } from 'rxjs';
+import { HttpClient } from "@angular/common/http";
+import { inject, Injectable } from "@angular/core";
+import { environment } from "@env";
+import { Observable } from "rxjs";
 
 export interface Enable2FAResponse {
   secret: string;
@@ -17,7 +17,7 @@ export interface Disable2FARequest {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class TwoFactorAuth {
   private readonly http = inject(HttpClient);
@@ -30,17 +30,20 @@ export class TwoFactorAuth {
 
   verify2FA(totpCode: string): Observable<Verify2FAResponse> {
     return this.http.post<Verify2FAResponse>(`${this.securityUrl}/verify`, {
-      totp_code: totpCode
+      totp_code: totpCode,
     });
   }
 
   disable2FA(password: string): Observable<void> {
     return this.http.post<void>(`${this.securityUrl}/disable`, {
-      password
+      password,
     });
   }
 
-  verifyLogin2FA(sessionToken: string, code: string): Observable<{
+  verifyLogin2FA(
+    sessionToken: string,
+    code: string,
+  ): Observable<{
     access_token: string;
     refresh_token: string;
     token_type: string;
@@ -51,7 +54,7 @@ export class TwoFactorAuth {
       token_type: string;
     }>(`${this.apiUrl}/auth/2fa/verify-login`, {
       session_token: sessionToken,
-      code
+      code,
     });
   }
 }

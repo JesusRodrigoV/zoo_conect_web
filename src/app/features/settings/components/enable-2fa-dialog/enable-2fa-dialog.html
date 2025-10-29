@@ -9,7 +9,8 @@
     <div class="dialog-header">
       <i class="pi pi-shield"></i>
       <h3>
-        {{ showBackupCodes() ? 'Códigos de Respaldo' : 'Habilitar Autenticación 2FA' }}
+        {{ showBackupCodes() ? 'Códigos de Respaldo' : 'Habilitar Autenticación
+        2FA' }}
       </h3>
     </div>
   </ng-template>
@@ -44,14 +45,14 @@
           <h4>O ingresa este código manualmente</h4>
           <div class="secret-code">
             <code>{{ secret() }}</code>
-            <button
-              pButton
+            <p-button
               icon="pi pi-copy"
+              [rounded]="true"
               [text]="true"
               [cdkCopyToClipboard]="secret()"
               (cdkCopyToClipboardCopied)="onSecretCopied()"
               pTooltip="Copiar código"
-            ></button>
+            />
           </div>
         </div>
       </div>
@@ -103,6 +104,7 @@
         <p-button
           label="Copiar Códigos"
           icon="pi pi-copy"
+          [rounded]="true"
           severity="secondary"
           [outlined]="true"
           [cdkCopyToClipboard]="backupCodes().join('\n')"
@@ -110,6 +112,7 @@
         />
         <p-button
           label="Descargar"
+          [rounded]="true"
           icon="pi pi-download"
           severity="secondary"
           [outlined]="true"
@@ -125,6 +128,7 @@
       @if (!showBackupCodes()) {
       <p-button
         label="Cancelar"
+        [rounded]="true"
         severity="secondary"
         [text]="true"
         (onClick)="onCancel()"
@@ -132,6 +136,7 @@
       />
       <p-button
         severity="success"
+        [rounded]="true"
         [disabled]="verifyForm.invalid || isVerifying() || isLoading()"
         (onClick)="onVerify()"
       >
@@ -143,6 +148,7 @@
       <p-button
         label="Entendido, Cerrar"
         severity="success"
+        [rounded]="true"
         (onClick)="onClose()"
       />
       }

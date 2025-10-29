@@ -21,7 +21,7 @@
       border-radius: 8px;
       animation: pulse 1.5s infinite;
     }
-    
+
     .placeholder-actions {
       width: 120px;
       height: 40px;
@@ -73,7 +73,7 @@
       &:not(.disabled):hover {
         background-color: var(--p-surface-100);
         color: var(--p-text-color);
-        
+
         i {
           transform: translateY(-1px);
         }
@@ -83,7 +83,7 @@
         opacity: 0.6;
         cursor: default;
         position: relative;
-        
+
         &:hover {
           background-color: transparent;
         }
@@ -112,7 +112,7 @@
         background-color: var(--p-primary-color);
         color: var(--p-primary-contrast-color);
         font-weight: 600;
-        
+
         i {
           transform: scale(1.1);
         }

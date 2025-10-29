@@ -1,35 +1,12 @@
-@use "@angular/material" as mat;
 @use "tailwindcss" as *;
 @use "primeicons/primeicons.css" as *;
 
 html {
   color-scheme: light;
-  @include mat.theme(
-    (
-      color: mat.$azure-palette,
-      density: -1,
-    )
-  );
-  @include mat.theme-overrides(
-    (
-      primary: #40964e,
-    )
-  );
 }
 
 html.dark-mode {
   color-scheme: dark;
-  @include mat.theme(
-    (
-      color: mat.$cyan-palette,
-      density: -1,
-    )
-  );
-  @include mat.theme-overrides(
-    (
-      primary: #59b468,
-    )
-  );
 }
 
 body {
@@ -47,6 +24,6 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.splitter{
-    height: 100%;
+.splitter {
+  height: 100%;
 }

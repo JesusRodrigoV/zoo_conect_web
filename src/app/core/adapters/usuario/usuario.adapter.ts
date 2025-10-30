@@ -6,7 +6,7 @@ import { Usuario, Rol, RolId } from '../../models/usuario/usuario.model';
 export interface UsuarioBackendResponse {
   id: number;
   email: string;
-  username: string;
+  nombre_completo: string;
   photo_url: string | null;
   is_active: boolean;
   role_id: number;
@@ -21,7 +21,6 @@ export interface CreateUsuarioRequest {
   username: string;
   password: string;
   role_id: number;
-  is_active: boolean;
 }
 
 /**
@@ -60,7 +59,7 @@ export class UsuarioAdapter {
     return {
       id: backendUser.id.toString(),
       email: backendUser.email,
-      username: backendUser.username,
+      username: backendUser.nombre_completo,
       fotoUrl: backendUser.photo_url || '',
       activo: backendUser.is_active,
       rol: {
@@ -81,7 +80,7 @@ export class UsuarioAdapter {
   /**
    * Convierte los datos del frontend para crear un nuevo usuario
    */
-  static toCreateRequest(frontendUser: Omit<Usuario, 'id' | 'creadoEn'> & { password: string }): CreateUsuarioRequest {
+  static toCreateRequest(frontendUser: Omit<Usuario, 'id' | 'creadoEn' | 'activo'> & { password: string }): CreateUsuarioRequest {
     if (!frontendUser.email || frontendUser.email.trim().length < 3) {
       throw new Error('El email es requerido y debe tener al menos 3 caracteres');
     }
@@ -99,7 +98,6 @@ export class UsuarioAdapter {
       username: frontendUser.username.trim(),
       password: frontendUser.password.trim(),
       role_id: frontendUser.rol.id,
-      is_active: frontendUser.activo
     };
   }
 

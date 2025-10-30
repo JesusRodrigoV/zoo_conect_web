@@ -4,53 +4,133 @@
     <app-logo-image [size]="60" />
   </div>
 
-  <nav class="navbar">
-    @for (navButton of navigationButtons(); track navButton.route) {
-    <button
-      matButton
-      [routerLink]="navButton.route"
-      routerLinkActive="active-nav-button"
-      [routerLinkActiveOptions]="{ exact: navButton.route === '/' }"
-      class="nav-button"
-    >
-      @if (navButton.icon) {
-      <mat-icon>{{ navButton.icon }}</mat-icon>
-      }
-      <span>{{ navButton.label }}</span>
-    </button>
-    }
-  </nav>
-
   <div class="header-right">
-    @if(!autenticado()){
-    <p-button 
-      routerLink="/login" 
-      label="Iniciar Sesión"
-      variant="text"
-      rounded
-    />
-    <p-button 
-      routerLink="/signup" 
-      label="Registrarse"
-      variant="text"
-      rounded
-    />
-    } @else {
-    <zoo-notification-button />
-    <zoo-profile-button />
-    <ng-content></ng-content>
-    @if (isAdmin()) {
+    <div class="desktop-menu">
+      @for (navButton of navigationButtons(); track navButton.route) {
+      <p-button
+        [routerLink]="!navButton.disabled ? navButton.route : null"
+        [label]="navButton.label"
+        [icon]="navButton.icon ? 'pi pi-' + navButton.icon : undefined"
+        [disabled]="navButton.disabled"
+        [pTooltip]="navButton.comingSoon ? 'Próximamente' : ''"
+        [tooltipDisabled]="!navButton.disabled"
+        styleClass="nav-button p-button-text p-button-rounded"
+        [ngClass]="{'active-nav-button': isRouteActive(navButton.route, navButton.exactMatch)}"
+        [rounded]="true"
+        [text]="true"
+      >
+        @if (navButton.comingSoon && navButton.disabled) {
+        <span class="coming-soon-badge">Pronto</span>
+        }
+      </p-button>
+      }
+    </div>
+
+    <div class="auth-buttons">
+      @if(!autenticado()){
+      <div class="desktop-auth">
+        <p-button
+          routerLink="/login"
+          label="Iniciar Sesión"
+          [text]="true"
+          [rounded]="true"
+        />
+        <p-button
+          routerLink="/signup"
+          label="Registrarse"
+          [text]="true"
+          [rounded]="true"
+        />
+      </div>
+      <div class="mobile-auth">
+        <p-button
+          routerLink="/login"
+          icon="pi pi-sign-in"
+          pTooltip="Iniciar Sesión"
+          [text]="true"
+          [rounded]="true"
+        />
+        <p-button
+          routerLink="/signup"
+          icon="pi pi-user-plus"
+          pTooltip="Registrarse"
+          [text]="true"
+          [rounded]="true"
+        />
+      </div>
+      } @else {
+      <zoo-notification-button />
+      <zoo-profile-button />
+      <ng-content></ng-content>
+      }
+    </div>
+
     <p-button
-      routerLink="/admin"
-      icon="pi pi-cog"
-      pTooltip="Panel de administración"
-      variant="text"
-      rounded
-      size="small"
+      class="menu-button"
+      icon="pi pi-bars"
+      (onClick)="menuVisible.set(true)"
+      pTooltip="Menú"
+      [text]="true"
+      [rounded]="true"
+      aria-label="Abrir menú"
+      [attr.aria-expanded]="menuVisible()"
+      aria-controls="menu-drawer"
     />
-    } }
   </div>
 </header>
-} @placeholder{
-<p>Hola, aqui espero</p>
+
+<p-drawer
+  [visible]="menuVisible()"
+  (visibleChange)="showMenu($event)"
+  position="right"
+  [modal]="true"
+  [showCloseIcon]="false"
+  [baseZIndex]="1000"
+  styleClass="menu-drawer"
+  id="menu-drawer"
+  [closeOnEscape]="true"
+>
+  <ng-template pTemplate="header">
+    <div class="menu-header">
+      <h2>Menú</h2>
+      <p-button
+        icon="pi pi-times"
+        (onClick)="menuVisible.set(false)"
+        [text]="true"
+        [rounded]="true"
+        aria-label="Cerrar menú"
+      />
+    </div>
+  </ng-template>
+
+  <nav class="menu-items">
+    @for (navButton of navigationButtons(); track navButton.route) {
+    <p-button
+      [routerLink]="!navButton.disabled ? navButton.route : null"
+      [label]="navButton.label"
+      [icon]="navButton.icon ? 'pi pi-' + navButton.icon : undefined"
+      [disabled]="navButton.disabled"
+      [pTooltip]="navButton.comingSoon ? 'Próximamente' : ''"
+      [tooltipDisabled]="!navButton.disabled"
+      styleClass="menu-item p-button-text"
+      [ngClass]="{'active-nav-button': isRouteActive(navButton.route, navButton.exactMatch)}"
+      [text]="true"
+      (click)="!navButton.disabled && menuVisible.set(false)"
+    >
+      @if (navButton.comingSoon && navButton.disabled) {
+      <span class="coming-soon-badge">Pronto</span>
+      }
+    </p-button>
+    }
+  </nav>
+</p-drawer>
+} @placeholder {
+<header class="header header-placeholder">
+  <div class="header-left">
+    <div class="placeholder-logo"></div>
+  </div>
+  <div class="header-right">
+    <div class="placeholder-actions"></div>
+  </div>
+</header>
 }

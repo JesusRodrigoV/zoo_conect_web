@@ -1,18 +1,49 @@
-@defer(on viewport; prefetch on idle; hydrate on interaction){ 
-    @let especies = this.especies$ | async; 
+<div class="lista-especies-container">
+  <div class="header-actions">
+    <h2>Gestión de Especies</h2>
+    <p-button
+      icon="pi pi-plus"
+      label="Registrar Especie"
+      [rounded]="true"
+      severity="primary"
+      routerLink="/admin/animales/especies/crear"
+    />
+  </div>
+
+  @defer(on viewport; prefetch on idle; hydrate on interaction){
+    @let especies = this.especies$ | async;
     @if(especies){
-        <p-dataview #dv [value]="especies">
-        <ng-template #list let-items>
-            @for(item of items; track item.idEspecie){
-                <zoo-especie-item [especie]="item"/>
-            } @empty {
-            <p>No hay especies disponibles.</p>
-            }
+      <p-dataview #dv [value]="especies">
+        <ng-template #header>
+          <div class="dataview-header">
+            <span>Total: {{ especies.length }} especies</span>
+          </div>
         </ng-template>
-        </p-dataview>
-    } 
-} @loading {
+        
+        <ng-template #list let-items>
+          @for(item of items; track item.idEspecie){
+            <zoo-especie-item [especie]="item"/>
+          } @empty {
+            <div class="empty-state">
+              <p>No hay especies disponibles.</p>
+              <p-button
+                icon="pi pi-plus"
+                label="Registrar Primera Especie"
+                [rounded]="true"
+                severity="primary"
+                routerLink="/admin/animales/especies/crear"
+              />
+            </div>
+          }
+        </ng-template>
+      </p-dataview>
+    }
+  } @loading {
     <zoo-loader />
-}@placeholder {
-    <p>Cargando y guardando espacio para este</p>
-}
+  }
+  @placeholder {
+    <div class="loading-placeholder">
+      <p>Cargando especies...</p>
+    </div>
+  }
+</div>

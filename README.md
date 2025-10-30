@@ -40,7 +40,6 @@ El sistema utiliza una **Arquitectura Modular Desacoplada** (Frontend Angular 20
 - **Angular 20** - Framework principal con las últimas características
 - **Bun** - Runtime de JavaScript ultrarrápido y gestor de paquetes
 - **TypeScript 5.8** - Tipado estático robusto
-- **Angular Material** - Componentes de UI siguiendo Material Design
 - **NgRx Signals** - Manejo de estado reactivo moderno
 - **PostgreSQL** - Base de datos relacional para información crítica
 
@@ -193,7 +192,6 @@ bun update
 
 ### Dependencias principales:
 - `@angular/core` ^20.0.0
-- `@angular/material` 20.2.5
 - `@ngrx/signals` ^20.0.1
 - `primeng` ^20.2.0 (componentes adicionales)
 - `rxjs` ~7.8.0

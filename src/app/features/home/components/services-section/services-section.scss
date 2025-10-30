@@ -1,6 +1,6 @@
 .services-section {
   padding: 6rem 2rem;
-  background: var(--surface-ground);
+  background: var(--p-surface-ground);
   position: relative;
 
   .services-container {
@@ -16,8 +16,8 @@
     .section-badge {
       display: inline-block;
       padding: 0.5rem 1.25rem;
-      background: var(--primary-100);
-      color: var(--primary-700);
+      background: var(--p-primary-100);
+      color: var(--p-primary-700);
       border-radius: 2rem;
       font-size: 0.875rem;
       font-weight: 600;
@@ -29,14 +29,14 @@
     .section-title {
       font-size: 2.75rem;
       font-weight: 700;
-      color: var(--text-color);
+      color: var(--p-text-color);
       margin: 0 0 1rem 0;
       line-height: 1.2;
     }
 
     .section-description {
       font-size: 1.125rem;
-      color: var(--text-color-secondary);
+      color: var(--p-text-muted-color);
       line-height: 1.7;
       margin: 0;
     }
@@ -51,14 +51,14 @@
     .service-card {
       position: relative;
       padding: 2.5rem 2rem;
-      background: var(--surface-card);
+      background: var(--p-surface-card);
       border-radius: 1.5rem;
-      border: 1px solid var(--surface-border);
+      border: 1px solid var(--p-surface-border);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       overflow: hidden;
 
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -66,8 +66,8 @@
         height: 4px;
         background: linear-gradient(
           90deg,
-          var(--primary-400),
-          var(--primary-600)
+          var(--p-primary-400),
+          var(--p-primary-600)
         );
         transform: scaleX(0);
         transform-origin: left;
@@ -76,8 +76,8 @@
 
       &:hover {
         transform: translateY(-8px);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-        border-color: var(--primary-200);
+        box-shadow: var(--p-shadow-3);
+        border-color: var(--p-primary-200);
 
         &::before {
           transform: scaleX(1);
@@ -91,36 +91,37 @@
       &.primary {
         background: linear-gradient(
           135deg,
-          var(--primary-500),
-          var(--primary-700)
+          var(--p-primary-500),
+          var(--p-primary-700)
         );
         border: none;
+        color: var(--p-primary-contrast-color);
 
         .card-header {
           .icon-wrapper {
             background: rgba(255, 255, 255, 0.2);
 
-            mat-icon {
-              color: var(--primary-contrast-500);
+            i {
+              color: var(--p-primary-contrast-color);
             }
           }
 
           h3 {
-            color: var(--primary-contrast-500);
+            color: var(--p-primary-contrast-color);
           }
         }
 
         > p {
-          color: var(--primary-contrast-500);
+          color: var(--p-primary-contrast-color);
           opacity: 0.9;
         }
 
         .service-features li {
-          color: var(--primary-contrast-500);
+          color: var(--p-primary-contrast-color);
           opacity: 0.9;
 
-          mat-icon {
-            color: var(--primary-contrast-500);
+          i {
+            color: var(--p-primary-contrast-color);
           }
         }
       }
@@ -131,7 +132,7 @@
         .icon-wrapper {
           width: 64px;
           height: 64px;
-          background: var(--primary-100);
+          background: var(--p-primary-100);
           border-radius: 1rem;
           display: flex;
           align-items: center;
@@ -139,25 +140,23 @@
           margin-bottom: 1.5rem;
           transition: transform 0.3s ease;
 
-          mat-icon {
+          i {
             font-size: 2rem;
-            width: 2rem;
-            height: 2rem;
-            color: var(--primary-500);
+            color: var(--p-primary-500);
           }
         }
 
         h3 {
           font-size: 1.5rem;
           font-weight: 600;
-          color: var(--text-color);
+          color: var(--p-text-color);
           margin: 0;
         }
       }
 
       > p {
         font-size: 1rem;
-        color: var(--text-color-secondary);
+        color: var(--p-text-muted-color);
         line-height: 1.6;
         margin: 0 0 1.5rem 0;
       }
@@ -175,13 +174,11 @@
           align-items: center;
           gap: 0.75rem;
           font-size: 0.9375rem;
-          color: var(--text-color);
+          color: var(--p-text-color);
 
-          mat-icon {
+          i {
             font-size: 1.25rem;
-            width: 1.25rem;
-            height: 1.25rem;
-            color: var(--primary-500);
+            color: var(--p-primary-500);
             flex-shrink: 0;
           }
         }
@@ -195,13 +192,17 @@
     justify-content: space-between;
     gap: 2rem;
     padding: 3rem;
-    background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+    background: linear-gradient(
+      135deg,
+      var(--p-primary-500),
+      var(--p-primary-700)
+    );
     border-radius: 2rem;
     position: relative;
     overflow: hidden;
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       top: -50%;
       right: -10%;
@@ -222,35 +223,33 @@
       h3 {
         font-size: 2rem;
         font-weight: 700;
-        color: var(--primary-contrast-500);
+        color: var(--p-primary-contrast-color);
         margin: 0 0 0.5rem 0;
       }
 
       p {
         font-size: 1.125rem;
-        color: var(--primary-contrast-500);
+        color: var(--p-primary-contrast-color);
         opacity: 0.9;
         margin: 0;
       }
     }
 
-    .banner-cta {
+    .banner-cta.p-button {
       position: relative;
       z-index: 1;
       padding: 1rem 2rem;
-      background: var(--surface-card);
-      color: var(--primary-700);
+      background: var(--p-surface-card);
+      color: var(--p-primary-700);
       font-weight: 600;
       border-radius: 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
       transition: all 0.3s ease;
       flex-shrink: 0;
 
       &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        box-shadow: var(--p-shadow-3);
+        background: var(--p-surface-0);
       }
     }
   }
@@ -274,10 +273,16 @@
       text-align: center;
       padding: 2rem;
 
-      .banner-cta {
+      .banner-cta.p-button {
         width: 100%;
         justify-content: center;
       }
     }
+  }
+}
+
+:host-context(.dark-mode) {
+  .services-section .cta-banner .banner-cta.p-button {
+    color: var(--p-primary-300);
   }
 }

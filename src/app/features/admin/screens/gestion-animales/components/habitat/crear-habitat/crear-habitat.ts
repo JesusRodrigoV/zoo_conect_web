@@ -10,27 +10,27 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabel } from 'primeng/floatlabel';
 import { TextareaModule } from 'primeng/textarea';
 import { NgTemplateOutlet } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
 import { ShowToast } from '@app/shared/services';
 import { Router } from '@angular/router';
 import { AdminHabitat } from '@app/features/admin/services/admin-habitat';
 import { finalize } from 'rxjs/operators';
 import { Habitat } from '@app/core/models/habitat';
+import { CardModule } from 'primeng/card';
+import { MainContainer } from '@app/shared/components/main-container';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-crear-habitat',
   imports: [
     NgTemplateOutlet,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
     ReactiveFormsModule,
     MessageModule,
     InputTextModule,
     TextareaModule,
     FloatLabel,
+    CardModule,
+    MainContainer,
+    ButtonModule
   ],
   templateUrl: './crear-habitat.html',
   styleUrl: './crear-habitat.scss',

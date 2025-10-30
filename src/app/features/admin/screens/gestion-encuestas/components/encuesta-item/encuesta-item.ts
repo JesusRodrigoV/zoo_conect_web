@@ -1,10 +1,10 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { Encuesta } from '@models/encuestas/encuesta.model';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
-import { DividerModule } from 'primeng/divider';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'zoo-encuesta-item',
@@ -12,8 +12,8 @@ import { DividerModule } from 'primeng/divider';
     DatePipe, 
     CardModule, 
     ButtonModule, 
-    TagModule, 
-    DividerModule
+    TagModule,
+    TooltipModule
   ],
   templateUrl: './encuesta-item.html',
   styleUrl: './encuesta-item.scss',
@@ -21,6 +21,9 @@ import { DividerModule } from 'primeng/divider';
 })
 export class EncuestaItem {
   readonly encuesta = input<Encuesta | null>(null);
+  readonly onEdit = output<Encuesta>();
+  readonly onView = output<Encuesta>();
+  readonly onDelete = output<Encuesta>();
   
   readonly estadoEncuesta = computed(() => {
     const enc = this.encuesta();

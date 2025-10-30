@@ -1,0 +1,94 @@
+.lista-especies-container {
+  .header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: var(--p-surface-card);
+    border-radius: 1rem;
+    box-shadow: var(--p-card-shadow);
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--p-text-color);
+      margin: 0;
+    }
+  }
+
+  :host ::ng-deep {
+    .p-dataview {
+      background: transparent;
+
+      .p-dataview-header {
+        background: var(--p-surface-card);
+        border: 1px solid var(--p-surface-border);
+        border-radius: 1rem;
+        margin-bottom: 1rem;
+        padding: 1rem;
+
+        .dataview-header {
+          color: var(--p-text-color-secondary);
+          font-size: 0.875rem;
+        }
+      }
+
+      .p-dataview-content {
+        background: transparent;
+        border: none;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1rem;
+      }
+    }
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    background: var(--p-surface-card);
+    border-radius: 1rem;
+    text-align: center;
+    gap: 1rem;
+
+    p {
+      color: var(--p-text-color-secondary);
+      font-size: 1.1rem;
+      margin: 0;
+    }
+  }
+
+  .loading-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    background: var(--p-surface-card);
+    border-radius: 1rem;
+    color: var(--p-text-color-secondary);
+    
+    p {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .header-actions {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    :host ::ng-deep {
+      .p-dataview-content {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}

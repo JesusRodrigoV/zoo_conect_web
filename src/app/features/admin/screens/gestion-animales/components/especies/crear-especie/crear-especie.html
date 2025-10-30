@@ -1,180 +1,207 @@
 @defer (on viewport; prefetch on idle; hydrate on hover) {
-  <form [formGroup]="especieForm" (ngSubmit)="onSubmit()">
-    <p-floatlabel variant="on">
-      <input
-        id="nombreCientifico"
-        pInputText
-        type="text"
-        formControlName="nombreCientifico"
-        autocomplete="off"
-      />
-      <label for="nombreCientifico">Nombre Científico</label>
-    </p-floatlabel>
-    @if (isInvalid('nombreCientifico')) {
-    <ng-container
-      [ngTemplateOutlet]="alerta"
-      [ngTemplateOutletContext]="{fieldName: 'nombreCientifico'}"
-    />
-    }
+<zoo-main-container>
+  <p-card class="crear-usuario-card">
+    <ng-template pTemplate="header">
+      <div class="card-header">
+        <h2>Crear Nueva Especie</h2>
+        <p class="subtitle">Ingresa los datos de la nueva especie</p>
+      </div>
+    </ng-template>
 
-    <p-floatlabel variant="on">
-      <input
-        id="nombreComun"
-        pInputText
-        type="text"
-        formControlName="nombreComun"
-        autocomplete="off"
-      />
-      <label for="nombreComun">Nombre Común</label>
-    </p-floatlabel>
-    @if (isInvalid('nombreComun')) {
-    <ng-container
-      [ngTemplateOutlet]="alerta"
-      [ngTemplateOutletContext]="{fieldName: 'nombreComun'}"
-    />
-    }
+    <form
+      [formGroup]="especieForm"
+      (ngSubmit)="onSubmit()"
+      class="usuario-form"
+    >
+      <div class="form-grid">
+        <div class="field">
+          <p-floatlabel variant="on">
+            <input
+              id="nombreCientifico"
+              pInputText
+              type="text"
+              formControlName="nombreCientifico"
+              autocomplete="off"
+            />
+            <label for="nombreCientifico">Nombre Científico</label>
+          </p-floatlabel>
+          @if (isInvalid('nombreCientifico')) {
+          <ng-container
+            [ngTemplateOutlet]="alerta"
+            [ngTemplateOutletContext]="{ fieldName: 'nombreCientifico' }"
+          />
+          }
+        </div>
 
-    <p-floatlabel variant="on">
-      <input
-        id="filo"
-        pInputText
-        type="text"
-        formControlName="filo"
-        autocomplete="off"
-      />
-      <label for="filo">Filo</label>
-    </p-floatlabel>
-    @if (isInvalid('filo')) {
-    <ng-container
-      [ngTemplateOutlet]="alerta"
-      [ngTemplateOutletContext]="{fieldName: 'filo'}"
-    />
-    }
+        <div class="field">
+          <p-floatlabel variant="on">
+            <input
+              id="nombreComun"
+              pInputText
+              type="text"
+              formControlName="nombreComun"
+              autocomplete="off"
+            />
+            <label for="nombreComun">Nombre Común</label>
+          </p-floatlabel>
+          @if (isInvalid('nombreComun')) {
+          <ng-container
+            [ngTemplateOutlet]="alerta"
+            [ngTemplateOutletContext]="{ fieldName: 'nombreComun' }"
+          />
+          }
+        </div>
 
-    <p-floatlabel variant="on">
-      <input
-        id="clase"
-        pInputText
-        type="text"
-        formControlName="clase"
-        autocomplete="off"
-      />
-      <label for="clase">Clase</label>
-    </p-floatlabel>
-    @if (isInvalid('clase')) {
-    <ng-container
-      [ngTemplateOutlet]="alerta"
-      [ngTemplateOutletContext]="{fieldName: 'clase'}"
-    />
-    }
+        <div class="field">
+          <p-floatlabel variant="on">
+            <input
+              id="filo"
+              pInputText
+              type="text"
+              formControlName="filo"
+              autocomplete="off"
+            />
+            <label for="filo">Filo</label>
+          </p-floatlabel>
+          @if (isInvalid('filo')) {
+          <ng-container
+            [ngTemplateOutlet]="alerta"
+            [ngTemplateOutletContext]="{ fieldName: 'filo' }"
+          />
+          }
+        </div>
 
-    <p-floatlabel variant="on">
-      <input
-        id="orden"
-        pInputText
-        type="text"
-        formControlName="orden"
-        autocomplete="off"
-      />
-      <label for="orden">Orden</label>
-    </p-floatlabel>
-    @if (isInvalid('orden')) {
-    <ng-container
-      [ngTemplateOutlet]="alerta"
-      [ngTemplateOutletContext]="{fieldName: 'orden'}"
-    />
-    }
+        <div class="field">
+          <p-floatlabel variant="on">
+            <input
+              id="clase"
+              pInputText
+              type="text"
+              formControlName="clase"
+              autocomplete="off"
+            />
+            <label for="clase">Clase</label>
+          </p-floatlabel>
+          @if (isInvalid('clase')) {
+          <ng-container
+            [ngTemplateOutlet]="alerta"
+            [ngTemplateOutletContext]="{ fieldName: 'clase' }"
+          />
+          }
+        </div>
 
-    <p-floatlabel variant="on">
-      <input
-        id="familia"
-        pInputText
-        type="text"
-        formControlName="familia"
-        autocomplete="off"
-      />
-      <label for="familia">Familia</label>
-    </p-floatlabel>
-    @if (isInvalid('familia')) {
-    <ng-container
-      [ngTemplateOutlet]="alerta"
-      [ngTemplateOutletContext]="{fieldName: 'familia'}"
-    />
-    }
+        <div class="field">
+          <p-floatlabel variant="on">
+            <input
+              id="orden"
+              pInputText
+              type="text"
+              formControlName="orden"
+              autocomplete="off"
+            />
+            <label for="orden">Orden</label>
+          </p-floatlabel>
+          @if (isInvalid('orden')) {
+          <ng-container
+            [ngTemplateOutlet]="alerta"
+            [ngTemplateOutletContext]="{ fieldName: 'orden' }"
+          />
+          }
+        </div>
 
-    <p-floatlabel variant="on">
-      <input
-        id="genero"
-        pInputText
-        type="text"
-        formControlName="genero"
-        autocomplete="off"
-      />
-      <label for="genero">Género</label>
-    </p-floatlabel>
-    @if (isInvalid('genero')) {
-    <ng-container
-      [ngTemplateOutlet]="alerta"
-      [ngTemplateOutletContext]="{fieldName: 'genero'}"
-    />
-    }
+        <div class="field">
+          <p-floatlabel variant="on">
+            <input
+              id="familia"
+              pInputText
+              type="text"
+              formControlName="familia"
+              autocomplete="off"
+            />
+            <label for="familia">Familia</label>
+          </p-floatlabel>
+          @if (isInvalid('familia')) {
+          <ng-container
+            [ngTemplateOutlet]="alerta"
+            [ngTemplateOutletContext]="{ fieldName: 'familia' }"
+          />
+          }
+        </div>
 
-    <p-floatlabel variant="on">
-      <textarea
-        pTextarea
-        id="descripcion"
-        rows="5"
-        formControlName="descripcion"
-      ></textarea>
-      <label for="descripcion">Descripción</label>
-    </p-floatlabel>
-    @if (isInvalid('descripcion')) {
-    <ng-container
-      [ngTemplateOutlet]="alerta"
-      [ngTemplateOutletContext]="{fieldName: 'descripcion'}"
-    />
-    }
+        <div class="field">
+          <p-floatlabel variant="on">
+            <input
+              id="genero"
+              pInputText
+              type="text"
+              formControlName="genero"
+              autocomplete="off"
+            />
+            <label for="genero">Género</label>
+          </p-floatlabel>
+          @if (isInvalid('genero')) {
+          <ng-container
+            [ngTemplateOutlet]="alerta"
+            [ngTemplateOutletContext]="{ fieldName: 'genero' }"
+          />
+          }
+        </div>
 
-    <div class="form-actions">
-      <button 
-        matButton
-        (click)="cancelar()"
-      >
-        Cancelar
-      </button>
-      <button 
-      matButton="filled"
-        (click)="limpiarFormulario()"
-      >
-        Limpiar
-      </button>
-      <button 
-        type="submit" 
-        matButton="filled"
-        [disabled]="isCreating() || (formSubmitted() && (!especieForm.valid))"
-      >
-        @if (isCreating()) {
-          <zoo-loader/>
-        } @else {
-          Crear Especie
-        }
-      </button>
-    </div>
-  </form>
+        <div class="field full-width">
+          <p-floatlabel variant="on">
+            <textarea
+              pTextarea
+              id="descripcion"
+              rows="5"
+              formControlName="descripcion"
+              [autoResize]="true"
+            ></textarea>
+            <label for="descripcion">Descripción</label>
+          </p-floatlabel>
+          @if (isInvalid('descripcion')) {
+          <ng-container
+            [ngTemplateOutlet]="alerta"
+            [ngTemplateOutletContext]="{ fieldName: 'descripcion' }"
+          />
+          }
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <p-button
+          type="button"
+          label="Cancelar"
+          [rounded]="true"
+          severity="secondary"
+          (click)="cancelar()"
+          [disabled]="isCreating()"
+        />
+        <p-button
+          type="submit"
+          [label]="isCreating() ? 'Creando...' : 'Crear Especie'"
+          [rounded]="true"
+          severity="primary"
+          [loading]="isCreating()"
+          [disabled]="(formSubmitted() && !especieForm.valid) || isCreating()"
+        />
+      </div>
+    </form>
+
+    <ng-template #alerta let-fieldName="fieldName">
+      <p-message severity="error" size="small" variant="simple">
+        {{ getErrorMessage(fieldName) }}
+      </p-message>
+    </ng-template>
+  </p-card>
 
   <p-confirmpopup />
+</zoo-main-container>
 
 } @placeholder {
-  <div class="loading-placeholder">
-    <zoo-loader [size]="50" />
-    <p>Cargando formulario...</p>
-  </div>
-} @loading (minimum 500ms) {
+<div class="loading-placeholder">
   <zoo-loader [size]="50" />
+  <p>Cargando formulario...</p>
+</div>
+} @loading (minimum 500ms) {
+<zoo-loader [size]="50" />
 }
-
-<ng-template #alerta let-fieldName="fieldName">
-  <p-message severity="error" size="small" variant="simple">
-    {{getErrorMessage(fieldName)}}
-  </p-message>
-</ng-template>

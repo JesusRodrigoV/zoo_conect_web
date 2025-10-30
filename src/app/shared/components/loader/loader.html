@@ -1,5 +1,5 @@
-@defer () {
-    <div class="loader" [style.height.px]="size()"></div>
+@defer (on immediate) {
+    <div class="loader" [style.height.px]="size()" [style.--loader-color]="color()"></div>
 }@placeholder {
-    <p>Hola, aqui espero</p>
+    <p>Cargando...</p>
 }

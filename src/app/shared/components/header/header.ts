@@ -4,67 +4,88 @@ import {
   inject,
   signal,
   computed,
-} from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthStore } from '@app/core/store/auth.store';
-import { ProfileButton } from './components/profile-button';
-import { LogoImage } from '../logo-image';
-import { ButtonModule } from 'primeng/button';
-import { OverlayBadgeModule } from 'primeng/overlaybadge';
-import { NotificationButton } from './components/notification-button/notification-button';
+} from "@angular/core";
+import { Router, RouterLink } from "@angular/router";
+import { AuthStore } from "@app/core/stores/auth.store";
+import { ProfileButton } from "./components/profile-button";
+import { LogoImage } from "../logo-image";
+import { ButtonModule } from "primeng/button";
+import { OverlayBadgeModule } from "primeng/overlaybadge";
+import { NotificationButton } from "./components/notification-button";
+import { DrawerModule } from "primeng/drawer";
+import { TooltipModule } from "primeng/tooltip";
+import { NgClass } from "@angular/common";
 
 export interface NavButton {
   readonly label: string;
   readonly route: string;
   readonly icon?: string;
+  readonly disabled?: boolean;
+  readonly comingSoon?: boolean;
+  readonly exactMatch?: boolean;
 }
 
 @Component({
-  selector: 'zoo-header',
+  selector: "zoo-header",
   imports: [
-    MatButtonModule,
-    MatIconModule,
     RouterLink,
-    RouterLinkActive,
     ProfileButton,
-    MatTooltipModule,
     LogoImage,
     ButtonModule,
     OverlayBadgeModule,
-    NotificationButton
+    NotificationButton,
+    DrawerModule,
+    TooltipModule,
+    NgClass,
   ],
-  templateUrl: './header.html',
-  styleUrl: './header.scss',
+  templateUrl: "./header.html",
+  styleUrl: "./header.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Header {
   private authStore = inject(AuthStore);
+  private router = inject(Router);
   readonly autenticado = computed(() => this.authStore.isAuthenticated());
   readonly isAdmin = computed(() => this.authStore.isAdmin());
 
+  protected menuVisible = signal(false);
+
+  protected showMenu(show: boolean) {
+    this.menuVisible.set(show);
+  }
+
+  protected isRouteActive(route: string, exactMatch: boolean = false): boolean {
+    return this.router.isActive(route, {
+      paths: exactMatch ? "exact" : "subset",
+      queryParams: "subset",
+      fragment: "ignored",
+      matrixParams: "ignored",
+    });
+  }
+
   protected readonly navigationButtons = signal<NavButton[]>([
     {
-      label: 'Inicio',
-      route: '/',
-      icon: 'home',
+      label: "Inicio",
+      route: "/",
+      icon: "home",
+      exactMatch: true,
     },
     {
-      label: 'Animales',
-      route: '/animales',
-      icon: 'pets',
+      label: "Animales",
+      route: "/animales",
+      icon: "pets",
     },
     {
-      label: 'Encuestas',
-      route: '/encuestas',
-      icon: 'poll',
+      label: "Encuestas",
+      route: "/encuestas",
+      icon: "poll",
     },
     {
-      label: 'Acerca de nosotros',
-      route: '/acerca-de',
-      icon: 'info',
+      label: "Acerca de nosotros",
+      route: "/acerca-de",
+      icon: "info",
+      disabled: true,
+      comingSoon: true,
     },
   ]);
 

@@ -1,13 +1,18 @@
 <zoo-splitter-layout>
-  <div splitter-buttons>
-    <button matButton routerLink="/admin/usuarios/crear">
-      Crear Encuesta
-    </button>
-    <button matButton routerLink="/admin/usuarios/">
-      Lista
-    </button>
+  <div splitter-menu>
+    @for(button of buttons(); track button.ruta) {
+    <p-button
+      [icon]="button.icono"
+      [label]="button.texto"
+      variant="outlined"
+      [rounded]="true"
+      [routerLink]="[button.ruta]"
+    />
+    }
   </div>
   <div splitter-content>
-    <router-outlet />
+    <zoo-main-container>
+      <router-outlet />
+    </zoo-main-container>
   </div>
 </zoo-splitter-layout>

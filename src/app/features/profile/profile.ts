@@ -6,7 +6,7 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthStore } from '@app/core/store/auth.store';
+import { AuthStore } from '@app/core/stores/auth.store';
 import { Loader } from '@app/shared/components';
 import {
   LogoutDialogComponent,
@@ -14,6 +14,7 @@ import {
   ProfileActionsCardComponent,
   type UserStats,
 } from './components';
+import { MainContainer } from '@app/shared/components/main-container';
 
 @Component({
   selector: 'zoo-profile',
@@ -22,6 +23,7 @@ import {
     ProfileActionsCardComponent,
     LogoutDialogComponent,
     Loader,
+    MainContainer
   ],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',

@@ -1,3 +1,8 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
 .form-field {
   margin-bottom: 1.5rem;
   
@@ -10,22 +15,9 @@
   }
 }
 
-.validation-error {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+:host ::ng-deep p-message {
+  display: block;
   margin-top: 0.5rem;
-  padding: 0.5rem;
-  background: var(--p-red-50);
-  border: 1px solid var(--p-red-200);
-  border-radius: var(--p-border-radius-sm);
-  color: var(--p-red-600);
-  font-size: 0.875rem;
-  
-  .pi {
-    font-size: 1rem;
-    color: var(--p-red-500);
-  }
 }
 
 .form-field-placeholder {

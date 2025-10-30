@@ -18,6 +18,7 @@
     "paths": {
       "@models/*": ["src/app/core/models/*"],
       "@adapters/*": ["src/app/core/adapters/*"],
+      "@stores/*": ["src/app/core/stores/*"],
       "@app/*": ["src/app/*"],
       "@features/*": ["src/app/features/*"],
       "@shared/*": ["src/app/shared/*"],

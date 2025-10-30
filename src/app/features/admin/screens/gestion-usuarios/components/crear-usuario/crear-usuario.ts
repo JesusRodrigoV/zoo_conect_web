@@ -4,11 +4,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import {
-  Validators,
-  FormBuilder,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MessageModule } from 'primeng/message';
 import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabel } from 'primeng/floatlabel';
@@ -16,12 +12,12 @@ import { NgTemplateOutlet } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { SelectModule } from 'primeng/select';
-import { PasswordModule } from 'primeng/password';
 import { ShowToast } from '@app/shared/services';
 import { Router } from '@angular/router';
 import { AdminUsuarios } from '@app/features/admin/services/admin-usuarios';
 import { finalize } from 'rxjs/operators';
 import { Usuario, RolId } from '@app/core/models/usuario';
+import { MainContainer } from '@app/shared/components/main-container';
 
 interface RoleOption {
   label: string;
@@ -39,7 +35,7 @@ interface RoleOption {
     ButtonModule,
     CardModule,
     SelectModule,
-    PasswordModule,
+    MainContainer,
   ],
   templateUrl: './crear-usuario.html',
   styleUrl: './crear-usuario.scss',
@@ -64,13 +60,15 @@ export default class CrearUsuario {
   protected readonly usuarioForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     username: ['', [Validators.required, Validators.minLength(2)]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    rol: [null as RolId | null, [Validators.required]],
+    rol: [RolId.VISITANTE, [Validators.required]],
   });
 
   protected isInvalid(fieldName: string): boolean {
     const field = this.usuarioForm.get(fieldName);
-    return !!(field?.invalid && (field?.dirty || field?.touched || this.formSubmitted()));
+    return !!(
+      field?.invalid &&
+      (field?.dirty || field?.touched || this.formSubmitted())
+    );
   }
 
   protected getErrorMessage(fieldName: string): string {
@@ -84,7 +82,9 @@ export default class CrearUsuario {
       }
       if (field.errors['minlength']) {
         const requiredLength = field.errors['minlength'].requiredLength;
-        return `${this.getFieldDisplayName(fieldName)} debe tener al menos ${requiredLength} caracteres`;
+        return `${this.getFieldDisplayName(
+          fieldName
+        )} debe tener al menos ${requiredLength} caracteres`;
       }
     }
     return '';
@@ -94,7 +94,6 @@ export default class CrearUsuario {
     const fieldNames: { [key: string]: string } = {
       email: 'El email',
       username: 'El nombre de usuario',
-      password: 'La contraseña',
       rol: 'El rol',
     };
     return fieldNames[fieldName] || fieldName;
@@ -102,26 +101,28 @@ export default class CrearUsuario {
 
   protected onSubmit(): void {
     this.formSubmitted.set(true);
-    
+
     if (this.usuarioForm.valid) {
       this.isCreating.set(true);
-      
-      const usuarioData: Omit<Usuario, 'id' | 'creadoEn'> & { password: string } = {
+
+      const generatedPassword = this.usuarioForm.value.username! + 'ABC123!';
+
+      const usuarioData: Omit<Usuario, 'id' | 'creadoEn' | 'activo'> & {
+        password: string;
+      } = {
         email: this.usuarioForm.value.email!,
         username: this.usuarioForm.value.username!,
-        password: this.usuarioForm.value.password!,
+        password: generatedPassword,
         fotoUrl: '',
-        activo: true, // Los usuarios se crean activos por defecto
         rol: {
           id: this.usuarioForm.value.rol!,
-          nombre: this.getRoleName(this.usuarioForm.value.rol!)
-        }
+          nombre: this.getRoleName(this.usuarioForm.value.rol!),
+        },
       };
 
-      this.adminUsuarios.createUser(usuarioData)
-        .pipe(
-          finalize(() => this.isCreating.set(false))
-        )
+      this.adminUsuarios
+        .createUser(usuarioData)
+        .pipe(finalize(() => this.isCreating.set(false)))
         .subscribe({
           next: (usuario) => {
             this.zooToast.showSuccess('Éxito', 'Usuario creado exitosamente');
@@ -129,10 +130,13 @@ export default class CrearUsuario {
           },
           error: (error) => {
             this.zooToast.showError('Error', error.message);
-          }
+          },
         });
     } else {
-      this.zooToast.showError('Error', 'Por favor, completa todos los campos requeridos');
+      this.zooToast.showError(
+        'Error',
+        'Por favor, completa todos los campos requeridos'
+      );
     }
   }
 
@@ -141,7 +145,7 @@ export default class CrearUsuario {
   }
 
   private getRoleName(roleId: RolId): string {
-    const role = this.roleOptions.find(r => r.value === roleId);
+    const role = this.roleOptions.find((r) => r.value === roleId);
     return role?.label || '';
   }
 }

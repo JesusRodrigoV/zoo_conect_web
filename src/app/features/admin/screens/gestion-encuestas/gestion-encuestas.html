@@ -1,13 +1,24 @@
 <zoo-splitter-layout>
-  <div splitter-buttons>
-    <button matButton routerLink="/admin/encuestas/crear">
-      Crear Encuesta
-    </button>
-    <button matButton routerLink="/admin/encuestas/">
-      Lista
-    </button>
+  <div splitter-menu>
+    <p-button
+      label="Crear Encuesta"
+      routerLink="/admin/encuestas/crear"
+      [rounded]="true"
+      routerLinkActive="p-button-active"
+      icon="pi pi-plus"
+    />
+    <p-button
+      label="Lista"
+      routerLink="/admin/encuestas/"
+      [rounded]="true"
+      routerLinkActive="p-button-active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      icon="pi pi-list"
+    />
   </div>
   <div splitter-content>
-    <router-outlet />
+    <zoo-main-container>
+      <router-outlet />
+    </zoo-main-container>
   </div>
 </zoo-splitter-layout>

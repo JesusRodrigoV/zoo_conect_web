@@ -18,15 +18,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabel } from 'primeng/floatlabel';
 import { TextareaModule } from 'primeng/textarea';
 import { NgTemplateOutlet } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { DialogModule } from 'primeng/dialog';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { ShowToast } from '@app/shared/services';
 import { Router } from '@angular/router';
 import { AgregarPregunta, PreguntaDialogResult } from '../agregar-pregunta';
@@ -34,6 +26,11 @@ import { AdminEncuestas } from '@app/features/admin/services/admin-encuestas';
 import { finalize } from 'rxjs/operators';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { CardModule } from 'primeng/card';
+import { MainContainer } from '@app/shared/components/main-container';
+import { ButtonModule } from 'primeng/button';
+import { AccordionModule } from 'primeng/accordion';
+import { TooltipModule } from 'primeng/tooltip';
 
 interface OpcionPregunta {
   texto_opcion: string;
@@ -60,15 +57,7 @@ interface CreateEncuestaRequest {
   selector: 'app-crear-encuesta',
   imports: [
     NgTemplateOutlet,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatExpansionModule,
     DialogModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatTooltipModule,
     ReactiveFormsModule,
     DatePickerModule,
     MessageModule,
@@ -77,6 +66,11 @@ interface CreateEncuestaRequest {
     FloatLabel,
     AgregarPregunta,
     ConfirmPopupModule,
+    CardModule,
+    MainContainer,
+    ButtonModule,
+    AccordionModule,
+    TooltipModule,
   ],
   providers: [ConfirmationService],
   templateUrl: './crear-encuesta.html',

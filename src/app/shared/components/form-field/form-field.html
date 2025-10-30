@@ -26,10 +26,9 @@
     </p-floatlabel>
 
     @if (errorMessage() && isInvalid()) {
-      <div class="validation-error">
-        <i class="pi pi-exclamation-triangle"></i>
-        <span>{{ errorMessage() }}</span>
-      </div>
+      <p-message severity="error" variant="simple">
+        {{errorMessage()}}
+      </p-message>
     }
   </div>
 } @placeholder {

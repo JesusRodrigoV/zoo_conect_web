@@ -1,0 +1,159 @@
+.encuesta-card {
+  transition: all 0.2s ease-in-out;
+  border: 1px solid var(--surface-border);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  ::ng-deep .p-card-body {
+    padding: 1rem;
+  }
+
+  ::ng-deep .p-tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+.encuesta-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.encuesta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .encuesta-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+
+    .encuesta-titulo {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--surface-900);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .descripcion-texto {
+    margin: 0;
+    color: var(--text-color-secondary);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.fecha-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.25rem;
+  font-size: 0.8125rem;
+  color: var(--text-color-secondary);
+
+  .fecha-rango {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    i {
+      font-size: 0.875rem;
+      color: var(--primary-color);
+    }
+  }
+
+  .dias-restantes {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--primary-100);
+    border-radius: 1rem;
+    color: var(--primary-700);
+    font-weight: 600;
+    font-size: 0.75rem;
+    border-radius: 1rem;
+    
+    i {
+      font-size: 0.75rem;
+      color: var(--primary-600);
+    }
+
+    span {
+      font-size: 0.75rem;
+      color: var(--primary-700);
+      font-weight: 600;
+    }
+  }
+}
+
+.encuesta-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+
+  ::ng-deep .p-button.p-button-rounded {
+    width: 2rem;
+    height: 2rem;
+
+    .p-button-icon {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.empty-card {
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 2rem;
+    
+    .empty-icon {
+      font-size: 2rem;
+      color: var(--text-color-secondary);
+    }
+
+    p {
+      margin: 0;
+      color: var(--text-color-secondary);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .encuesta-info {
+    .encuesta-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .fechas-info {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .fecha-item {
+      width: 100%;
+    }
+
+    .dias-restantes {
+      align-self: flex-end;
+    }
+  }
+}

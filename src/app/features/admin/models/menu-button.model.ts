@@ -1,6 +1,8 @@
 export interface MenuButton {
-    icono: String;
-    texto: String;
-    descripcion: String;
-    componente: any;
+    icono: string;
+    texto: string;
+    descripcion: string;
+    ruta: string;
+    exacto?: boolean;
+    componente?: any;
 }

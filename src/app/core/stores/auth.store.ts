@@ -14,9 +14,11 @@ import { LoginResponse } from "@models/usuario/request_response.model";
 import { isPlatformBrowser } from "@angular/common";
 import { ShowToast } from "@app/shared/services";
 import { Theme } from "@app/features/settings/services/theme-service";
+import { environment } from "@env";
 
 interface AuthState {
   usuario: Usuario | null;
+  nombreMarca: string;
   twoFA: boolean;
   accessToken: string | null;
   loading: boolean;
@@ -26,6 +28,7 @@ interface AuthState {
 function getInitialState(): AuthState {
   return {
     usuario: null,
+    nombreMarca: environment.marca,
     twoFA: false,
     accessToken: null,
     loading: false,
@@ -40,7 +43,7 @@ export const AuthStore = signalStore(
   withState(getInitialState()),
   withComputed(({ usuario, accessToken, twoFA }) => ({
     suggest2FA: computed(
-      () => usuario()?.rol.id !== RolId.VISITANTE && !twoFA(),
+      () => usuario()?.rol.id !== RolId.VISITANTE && !twoFA() && !!usuario(),
     ),
     twoFAenabled: computed(() => twoFA()),
     isAuthenticated: computed(() => !!usuario() && !!accessToken()),
@@ -178,6 +181,13 @@ export const AuthStore = signalStore(
             methods.setTokens(loginResponse.access_token);
             await methods.loadUserProfile();
             toastService.showSuccess("Inicio de sesión exitoso", "Éxito");
+
+            if (store.suggest2FA()) {
+              toastService.showWarning(
+                "Habilitación de Verificacion en dos pasos",
+                "Tu cuenta puede ser más segura si habilitas la verificación en dos pasos.",
+              );
+            }
             await router.navigate(["/inicio"]);
           } catch (error: any) {
             handleError(error, "login");

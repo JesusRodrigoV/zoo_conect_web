@@ -41,22 +41,21 @@
         }
       </div>
       <div class="hero-stats">
-        <div class="stat-item">
-          <span class="stat-number">200+</span>
-          <span class="stat-label">Especies</span>
+        @for (stat of stats; track $index) {
+        <div
+          class="stat-item"
+          data-aos="fade-up"
+          [attr.data-aos-delay]="$index * 100 + 100"
+          data-aos-duration="2000"
+        >
+          <span class="stat-number">{{ stat.number }}</span>
+          <span class="stat-label">{{ stat.label }}</span>
         </div>
-        <div class="stat-item">
-          <span class="stat-number">30</span>
-          <span class="stat-label">Años</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">1M+</span>
-          <span class="stat-label">Visitantes</span>
-        </div>
+        }
       </div>
     </div>
     <div class="hero-visual">
-      <div class="visual-card main-card">
+      <div class="visual-card main-card" data-aos="zoom-out-down">
         <img
           src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?q=80&w=800&auto=format&fit=crop"
           alt="León majestuoso"

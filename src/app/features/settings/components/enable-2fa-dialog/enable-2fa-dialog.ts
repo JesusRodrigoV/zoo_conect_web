@@ -159,12 +159,12 @@ export class Enable2faDialog {
   }
 
   protected downloadBackupCodes(): void {
-    const content = `Códigos de Respaldo 2FA - ZooConnect\n\nGuarda estos códigos en un lugar seguro.\nCada código solo puede usarse una vez.\n\n${this.backupCodes().join("\n")}`;
+    const content = `Códigos de Respaldo 2FA - ${this.authStore.nombreMarca()}\n\nGuarda estos códigos en un lugar seguro.\nCada código solo puede usarse una vez.\n\n${this.backupCodes().join("\n")}`;
     const blob = new Blob([content], { type: "text/plain" });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "zooconnect-backup-codes.txt";
+    link.download = "backup-codes.txt";
     link.click();
     window.URL.revokeObjectURL(url);
 

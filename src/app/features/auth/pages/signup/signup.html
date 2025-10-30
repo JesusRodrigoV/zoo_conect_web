@@ -14,7 +14,7 @@
       <div class="login-form-container">
         <div class="login-header">
           <app-logo-image />
-          <h1>Crea tu Cuenta en Arca</h1>
+          <h1>Crea tu Cuenta en {{ authStore.nombreMarca() }}</h1>
           <p class="subtitle">Regístrate para explorar</p>
         </div>
 
@@ -71,7 +71,7 @@
                   [toggleMask]="true"
                   autocomplete="new-password"
                   [style]="{ width: '100%' }"
-                  promptLabel="Ingresa tu contraseña"
+                  promptLabel="Al menos 6 caracteres, una letra mayúscula, una letra minúscula y un número"
                   weakLabel="Contraseña débil"
                   mediumLabel="Contraseña media"
                   strongLabel="Contraseña fuerte"

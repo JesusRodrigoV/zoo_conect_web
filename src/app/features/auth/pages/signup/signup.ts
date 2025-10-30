@@ -38,7 +38,7 @@ import { MessageModule } from "primeng/message";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class Signup {
-  private readonly authStore = inject(AuthStore);
+  protected readonly authStore = inject(AuthStore);
   private readonly fb = inject(FormBuilder);
 
   protected readonly isLoading = this.authStore.loading;

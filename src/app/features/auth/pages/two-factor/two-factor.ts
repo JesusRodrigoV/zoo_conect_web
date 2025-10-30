@@ -17,7 +17,6 @@ import { FloatLabelModule } from "primeng/floatlabel";
 import { MessageModule } from "primeng/message";
 import { NgTemplateOutlet } from "@angular/common";
 import { Loader } from "@app/shared/components";
-
 @Component({
   selector: "app-two-factor",
   imports: [
@@ -42,18 +41,14 @@ export default class TwoFactor {
   private readonly twoFactorService = inject(TwoFactorAuth);
   private readonly toastService = inject(ShowToast);
   private readonly authStore = inject(AuthStore);
-
   protected readonly isVerifying = signal(false);
   protected readonly formSubmitted = signal(false);
   protected readonly sessionToken = signal<string>("");
-
   protected readonly verifyForm = this.fb.group({
     code: ["", [Validators.required, Validators.pattern(/^\d{6}$/)]],
   });
-
   constructor() {
     const token = this.route.snapshot.queryParams["session_token"];
-
     if (!token) {
       this.toastService.showError(
         "Error",
@@ -62,10 +57,8 @@ export default class TwoFactor {
       this.router.navigate(["/login"]);
       return;
     }
-
     this.sessionToken.set(token);
   }
-
   protected isInvalid(fieldName: string): boolean {
     const field = this.verifyForm.get(fieldName);
     return !!(
@@ -73,10 +66,8 @@ export default class TwoFactor {
       (field?.dirty || field?.touched || this.formSubmitted())
     );
   }
-
   protected getErrorMessage(fieldName: string): string {
     const field = this.verifyForm.get(fieldName);
-
     if (field?.errors) {
       if (field.errors["required"]) {
         return "El código de verificación es requerido";
@@ -85,16 +76,12 @@ export default class TwoFactor {
         return "El código debe tener 6 dígitos";
       }
     }
-
     return "";
   }
-
   protected onSubmit(): void {
     this.formSubmitted.set(true);
-
     if (this.verifyForm.valid && this.sessionToken()) {
       this.isVerifying.set(true);
-
       console.log("Desde el formulario tratando de enviar ");
       this.twoFactorService
         .verifyLogin2FA(this.sessionToken(), this.verifyForm.value.code!)
@@ -102,7 +89,6 @@ export default class TwoFactor {
         .subscribe({
           next: (response) => {
             this.authStore.setTokens(response.access_token);
-
             this.authStore.loadUserProfile().then(() => {
               this.toastService.showSuccess(
                 "Bienvenido",
@@ -114,7 +100,6 @@ export default class TwoFactor {
           error: (error: any) => {
             let errorMessage =
               "Código incorrecto. Verifica tu app de autenticación";
-
             if (error.status === 400) {
               errorMessage = "Código inválido o expirado";
             } else if (error.status === 401) {
@@ -122,7 +107,6 @@ export default class TwoFactor {
                 "Sesión expirada. Por favor, inicia sesión nuevamente";
               setTimeout(() => this.router.navigate(["/login"]), 2000);
             }
-
             this.toastService.showError("Error", errorMessage);
           },
         });
@@ -133,7 +117,6 @@ export default class TwoFactor {
       );
     }
   }
-
   protected onCancel(): void {
     this.router.navigate(["/login"]);
   }

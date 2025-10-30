@@ -14,6 +14,7 @@ import { CardModule } from "primeng/card";
 import { RouterLink } from "@angular/router";
 import { NgOptimizedImage } from "@angular/common";
 import { LogoImage } from "@app/shared/components";
+import { environment } from "@env";
 
 @Component({
   selector: "app-login",
@@ -32,7 +33,7 @@ import { LogoImage } from "@app/shared/components";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class Login {
-  private readonly authStore = inject(AuthStore);
+  protected readonly authStore = inject(AuthStore);
   private readonly fb = inject(FormBuilder);
 
   loginForm: FormGroup = this.fb.group({

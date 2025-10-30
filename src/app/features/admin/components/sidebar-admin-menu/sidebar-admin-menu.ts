@@ -40,7 +40,6 @@ export class SidebarAdminMenu {
       text: "Gestión de Usuarios",
       icon: "pi pi-users",
       route: "/admin/usuarios",
-      badge: "12",
     },
     {
       text: "Gestión de Animales",

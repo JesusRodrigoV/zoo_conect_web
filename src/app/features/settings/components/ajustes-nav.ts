@@ -14,7 +14,12 @@ export default class AjustesNav {
   navItems = [
     { label: "Perfil", route: "perfil", icon: "pi pi-user" },
     { label: "Seguridad", route: "seguridad", icon: "pi pi-shield" },
-    { label: "Notificaciones", route: "notificaciones", icon: "pi pi-bell" },
+    {
+      label: "Notificaciones",
+      route: "notificaciones",
+      icon: "pi pi-bell",
+      disabled: true,
+    },
   ];
 
   navigate(route: string) {

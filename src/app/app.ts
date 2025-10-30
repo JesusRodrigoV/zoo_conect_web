@@ -1,5 +1,11 @@
-import { Component, inject, OnInit, PLATFORM_ID } from "@angular/core";
-import { RouteConfigLoadEnd, RouterLink, RouterOutlet } from "@angular/router";
+import {
+  afterRenderEffect,
+  Component,
+  inject,
+  OnInit,
+  PLATFORM_ID,
+} from "@angular/core";
+import { RouterLink, RouterOutlet } from "@angular/router";
 import { AuthStore } from "./core/stores/auth.store";
 import { isPlatformBrowser } from "@angular/common";
 import { ScrollTopModule } from "primeng/scrolltop";
@@ -7,6 +13,7 @@ import { Toast } from "primeng/toast";
 import { ShowToast } from "./shared/services";
 import { ButtonModule } from "primeng/button";
 import { MessageService } from "primeng/api";
+import AOS from "aos";
 
 @Component({
   selector: "app-root",
@@ -21,6 +28,17 @@ export class App implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private authInitialized = false;
   private messageService = inject(MessageService);
+
+  constructor() {
+    afterRenderEffect(() => {
+      setTimeout(() => {
+        AOS.init({
+          once: true,
+          duration: 1000,
+        });
+      }, 500);
+    });
+  }
 
   async ngOnInit(): Promise<void> {
     if (isPlatformBrowser(this.platformId) && !this.authInitialized) {

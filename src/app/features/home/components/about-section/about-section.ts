@@ -5,7 +5,6 @@ import {
   signal,
 } from "@angular/core";
 import AOS from "aos";
-import "aos/dist/aos.css";
 
 @Component({
   selector: "app-about-section",
@@ -20,7 +19,7 @@ export class AboutSection {
 
   constructor() {
     afterRenderEffect(() => {
-      AOS.init({});
+      AOS.refresh();
     });
   }
 }

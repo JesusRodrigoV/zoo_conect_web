@@ -9,7 +9,6 @@ import { RouterLink } from "@angular/router";
 import { AuthStore } from "@app/core/stores/auth.store";
 import { ButtonModule } from "primeng/button";
 import AOS from "aos";
-import "aos/dist/aos.css";
 
 @Component({
   selector: "app-hero-section",
@@ -21,7 +20,7 @@ import "aos/dist/aos.css";
 export class HeroSection {
   constructor() {
     afterRenderEffect(() => {
-      AOS.init({});
+      AOS.refresh();
     });
   }
   private readonly authStore = inject(AuthStore);

@@ -36,11 +36,9 @@
                 "glob": "**/*",
                 "input": "public/logos",
                 "output": "/assets/logos"
-              },
+              }
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss", "node_modules/aos/dist/aos.css"],
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {

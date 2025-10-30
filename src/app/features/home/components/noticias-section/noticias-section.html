@@ -6,41 +6,53 @@
   <div class="news-grid">
     <p-card class="news-card">
       <ng-template pTemplate="header">
-        <img
-          src="https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?q=80&w=800&auto=format&fit=crop"
-          alt="Nuevo habitante"
-        />
+        <div class="news-card-header-wrapper">
+          <img
+            src="https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?q=80&w=800&auto=format&fit=crop"
+            alt="Nuevo habitante"
+          />
+          <p-chip label="Nuevo" class="news-badge" />
+        </div>
       </ng-template>
-      <p-chip label="Nuevo" class="news-badge" />
-      <h3>¡Nuevo habitante en el zoológico!</h3>
-      <p>Damos la bienvenida a una familia de pandas rojos rescatados.</p>
-      <span class="date">15 de Octubre, 2025</span>
+      <div class="news-card-body-wrapper">
+        <h3>¡Nuevo habitante en el zoológico!</h3>
+        <p>Damos la bienvenida a una familia de pandas rojos rescatados.</p>
+        <span class="date">15 de Octubre, 2025</span>
+      </div>
     </p-card>
 
     <p-card class="news-card">
       <ng-template pTemplate="header">
-        <img
-          src="https://images.unsplash.com/photo-1503066211613-c17ebc9daef0?q=80&w=800&auto=format&fit=crop"
-          alt="Promoción"
-        />
+        <div class="news-card-header-wrapper">
+          <img
+            src="https://images.unsplash.com/photo-1503066211613-c17ebc9daef0?q=80&w=800&auto=format&fit=crop"
+            alt="Promoción"
+          />
+          <p-chip label="Promoción" class="news-badge promotion" />
+        </div>
       </ng-template>
-      <p-chip label="Promoción" class="news-badge promotion" />
-      <h3>Descuento especial para estudiantes</h3>
-      <p>50% de descuento presentando credencial válida este mes.</p>
-      <span class="date">10 de Octubre, 2025</span>
+      <div class="news-card-body-wrapper">
+        <h3>Descuento especial para estudiantes</h3>
+        <p>50% de descuento presentando credencial válida este mes.</p>
+        <span class="date">10 de Octubre, 2025</span>
+      </div>
     </p-card>
 
     <p-card class="news-card">
       <ng-template pTemplate="header">
-        <img
-          src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?q=80&w=800&auto=format&fit=crop"
-          alt="Evento"
-        />
+        <div class="news-card-header-wrapper">
+          <img
+            src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?q=80&w=800&auto=format&fit=crop"
+            alt="Evento"
+          />
+          <p-chip label="Evento" class="news-badge event" />
+        </div>
       </ng-template>
-      <p-chip label="Evento" class="news-badge event" />
-      <h3>Noche de las especies nocturnas</h3>
-      <p>Evento especial el 31 de octubre. ¡No te lo pierdas!</p>
-      <span class="date">5 de Octubre, 2025</span>
+      <div class="news-card-body-wrapper">
+        <h3>Noche de las especies nocturnas</h3>
+        <p>Evento especial el 31 de octubre. ¡No te lo pierdas!</p>
+        <span class="date">5 de Octubre, 2025</span>
+      </div>
     </p-card>
   </div>
 </section>

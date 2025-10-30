@@ -53,7 +53,6 @@ export class App implements OnInit {
       if (this.authStore.suggest2FA()) {
         this.messageService.add({
           key: "toast-con-link",
-          sticky: true,
           severity: "warn",
           summary: "Habilitación de Verificacion en dos pasos",
           detail:

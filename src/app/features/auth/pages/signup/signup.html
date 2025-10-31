@@ -31,6 +31,8 @@
                   placeholder="Ingresa tu email"
                   [style]="{ width: '100%' }"
                   autocomplete="email"
+                  fluid
+                  autofocus
                 />
                 <label for="email">Email</label>
               </p-floatlabel>
@@ -51,6 +53,7 @@
                   placeholder="Ingresa tu nombre de usuario"
                   [style]="{ width: '100%' }"
                   autocomplete="username"
+                  fluid
                 />
                 <label for="username">Usuario</label>
               </p-floatlabel>
@@ -75,6 +78,7 @@
                   weakLabel="Contraseña débil"
                   mediumLabel="Contraseña media"
                   strongLabel="Contraseña fuerte"
+                  fluid
                 />
                 <label for="password">Contraseña</label>
               </p-floatlabel>
@@ -90,6 +94,7 @@
                   [toggleMask]="true"
                   autocomplete="new-password"
                   [style]="{ width: '100%' }"
+                  fluid
                 />
                 <label for="confirmPassword">Confirmar Contraseña</label>
               </p-floatlabel>
@@ -107,6 +112,7 @@
                 [rounded]="true"
                 [disabled]="isLoading()"
                 styleClass="login-button w-full"
+                fluid
               >
                 @if (isLoading()) {
                 <zoo-loader

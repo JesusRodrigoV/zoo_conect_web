@@ -15,6 +15,7 @@ import { NotificationButton } from "./components/notification-button";
 import { DrawerModule } from "primeng/drawer";
 import { TooltipModule } from "primeng/tooltip";
 import { NgClass } from "@angular/common";
+import { environment } from "@env";
 
 export interface NavButton {
   readonly label: string;
@@ -47,6 +48,7 @@ export class Header {
   private router = inject(Router);
   readonly autenticado = computed(() => this.authStore.isAuthenticated());
   readonly isAdmin = computed(() => this.authStore.isAdmin());
+  protected name = environment.marca;
 
   protected menuVisible = signal(false);
 

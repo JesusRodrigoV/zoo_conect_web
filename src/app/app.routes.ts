@@ -1,15 +1,12 @@
 import { Routes } from "@angular/router";
-import { authGuard, loggedGuard } from "./core/guards";
+import { authGuard, loggedGuard, veterinaryGuard } from "./core/guards";
+import { cuidadorGuard } from "./core/guards/cuidador-guard";
 
 export const routes: Routes = [
   {
     path: "",
     loadComponent: () => import("./core/layout/layout"),
     children: [
-      {
-        path: "",
-        loadComponent: () => import("./features/home/home"),
-      },
       {
         path: "inicio",
         loadComponent: () => import("./features/home/home"),
@@ -20,10 +17,14 @@ export const routes: Routes = [
         canActivate: [authGuard],
       },
       {
+        path: "servicios",
+        loadComponent: () =>
+          import("./features/servicios/screens/servicios/servicios"),
+      },
+      {
         path: "ajustes",
         loadComponent: () => import("./features/settings/settings"),
         canActivate: [authGuard],
-        canActivateChild: [authGuard],
         children: [
           {
             path: "",
@@ -83,11 +84,15 @@ export const routes: Routes = [
         loadComponent: () =>
           import("./features/animales/screens/animales/animales"),
       },
+      {
+        path: "",
+        redirectTo: "inicio",
+        pathMatch: "full",
+      },
     ],
   },
   {
     path: "",
-    canActivate: [loggedGuard],
     canActivateChild: [loggedGuard],
     children: [
       {
@@ -119,7 +124,7 @@ export const routes: Routes = [
     path: "admin",
     loadComponent: () =>
       import("./features/admin/layout/admin-layout/admin-layout"),
-    canActivateChild: [authGuard],
+    canActivate: [authGuard],
     children: [
       {
         path: "usuarios",
@@ -289,9 +294,14 @@ export const routes: Routes = [
     ],
   },
   {
-    path: "",
-    redirectTo: "inicio",
-    pathMatch: "full",
+    path: "vet",
+    loadComponent: () => import("./features/veterinario/veterinario"),
+    canActivate: [veterinaryGuard],
+  },
+  {
+    path: "cuidador",
+    loadComponent: () => import("./features/cuidador/cuidador"),
+    canActivate: [cuidadorGuard],
   },
   {
     path: "404",

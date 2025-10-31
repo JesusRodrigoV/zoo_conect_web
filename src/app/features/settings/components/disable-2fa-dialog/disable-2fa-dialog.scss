@@ -42,6 +42,10 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+
+    p-floatlabel {
+      width: 100%;
+    }
   }
 }
 

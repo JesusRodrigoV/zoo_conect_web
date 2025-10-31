@@ -1,77 +1,60 @@
 <section class="contact-section">
   <div class="section-header">
     <i class="pi pi-envelope section-icon"></i>
-    <h2>Contáctanos</h2>
+    <h2>Ponte en Contacto</h2>
+    <p class="subtitle">
+      ¿Tienes alguna pregunta? Llena el formulario y nuestro equipo se
+      comunicará contigo.
+    </p>
   </div>
+
   <div class="contact-content">
-    <div class="contact-info">
-      <div class="info-card">
-        <i class="pi pi-map-marker"></i>
-        <h3>Dirección</h3>
-        <p>Av. 14 de Septiembre #8180</p>
-        <p>Obrajes, La Paz - Bolivia</p>
-      </div>
-      <div class="info-card">
-        <i class="pi pi-phone"></i>
-        <h3>Teléfono</h3>
-        <p>+591 2 2786169</p>
-        <a href="tel:+59122786169" pButton class="p-button-text">
-          <i class="pi pi-phone"></i>
-          Llamar Ahora
-        </a>
-      </div>
-      <div class="info-card">
-        <i class="pi pi-at"></i>
-        <h3>Correo Electrónico</h3>
-        <p>contacto&#64;zooconnect.bo</p>
-        <p>info&#64;zooconnect.bo</p>
-      </div>
-      <div class="info-card">
-        <i class="pi pi-clock"></i>
-        <h3>Horario</h3>
-        <p>Lunes a Viernes: 8:00 - 18:00</p>
-        <p>Sábados y Domingos: 9:00 - 19:00</p>
-      </div>
-    </div>
-    
     <div class="contact-form-card">
       <h3>Envíanos un Mensaje</h3>
       <form class="contact-form" (ngSubmit)="onSubmitContact()">
         <p-floatlabel>
-          <input pInputText id="nombre" placeholder="Tu nombre" required />
+          <input pInputText id="nombre" required />
           <label for="nombre">Nombre Completo</label>
         </p-floatlabel>
 
         <p-floatlabel>
-          <input pInputText id="email" type="email" placeholder="tu&#64;email.com" required />
+          <input pInputText id="email" type="email" required />
           <label for="email">Correo Electrónico</label>
         </p-floatlabel>
 
         <p-floatlabel>
-          <input pInputText id="asunto" placeholder="Motivo de consulta" required />
+          <input pInputText id="asunto" required />
           <label for="asunto">Asunto</label>
         </p-floatlabel>
 
         <p-floatlabel>
-          <textarea pInputTextarea id="mensaje" rows="4" placeholder="Escribe tu mensaje..." required></textarea>
+          <textarea pTextarea id="mensaje" rows="4" required></textarea>
           <label for="mensaje">Mensaje</label>
         </p-floatlabel>
 
-        <p-button type="submit" label="Enviar Mensaje" icon="pi pi-send" />
+        <p-button
+          type="submit"
+          label="Enviar Mensaje"
+          icon="pi pi-send"
+          styleClass="p-button-primary"
+          [rounded]="true"
+        />
       </form>
     </div>
-  </div>
-  
-  <div class="map-container">
-    <h3>Encuéntranos</h3>
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3825.3707084020453!2d-68.11919492471034!3d-16.52013544169384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915f206b991d9733%3A0x5c8f4d35cc155d0!2sUniversidad%20Cat%C3%B3lica%20Boliviana%20San%20Pablo!5e0!3m2!1ses!2sbo!4v1698765432100!5m2!1ses!2sbo"
-      width="100%"
-      height="400"
-      style="border:0;border-radius:12px;"
-      allowfullscreen=""
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
+
+    <div class="map-container">
+      <h3>Encuéntranos</h3>
+      <p>También puedes visitarnos en nuestra ubicación principal.</p>
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3825.3707084020453!2d-68.11919492471034!3d-16.52013544169384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915f206b991d9733%3A0x5c8f4d35cc155d0!2sUniversidad%20Cat%C3%B3lica%20Boliviana%20San%20Pablo!5e0!3m2!1ses!2sbo!4v1698765432100!5m2!1ses!2sbo"
+        width="100%"
+        height="400"
+        style="border: 0"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      >
+      </iframe>
+    </div>
   </div>
 </section>

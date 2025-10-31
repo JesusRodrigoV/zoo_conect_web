@@ -116,6 +116,9 @@ export const AuthStore = signalStore(
               : "Sesión expirada o no autorizado";
         } else if (error?.status === 400 && context === "login") {
           errorMessage = "Usuario inactivo. Contacte al administrador";
+        } else if (error?.status === 403 && context === "login") {
+          errorMessage =
+            "Cuenta bloqueada temporalmente, intente dentro de 30 minutos";
         } else if (error?.status === 400 && context === "register") {
           errorMessage = error.error?.message?.includes("email")
             ? "Este email ya está registrado. Intente con otro email"

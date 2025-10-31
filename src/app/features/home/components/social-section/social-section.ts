@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import {
+  afterRenderEffect,
+  ChangeDetectionStrategy,
+  Component,
+} from "@angular/core";
+import AOS from "aos";
 
 interface SocialButton {
   icon: string;
@@ -15,6 +20,12 @@ interface SocialButton {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SocialSection {
+  constructor() {
+    afterRenderEffect(() => {
+      AOS.refresh();
+    });
+  }
+
   protected readonly socialButtons: SocialButton[] = [
     {
       icon: "pi pi-facebook",

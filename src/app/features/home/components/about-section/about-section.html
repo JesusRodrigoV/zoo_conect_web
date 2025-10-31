@@ -61,22 +61,16 @@
     </div>
 
     <div class="about-features">
-      <div class="feature-item">
-        <i class="pi pi-verified"></i>
-        <span>Certificados internacionalmente</span>
+      @for (feature of features; track $index) {
+      <div
+        class="feature-item"
+        data-aos="fade-up"
+        [attr.data-aos-delay]="$index * 100 + 100"
+      >
+        <i class="{{ feature.icon }}"></i>
+        <span>{{ feature.text }}</span>
       </div>
-      <div class="feature-item">
-        <i class="pi pi-flask"></i>
-        <span>Investigación de vanguardia</span>
-      </div>
-      <div class="feature-item">
-        <i class="pi pi-users"></i>
-        <span>Programas comunitarios</span>
-      </div>
-      <div class="feature-item">
-        <i class="pi pi-globe"></i>
-        <span>Reconocimiento global</span>
-      </div>
+      }
     </div>
   </div>
 </section>

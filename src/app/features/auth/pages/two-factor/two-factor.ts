@@ -45,7 +45,13 @@ export default class TwoFactor {
   protected readonly formSubmitted = signal(false);
   protected readonly sessionToken = signal<string>("");
   protected readonly verifyForm = this.fb.group({
-    code: ["", [Validators.required, Validators.pattern(/^\d{6}$/)]],
+    code: [
+      "",
+      [
+        Validators.required,
+        Validators.pattern(/^(\d{6,8}|[a-fA-F0-9]{4}-[a-fA-F0-9]{4})$/),
+      ],
+    ],
   });
   constructor() {
     const token = this.route.snapshot.queryParams["session_token"];
@@ -61,10 +67,7 @@ export default class TwoFactor {
   }
   protected isInvalid(fieldName: string): boolean {
     const field = this.verifyForm.get(fieldName);
-    return !!(
-      field?.invalid &&
-      (field?.dirty || field?.touched || this.formSubmitted())
-    );
+    return !!(field?.invalid && (field?.touched || this.formSubmitted()));
   }
   protected getErrorMessage(fieldName: string): string {
     const field = this.verifyForm.get(fieldName);
@@ -73,7 +76,7 @@ export default class TwoFactor {
         return "El código de verificación es requerido";
       }
       if (field.errors["pattern"]) {
-        return "El código debe tener 6 dígitos";
+        return "Cantidad de digitos inválida";
       }
     }
     return "";
@@ -113,11 +116,8 @@ export default class TwoFactor {
     } else {
       this.toastService.showError(
         "Error",
-        "Por favor, ingresa un código válido de 6 dígitos",
+        "Por favor, ingresa un código válido",
       );
     }
-  }
-  protected onCancel(): void {
-    this.router.navigate(["/login"]);
   }
 }

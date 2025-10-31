@@ -10,117 +10,44 @@
     </div>
 
     <div class="services-grid">
-      <div class="service-card primary">
+      @for(card of serviceCards; track $index){
+      <div
+        class="service-card"
+        [class.primary]="card.isPrimary"
+        data-aos="fade-up"
+        [attr.data-aos-delay]="$index * 100"
+      >
         <div class="card-header">
           <div class="icon-wrapper">
-            <i class="pi pi-book"></i>
+            <i [class]="card.icon"></i>
           </div>
-          <h3>Educación Ambiental</h3>
+          <h3>{{ card.title }}</h3>
         </div>
-        <p>Programas educativos innovadores para todas las edades</p>
+        <p>{{ card.description }}</p>
         <ul class="service-features">
+          @for(feature of card.features; track $index){
           <li>
-            <i class="pi pi-check"></i>
-            <span>Talleres interactivos</span>
+            <i class="pi pi-check-circle"></i>
+            <span>{{ feature.text }}</span>
           </li>
-          <li>
-            <i class="pi pi-check"></i>
-            <span>Charlas con expertos</span>
-          </li>
-          <li>
-            <i class="pi pi-check"></i>
-            <span>Material didáctico</span>
-          </li>
+          }
         </ul>
       </div>
-
-      <div class="service-card">
-        <div class="card-header">
-          <div class="icon-wrapper">
-            <i class="pi pi-id-card"></i>
-          </div>
-          <h3>Exhibiciones</h3>
-        </div>
-        <p>Más de 200 especies en hábitats naturalizados</p>
-        <ul class="service-features">
-          <li>
-            <i class="pi pi-check"></i>
-            <span>Mamíferos exóticos</span>
-          </li>
-          <li>
-            <i class="pi pi-check"></i>
-            <span>Aves tropicales</span>
-          </li>
-          <li>
-            <i class="pi pi-check"></i>
-            <span>Reptiles fascinantes</span>
-          </li>
-        </ul>
-      </div>
-
-      <div class="service-card">
-        <div class="card-header">
-          <div class="icon-wrapper">
-            <i class="pi pi-leaf"></i>
-          </div>
-          <h3>Conservación</h3>
-        </div>
-        <p>Programas activos de reproducción y rescate</p>
-        <ul class="service-features">
-          <li>
-            <i class="pi pi-check"></i>
-            <span>Especies en peligro</span>
-          </li>
-          <li>
-            <i class="pi pi-check"></i>
-            <span>Rehabilitación</span>
-          </li>
-          <li>
-            <i class="pi pi-check"></i>
-            <span>Reintroducción</span>
-          </li>
-        </ul>
-      </div>
-
-      <div class="service-card">
-        <div class="card-header">
-          <div class="icon-wrapper">
-            <i class="pi pi-question-circle"></i>
-          </div>
-          <h3>Experiencias Interactivas</h3>
-        </div>
-        <p>Participa en actividades educativas únicas</p>
-        <ul class="service-features">
-          <li>
-            <i class="pi pi-check"></i>
-            <span>Quizzes temáticos</span>
-          </li>
-          <li>
-            <i class="pi pi-check"></i>
-            <span>Encuestas</span>
-          </li>
-          <li>
-            <i class="pi pi-check"></i>
-            <span>Tours virtuales</span>
-          </li>
-        </ul>
-      </div>
+      }
     </div>
 
-    <div class="cta-banner">
+    <div class="cta-banner" data-aos="fade-up" data-aos-delay="100">
       <div class="banner-content">
-        <h3>¿Listo para comenzar tu aventura?</h3>
-        <p>
-          Únete a miles de visitantes que ya disfrutan de nuestras experiencias
-        </p>
+        <h3>¿Listo para explorar?</h3>
+        <p>Planifica tu visita hoy mismo y vive una aventura inolvidable.</p>
       </div>
-      <p-button
-        styleClass="banner-cta"
+      <a
+        pButton
+        routerLink="/servicios"
         label="Explorar Servicios"
-        icon="pi pi-arrow-right"
-        iconPos="right"
-        [rounded]="true"
-      />
+        class="banner-cta p-button-lg"
+      >
+      </a>
     </div>
   </div>
 </section>

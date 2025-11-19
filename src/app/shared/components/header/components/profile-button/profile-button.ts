@@ -33,6 +33,8 @@ export class ProfileButton {
   private readonly router = inject(Router);
   readonly user = this.authStore.usuario;
   readonly isAdmin = computed(() => this.authStore.isAdmin());
+  readonly isVet = computed(() => this.authStore.isVeterinario());
+  readonly isCuidador = computed(() => this.authStore.isCuidador());
   readonly defaultAvatarUrl = '/assets/images/default-avatar.jpg';
   
   protected readonly items = computed(() => [
@@ -59,6 +61,22 @@ export class ProfileButton {
             this.router.navigate(['/admin']);
           },
           visible: this.isAdmin(),
+        },
+        {
+          label: 'Panel Veterinario',
+          icon: 'pi pi-shield',
+          command: () => {
+            this.router.navigate(['/vet']);
+          },
+          visible: this.isVet(),
+        },
+        {
+          label: 'Panel Cuidador',
+          icon: 'pi pi-shield',
+          command: () => {
+            this.router.navigate(['/cuidador']);
+          },
+          visible: this.isCuidador(),
         },
         {
           separator: true,

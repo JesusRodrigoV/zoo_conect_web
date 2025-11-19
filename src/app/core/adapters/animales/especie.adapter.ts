@@ -1,15 +1,14 @@
-import { Especie } from '@app/core/models/animales/especie.model';
+import { Especie } from "@models/animales/especie.model";
 
 export interface EspecieApiResponse {
   id_especie: number;
   nombre_cientifico: string;
-  nombre: string;
+  nombre_especie: string;
   filo: string;
   clase: string;
   orden: string;
   familia: string;
-  genero: string;
-  descripcion: string;
+  descripcion_especie: string;
   is_active: boolean;
   created_at?: string;
   updated_at?: string;
@@ -17,13 +16,12 @@ export interface EspecieApiResponse {
 
 export interface CreateEspecieRequest {
   nombre_cientifico: string;
-  nombre: string; 
+  nombre_especie: string;
   filo: string;
   clase: string;
   orden: string;
   familia: string;
-  genero: string;
-  descripcion: string;
+  descripcion_especie: string;
   is_active?: boolean;
 }
 
@@ -36,7 +34,6 @@ export interface UpdateEspecieRequest extends Partial<CreateEspecieRequest> {
  * y las respuestas/requests del API
  */
 export class EspecieAdapter {
-  
   /**
    * Convierte la respuesta del API a nuestro modelo de dominio
    */
@@ -44,41 +41,41 @@ export class EspecieAdapter {
     return {
       idEspecie: apiResponse.id_especie,
       nombreCientifico: apiResponse.nombre_cientifico,
-      nombreComun: apiResponse.nombre,
+      nombreComun: apiResponse.nombre_especie,
       filo: apiResponse.filo,
       clase: apiResponse.clase,
       orden: apiResponse.orden,
       familia: apiResponse.familia,
-      genero: apiResponse.genero,
-      descripcion: apiResponse.descripcion,
-      isActive: apiResponse.is_active
+      descripcion: apiResponse.descripcion_especie,
+      isActive: apiResponse.is_active,
     };
   }
-  
+
   /**
    * Convierte múltiples respuestas del API a nuestro modelo de dominio
    */
   static fromApiArray(apiResponses: EspecieApiResponse[]): Especie[] {
-    return apiResponses.map(response => this.fromApi(response));
+    return apiResponses.map((response) => this.fromApi(response));
   }
-  
+
   /**
    * Convierte nuestro modelo de dominio al formato del API para crear
    */
-  static toCreateRequest(especie: Omit<Especie, 'idEspecie'>): CreateEspecieRequest {
+  static toCreateRequest(
+    especie: Omit<Especie, "idEspecie">,
+  ): CreateEspecieRequest {
     return {
       nombre_cientifico: especie.nombreCientifico,
-      nombre: especie.nombreComun,
+      nombre_especie: especie.nombreComun,
       filo: especie.filo,
       clase: especie.clase,
       orden: especie.orden,
       familia: especie.familia,
-      genero: especie.genero,
-      descripcion: especie.descripcion,
-      is_active: especie.isActive
+      descripcion_especie: especie.descripcion,
+      is_active: especie.isActive,
     };
   }
-  
+
   /**
    * Convierte nuestro modelo de dominio al formato del API para actualizar
    */
@@ -86,33 +83,32 @@ export class EspecieAdapter {
     return {
       id_especie: especie.idEspecie,
       nombre_cientifico: especie.nombreCientifico,
-      nombre: especie.nombreComun,
+      nombre_especie: especie.nombreComun,
       filo: especie.filo,
       clase: especie.clase,
       orden: especie.orden,
       familia: especie.familia,
-      genero: especie.genero,
-      descripcion: especie.descripcion,
-      is_active: especie.isActive
+      descripcion_especie: especie.descripcion,
+      is_active: especie.isActive,
     };
   }
-  
+
   /**
    * Convierte datos parciales para actualizaciones PATCH
    */
   static toPartialUpdateRequest(
-    id: number, 
-    changes: Partial<Omit<Especie, 'idEspecie'>>
+    id: number,
+    changes: Partial<Omit<Especie, "idEspecie">>,
   ): Partial<UpdateEspecieRequest> {
     const request: Partial<UpdateEspecieRequest> = {
-      id_especie: id
+      id_especie: id,
     };
-    
+
     if (changes.nombreCientifico !== undefined) {
       request.nombre_cientifico = changes.nombreCientifico;
     }
     if (changes.nombreComun !== undefined) {
-      request.nombre = changes.nombreComun;
+      request.nombre_especie = changes.nombreComun;
     }
     if (changes.filo !== undefined) {
       request.filo = changes.filo;
@@ -126,16 +122,13 @@ export class EspecieAdapter {
     if (changes.familia !== undefined) {
       request.familia = changes.familia;
     }
-    if (changes.genero !== undefined) {
-      request.genero = changes.genero;
-    }
     if (changes.descripcion !== undefined) {
-      request.descripcion = changes.descripcion;
+      request.descripcion_especie = changes.descripcion;
     }
     if (changes.isActive !== undefined) {
       request.is_active = changes.isActive;
     }
-    
+
     return request;
   }
 }

@@ -6,7 +6,7 @@ import {
   input,
 } from "@angular/core";
 import { NgOptimizedImage } from "@angular/common";
-import { Theme } from "@app/features/settings/services";
+import { Theme } from "@app/features/private/settings/services";
 import { RouterLink } from "@angular/router";
 import { Loader } from "../loader";
 

@@ -1,0 +1,52 @@
+@if (quiz(); as quiz) {
+<p-card styleClass="quiz-item-card">
+  <div class="quiz-content">
+    <div class="quiz-info">
+      <h3>Quiz del {{ quiz.fecha | date : "dd/MM/yyyy" }}</h3>
+      <p class="dificultad">{{ quiz.dificultad }}</p>
+      <div class="quiz-badges">
+        <p-tag
+          [value]="estadoQuiz().texto"
+          [severity]="estadoQuiz().severity"
+          [rounded]="true"
+        />
+        <p-tag
+          [value]="quiz.cantidadPreguntas + ' Preguntas'"
+          [rounded]="true"
+          severity="contrast"
+        />
+      </div>
+    </div>
+
+    <div class="quiz-actions">
+      <p-button
+        icon="pi pi-eye"
+        [rounded]="true"
+        severity="info"
+        [outlined]="true"
+        pTooltip="Ver Detalles"
+        tooltipPosition="top"
+        (onClick)="verDetalles()"
+      />
+      <p-button
+        icon="pi pi-pencil"
+        [rounded]="true"
+        severity="secondary"
+        [outlined]="true"
+        pTooltip="Editar"
+        tooltipPosition="top"
+        [routerLink]="['/admin/quizzes/editar', quiz.id]"
+      />
+      <p-button
+        icon="pi pi-trash"
+        [rounded]="true"
+        severity="danger"
+        [outlined]="true"
+        pTooltip="Eliminar"
+        tooltipPosition="top"
+        (onClick)="eliminar()"
+      />
+    </div>
+  </div>
+</p-card>
+}

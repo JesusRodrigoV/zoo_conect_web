@@ -10,10 +10,13 @@ import { Router } from "@angular/router";
 import { firstValueFrom } from "rxjs";
 import { RolId, Usuario } from "@models/usuario/usuario.model";
 import { Auth } from "@app/features/auth/services";
-import { LoginResponse } from "@models/usuario/request_response.model";
+import {
+  LoginResponse,
+  UpdateProfileRequest,
+} from "@models/usuario/request_response.model";
 import { isPlatformBrowser } from "@angular/common";
 import { ShowToast } from "@app/shared/services";
-import { Theme } from "@app/features/settings/services/theme-service";
+import { Theme } from "@app/features/private/settings/services/theme-service";
 import { environment } from "@env";
 
 interface AuthState {
@@ -52,6 +55,7 @@ export const AuthStore = signalStore(
     isVeterinario: computed(() => usuario()?.rol.id === RolId.VETERINARIO),
     isCuidador: computed(() => usuario()?.rol.id === RolId.CUIDADOR),
     isVisitante: computed(() => usuario()?.rol.id === RolId.VISITANTE),
+    userId: computed(() => parseInt(usuario()?.id ?? "0")),
   })),
   withMethods(
     (
@@ -183,6 +187,23 @@ export const AuthStore = signalStore(
 
             methods.setTokens(loginResponse.access_token);
             await methods.loadUserProfile();
+
+            const currentUser = store.usuario();
+
+            if (currentUser && !currentUser.fotoUrl) {
+              const imagen = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+              const update: UpdateProfileRequest = {
+                fotoUrl: `/assets/images/profile-icons/${imagen}.png`,
+              };
+
+              try {
+                const updatedUser = await firstValueFrom(
+                  authService.updateProfile(update),
+                );
+                patchState(store, { usuario: updatedUser });
+              } catch (updateError) {}
+            }
+
             toastService.showSuccess("Inicio de sesión exitoso", "Éxito");
 
             if (store.suggest2FA()) {
@@ -218,6 +239,26 @@ export const AuthStore = signalStore(
           } catch (error: any) {
             handleError(error, "register");
             throw error;
+          }
+        },
+
+        async updateProfilePicture(fotoUrl: string, silent = false) {
+          patchState(store, { loading: true, error: null });
+
+          const update: UpdateProfileRequest = { fotoUrl };
+
+          try {
+            const updatedUser = await firstValueFrom(
+              authService.updateProfile(update),
+            );
+
+            patchState(store, { usuario: updatedUser, loading: false });
+
+            if (!silent) {
+              toastService.showSuccess("¡Avatar actualizado!", "Éxito");
+            }
+          } catch (error: any) {
+            handleError(error, "actualizar foto de perfil");
           }
         },
 
@@ -268,6 +309,8 @@ export const AuthStore = signalStore(
             });
           } catch (error: any) {
             handleError(error, "cargar perfil");
+          } finally {
+            patchState(store, { loading: false });
           }
         },
 

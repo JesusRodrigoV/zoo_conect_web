@@ -1,0 +1,44 @@
+:host {
+  .animal-item-card {
+    ::ng-deep {
+      .p-card-body {
+        padding: 0;
+      }
+      .p-card-content {
+        padding: 1rem 1.5rem;
+      }
+    }
+  }
+
+  .animal-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .animal-info {
+    h3 {
+      margin: 0 0 0.25rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--p-text-color);
+    }
+
+    .especie {
+      margin: 0 0 0.75rem;
+      font-style: italic;
+      color: var(--p-text-muted-color);
+    }
+
+    .animal-badges {
+      display: flex;
+      gap: 0.5rem;
+    }
+  }
+
+  .animal-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+}

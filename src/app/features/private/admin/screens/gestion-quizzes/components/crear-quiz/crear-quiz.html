@@ -1,0 +1,112 @@
+@defer (on viewport; prefetch on idle; hydrate on hover) {
+<p-card class="quiz-form-card">
+  <ng-template pTemplate="header">
+    <div class="quiz-form__header">
+      <h2>{{ pageTitle() }}</h2>
+      <p class="quiz-form__subtitle">{{ pageSubtitle() }}</p>
+    </div>
+  </ng-template>
+
+  <form [formGroup]="quizForm" (ngSubmit)="onSubmit()" class="quiz-form__form">
+    <div class="quiz-form__grid">
+      <div class="quiz-form__field">
+        <p-floatlabel variant="on">
+          <p-datepicker
+            inputId="fechaTrivia"
+            formControlName="fechaTrivia"
+            [minDate]="minDate()"
+            [invalid]="isInvalid('fechaTrivia')"
+            showIcon
+            dateFormat="dd/mm/yy"
+            iconDisplay="input"
+          />
+          <label for="fechaTrivia">Fecha de la Trivia</label>
+        </p-floatlabel>
+        @if (isInvalid('fechaTrivia')) {
+        <ng-container
+          [ngTemplateOutlet]="alerta"
+          [ngTemplateOutletContext]="{ fieldName: 'fechaTrivia' }"
+        />
+        }
+      </div>
+
+      <div class="quiz-form__field">
+        <p-floatlabel variant="on">
+          <p-inputnumber
+            inputId="cantidadPreguntas"
+            formControlName="cantidadPreguntas"
+            [min]="1"
+            [max]="50"
+            [invalid]="isInvalid('cantidadPreguntas')"
+            suffix=" preguntas"
+          />
+          <label for="cantidadPreguntas">Cantidad de Preguntas</label>
+        </p-floatlabel>
+        @if (isInvalid('cantidadPreguntas')) {
+        <ng-container
+          [ngTemplateOutlet]="alerta"
+          [ngTemplateOutletContext]="{ fieldName: 'cantidadPreguntas' }"
+        />
+        }
+      </div>
+
+      <div class="quiz-form__field">
+        <p-floatlabel variant="on">
+          <p-select
+            inputId="dificultad"
+            formControlName="dificultad"
+            [options]="dificultades"
+            optionLabel="label"
+            optionValue="value"
+            [invalid]="isInvalid('dificultad')"
+          />
+          <label for="dificultad">Dificultad</label>
+        </p-floatlabel>
+        @if (isInvalid('dificultad')) {
+        <ng-container
+          [ngTemplateOutlet]="alerta"
+          [ngTemplateOutletContext]="{ fieldName: 'dificultad' }"
+        />
+        }
+      </div>
+    </div>
+
+    <div class="quiz-form__actions">
+      <p-button
+        type="button"
+        label="Cancelar"
+        [rounded]="true"
+        severity="secondary"
+        (click)="cancelar()"
+        [disabled]="isLoading()"
+      />
+      <p-button
+        type="submit"
+        [label]="buttonText()"
+        [rounded]="true"
+        severity="primary"
+        [loading]="isLoading()"
+        [disabled]="(formSubmitted() && !quizForm.valid) || isLoading()"
+      />
+    </div>
+  </form>
+
+  <ng-template #alerta let-fieldName="fieldName">
+    <p-message severity="error" size="small" variant="simple">
+      {{ getErrorMessage(fieldName) }}
+    </p-message>
+  </ng-template>
+</p-card>
+
+<p-confirmpopup />
+
+} @placeholder {
+<div class="quiz-form-placeholder">
+  <zoo-loader [size]="50" />
+  <p>Cargando formulario...</p>
+</div>
+} @loading (minimum 500ms) {
+<div class="quiz-form-placeholder">
+  <zoo-loader [size]="50" />
+</div>
+}

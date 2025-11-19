@@ -7,6 +7,7 @@ export const cuidadorGuard: CanActivateChildFn = (childRoute, state) => {
   const router = inject(Router);
 
   if (!authStore.isCuidador()) {
+    console.log(authStore.isCuidador());
     return router.parseUrl("/inicio");
   }
 

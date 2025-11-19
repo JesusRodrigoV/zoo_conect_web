@@ -1,64 +1,61 @@
-import { Animal, MediaAnimal } from '@models/animales';
-import { Especie } from '@models/animales/especie.model';
-import { Habitat } from '@models/habitat';
+import {
+  Animal,
+  CreateAnimal,
+  EstadoOperativo,
+  MediaAnimal,
+} from "@models/animales";
+import { Especie } from "@models/animales/especie.model";
+import { Habitat } from "@models/habitat";
+import { EspecieAdapter, EspecieApiResponse } from "./especie.adapter";
+import { HabitatAdapter, HabitatBackendResponse } from "@adapters/habitat";
 
-// Interfaces para las respuestas del backend
-export interface BackendMediaAnimalResponse {
-  id_media: number;
-  tipo_medio: 'imagen' | 'video' | 'audio';
-  url: string;
-  titulo: string;
-  descripcion?: string;
+export interface AnimalMediaApiResponse {
+  tipo_medio: boolean;
+  url_animal: string;
+  titulo_media_animal: string;
+  descripcion_media_animal: string;
+  id_media_animal: number;
   public_id: string;
 }
 
-export interface BackendEspecieResponse {
-  id_especie: number;
-  nombre_cientifico: string;
-  nombre: string;
-  filo: string;
-  clase: string;
-  orden: string;
-  familia: string;
-  genero: string;
-  descripcion: string;
-  is_active: boolean;
-}
-
-export interface BackendHabitatResponse {
-  id_habitat: number;
-  nombre_habitat: string;
-  tipo: string;
-  descripcion: string;
-  condiciones_climaticas: string;
-  is_active: boolean;
+export class AnimalMediaAdapter {
+  static fromApi(apiResponse: AnimalMediaApiResponse): MediaAnimal {
+    return {
+      id_media: apiResponse.id_media_animal,
+      tipo_medio: apiResponse.tipo_medio,
+      url: apiResponse.url_animal,
+      titulo: apiResponse.titulo_media_animal,
+      descripcion: apiResponse.descripcion_media_animal,
+      public_id: apiResponse.public_id,
+    };
+  }
 }
 
 export interface BackendAnimalResponse {
   id_animal: number;
-  nombre: string;
+  nombre_animal: string;
   genero: boolean;
   fecha_nacimiento: string;
   fecha_ingreso: string;
-  procedencia: string;
-  estado_operativo: 'Saludable' | 'En tratamiento' | 'En cuarentena' | 'Trasladado' | 'Fallecido';
+  procedencia_animal: string;
+  estado_operativo: EstadoOperativo;
   es_publico: boolean;
   descripcion: string;
   especie_id: number;
   habitat_id: number;
-  especie: BackendEspecieResponse;
-  habitat: BackendHabitatResponse;
-  media: BackendMediaAnimalResponse[];
+  especie: EspecieApiResponse;
+  habitat: HabitatBackendResponse;
+  media: AnimalMediaApiResponse[];
+  age: number;
 }
 
-// Request para crear/actualizar animal
-export interface CreateAnimalRequest {
-  nombre: string;
+export interface AnimalApiRequest {
+  nombre_animal: string;
   genero: boolean;
   fecha_nacimiento: string;
   fecha_ingreso: string;
-  procedencia: string;
-  estado_operativo: 'Saludable' | 'En tratamiento' | 'En cuarentena' | 'Trasladado' | 'Fallecido';
+  procedencia_animal: string;
+  estado_operativo: EstadoOperativo;
   es_publico: boolean;
   descripcion: string;
   especie_id: number;
@@ -66,124 +63,99 @@ export interface CreateAnimalRequest {
 }
 
 export class AnimalAdapter {
-  /**
-   * Convierte la respuesta del backend a modelo del frontend
-   */
   static fromBackend(backendAnimal: BackendAnimalResponse): Animal {
     return {
       id_animal: backendAnimal.id_animal,
-      nombre: backendAnimal.nombre,
+      nombre: backendAnimal.nombre_animal,
       genero: backendAnimal.genero,
       fecha_nacimiento: backendAnimal.fecha_nacimiento,
       fecha_ingreso: backendAnimal.fecha_ingreso,
-      procedencia: backendAnimal.procedencia,
+      procedencia: backendAnimal.procedencia_animal,
       estado_operativo: backendAnimal.estado_operativo,
       es_publico: backendAnimal.es_publico,
       descripcion: backendAnimal.descripcion,
-      especie_id: backendAnimal.especie_id,
-      habitat_id: backendAnimal.habitat_id,
-      especie: this.especieFromBackend(backendAnimal.especie),
-      habitat: this.habitatFromBackend(backendAnimal.habitat),
-      media: backendAnimal.media.map(media => this.mediaFromBackend(media))
+      age: backendAnimal.age,
+      especie: EspecieAdapter.fromApi(backendAnimal.especie),
+      habitat: HabitatAdapter.toFrontend(backendAnimal.habitat),
+      especie_id: backendAnimal.especie.id_especie,
+      habitat_id: backendAnimal.habitat.id_habitat,
+      media: backendAnimal.media.map((media) => this.mediaFromBackend(media)),
     };
   }
 
-  /**
-   * Convierte modelo del frontend a request para el backend
-   */
-  static toBackend(animal: Partial<Animal>): CreateAnimalRequest {
+  static toCreateRequest(animal: CreateAnimal): AnimalApiRequest {
     return {
-      nombre: animal.nombre!,
-      genero: animal.genero!,
-      fecha_nacimiento: animal.fecha_nacimiento!,
-      fecha_ingreso: animal.fecha_ingreso!,
-      procedencia: animal.procedencia!,
-      estado_operativo: animal.estado_operativo!,
-      es_publico: animal.es_publico!,
-      descripcion: animal.descripcion!,
-      especie_id: animal.especie_id!,
-      habitat_id: animal.habitat_id!
+      nombre_animal: animal.nombre,
+      genero: animal.genero,
+      fecha_nacimiento: animal.fecha_nacimiento,
+      fecha_ingreso: animal.fecha_ingreso,
+      procedencia_animal: animal.procedencia,
+      estado_operativo: animal.estado_operativo,
+      es_publico: animal.es_publico,
+      descripcion: animal.descripcion,
+      especie_id: animal.especie_id,
+      habitat_id: animal.habitat_id,
     };
   }
+  static toUpdateRequest(
+    animal: Partial<CreateAnimal>,
+  ): Partial<AnimalApiRequest> {
+    const request: Partial<AnimalApiRequest> = {};
 
-  /**
-   * Convierte especie del backend al modelo frontend
-   */
-  private static especieFromBackend(backendEspecie: BackendEspecieResponse): Especie {
-    return {
-      idEspecie: backendEspecie.id_especie,
-      nombreCientifico: backendEspecie.nombre_cientifico,
-      nombreComun: backendEspecie.nombre,
-      filo: backendEspecie.filo,
-      clase: backendEspecie.clase,
-      orden: backendEspecie.orden,
-      familia: backendEspecie.familia,
-      genero: backendEspecie.genero,
-      descripcion: backendEspecie.descripcion,
-      isActive: backendEspecie.is_active
-    };
+    if (animal.nombre !== undefined) request.nombre_animal = animal.nombre;
+    if (animal.genero !== undefined) request.genero = animal.genero;
+    if (animal.fecha_nacimiento !== undefined)
+      request.fecha_nacimiento = animal.fecha_nacimiento;
+    if (animal.fecha_ingreso !== undefined)
+      request.fecha_ingreso = animal.fecha_ingreso;
+    if (animal.procedencia !== undefined)
+      request.procedencia_animal = animal.procedencia;
+    if (animal.estado_operativo !== undefined)
+      request.estado_operativo = animal.estado_operativo;
+    if (animal.es_publico !== undefined) request.es_publico = animal.es_publico;
+    if (animal.descripcion !== undefined)
+      request.descripcion = animal.descripcion;
+    if (animal.especie_id !== undefined) request.especie_id = animal.especie_id;
+    if (animal.habitat_id !== undefined) request.habitat_id = animal.habitat_id;
+
+    return request;
   }
 
-  /**
-   * Convierte hábitat del backend al modelo frontend
-   */
-  private static habitatFromBackend(backendHabitat: BackendHabitatResponse): Habitat {
+  private static mediaFromBackend(
+    backendMedia: AnimalMediaApiResponse,
+  ): MediaAnimal {
     return {
-      id: backendHabitat.id_habitat,
-      nombre: backendHabitat.nombre_habitat,
-      tipo: backendHabitat.tipo,
-      descripcion: backendHabitat.descripcion,
-      condicionesClimaticas: backendHabitat.condiciones_climaticas,
-      isActive: backendHabitat.is_active
-    };
-  }
-
-  /**
-   * Convierte media del backend al modelo frontend
-   */
-  private static mediaFromBackend(backendMedia: BackendMediaAnimalResponse): MediaAnimal {
-    return {
-      id_media: backendMedia.id_media,
+      id_media: backendMedia.id_media_animal,
       tipo_medio: backendMedia.tipo_medio,
-      url: backendMedia.url,
-      titulo: backendMedia.titulo,
-      descripcion: backendMedia.descripcion,
-      public_id: backendMedia.public_id
+      url: backendMedia.url_animal,
+      titulo: backendMedia.titulo_media_animal,
+      descripcion: backendMedia.descripcion_media_animal,
+      public_id: backendMedia.public_id,
     };
   }
-
-  /**
-   * Obtiene el texto del género en español
-   */
   static getGeneroTexto(genero: boolean): string {
-    return genero ? 'Macho' : 'Hembra';
+    return genero ? "Macho" : "Hembra";
   }
 
-  /**
-   * Obtiene la clase CSS para el estado operativo
-   */
-  static getEstadoClass(estado: Animal['estado_operativo']): string {
-    const clases: Record<Animal['estado_operativo'], string> = {
-      'Saludable': 'estado-saludable',
-      'En tratamiento': 'estado-tratamiento',
-      'En cuarentena': 'estado-cuarentena',
-      'Trasladado': 'estado-trasladado',
-      'Fallecido': 'estado-fallecido'
+  static getEstadoClass(estado: Animal["estado_operativo"]): string {
+    const clases: Record<Animal["estado_operativo"], string> = {
+      Saludable: "estado-saludable",
+      "En tratamiento": "estado-tratamiento",
+      "En cuarentena": "estado-cuarentena",
+      Trasladado: "estado-trasladado",
+      Fallecido: "estado-fallecido",
     };
-    return clases[estado] || '';
+    return clases[estado] || "";
   }
 
-  /**
-   * Obtiene el color para el estado operativo
-   */
-  static getEstadoColor(estado: Animal['estado_operativo']): string {
-    const colores: Record<Animal['estado_operativo'], string> = {
-      'Saludable': 'success',
-      'En tratamiento': 'info',
-      'En cuarentena': 'warn',
-      'Trasladado': 'secondary',
-      'Fallecido': 'danger'
+  static getEstadoColor(estado: Animal["estado_operativo"]): string {
+    const colores: Record<Animal["estado_operativo"], string> = {
+      Saludable: "success",
+      "En tratamiento": "info",
+      "En cuarentena": "warn",
+      Trasladado: "secondary",
+      Fallecido: "danger",
     };
-    return colores[estado] || 'secondary';
+    return colores[estado] || "secondary";
   }
 }

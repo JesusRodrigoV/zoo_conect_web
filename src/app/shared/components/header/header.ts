@@ -75,19 +75,22 @@ export class Header {
     {
       label: "Animales",
       route: "/animales",
-      icon: "pets",
+      icon: "heart",
+    },
+    {
+      label: "Quiz",
+      route: "/quizzes",
+      icon: "question-circle",
     },
     {
       label: "Encuestas",
       route: "/encuestas",
-      icon: "poll",
+      icon: "chart-bar",
     },
     {
-      label: "Acerca de nosotros",
+      label: "Sobre nosotros",
       route: "/acerca-de",
-      icon: "info",
-      disabled: true,
-      comingSoon: true,
+      icon: "info-circle",
     },
   ]);
 

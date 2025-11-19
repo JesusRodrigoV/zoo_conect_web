@@ -1,4 +1,8 @@
-<p-overlayBadge [value]="noLeidasCuenta()" badgeSize="small">
+<p-overlayBadge
+  [value]="noLeidasCuenta()"
+  badgeSize="small"
+  [badgeDisabled]="noLeidasCuenta()==0"
+>
   <p-button
     styleClass="notif-btn p-button-rounded p-button-text"
     (onClick)="op.toggle($event)"
@@ -25,18 +29,28 @@
         severity="success"
         variant="text"
         icon="pi pi-check-double"
+        [rounded]="true"
         (onClick)="markAllRead()"
+      />
+      <p-button
+        size="small"
+        icon="pi pi-conf"
+        severity="success"
+        [rounded]="true"
+        [outlined]="true"
+        routerLink=""
       />
     </div>
 
     <div class="popover-list">
-      @for (notificacion of notificaciones(); track notificacion.idNotificacion) {
-        <zoo-notification-item
-          [notificacion]="notificacion"
-          (markRead)="markOneRead($event)"
-        />
+      @for (notificacion of notificaciones(); track notificacion.idNotificacion)
+      {
+      <zoo-notification-item
+        [notificacion]="notificacion"
+        (markRead)="markOneRead($event)"
+      />
       } @empty {
-        <div class="empty">No tienes notificaciones</div>
+      <div class="empty">No tienes notificaciones</div>
       }
     </div>
   </ng-template>

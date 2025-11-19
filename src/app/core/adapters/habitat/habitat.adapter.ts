@@ -1,4 +1,4 @@
-import { Habitat } from '@models/habitat';
+import { Habitat } from "@models/habitat";
 
 /**
  * Estructura de datos del hábitat tal como viene del backend
@@ -6,10 +6,19 @@ import { Habitat } from '@models/habitat';
 export interface HabitatBackendResponse {
   id_habitat: number;
   nombre_habitat: string;
-  tipo: string;
-  descripcion: string;
+  tipo_habitat: string;
+  descripcion_habitat: string;
   condiciones_climaticas: string;
   is_active: boolean;
+}
+
+export interface HabitatMediaResponse {
+  tipo_medio: boolean;
+  url_habitat: string;
+  titulo_media_habitat: string;
+  descripcion_media_habitat: string;
+  id_media_habitat: number;
+  public_id: string;
 }
 
 /**
@@ -17,8 +26,8 @@ export interface HabitatBackendResponse {
  */
 export interface CreateHabitatRequest {
   nombre_habitat: string;
-  tipo: string;
-  descripcion: string;
+  tipo_habitat: string;
+  descripcion_habitat: string;
   condiciones_climaticas: string;
 }
 
@@ -27,9 +36,10 @@ export interface CreateHabitatRequest {
  */
 export interface UpdateHabitatRequest {
   nombre_habitat?: string;
-  tipo?: string;
-  descripcion?: string;
+  tipo_habitat?: string;
+  descripcion_habitat?: string;
   condiciones_climaticas?: string;
+  is_active?: boolean;
 }
 
 /**
@@ -45,8 +55,8 @@ export class HabitatAdapter {
     return {
       id: backendHabitat.id_habitat,
       nombre: backendHabitat.nombre_habitat,
-      tipo: backendHabitat.tipo,
-      descripcion: backendHabitat.descripcion,
+      tipo: backendHabitat.tipo_habitat,
+      descripcion: backendHabitat.descripcion_habitat,
       condicionesClimaticas: backendHabitat.condiciones_climaticas,
       isActive: backendHabitat.is_active,
     };
@@ -67,17 +77,17 @@ export class HabitatAdapter {
    * @returns Estructura para el request de creación al backend
    */
   static toCreateRequest(
-    frontendHabitat: Omit<Habitat, 'id' | 'isActive'>
+    frontendHabitat: Omit<Habitat, "id" | "isActive">,
   ): CreateHabitatRequest {
     if (!frontendHabitat.nombre || frontendHabitat.nombre.trim().length < 2) {
       throw new Error(
-        'El nombre del hábitat es requerido y debe tener al menos 2 caracteres'
+        "El nombre del hábitat es requerido y debe tener al menos 2 caracteres",
       );
     }
 
     if (!frontendHabitat.tipo || frontendHabitat.tipo.trim().length < 2) {
       throw new Error(
-        'El tipo de hábitat es requerido y debe tener al menos 2 caracteres'
+        "El tipo de hábitat es requerido y debe tener al menos 2 caracteres",
       );
     }
 
@@ -86,7 +96,7 @@ export class HabitatAdapter {
       frontendHabitat.descripcion.trim().length < 10
     ) {
       throw new Error(
-        'La descripción es requerida y debe tener al menos 10 caracteres'
+        "La descripción es requerida y debe tener al menos 10 caracteres",
       );
     }
 
@@ -95,14 +105,14 @@ export class HabitatAdapter {
       frontendHabitat.condicionesClimaticas.trim().length < 5
     ) {
       throw new Error(
-        'Las condiciones climáticas son requeridas y deben tener al menos 5 caracteres'
+        "Las condiciones climáticas son requeridas y deben tener al menos 5 caracteres",
       );
     }
 
     return {
       nombre_habitat: frontendHabitat.nombre.trim(),
-      tipo: frontendHabitat.tipo.trim(),
-      descripcion: frontendHabitat.descripcion.trim(),
+      tipo_habitat: frontendHabitat.tipo.trim(),
+      descripcion_habitat: frontendHabitat.descripcion.trim(),
       condiciones_climaticas: frontendHabitat.condicionesClimaticas.trim(),
     };
   }
@@ -113,7 +123,7 @@ export class HabitatAdapter {
    * @returns Estructura para el request de actualización al backend
    */
   static toUpdateRequest(
-    frontendHabitat: Partial<Omit<Habitat, 'id' | 'isActive'>>
+    frontendHabitat: Partial<Omit<Habitat, "id">>,
   ): UpdateHabitatRequest {
     const request: UpdateHabitatRequest = {};
 
@@ -122,15 +132,19 @@ export class HabitatAdapter {
     }
 
     if (frontendHabitat.tipo !== undefined) {
-      request.tipo = frontendHabitat.tipo;
+      request.tipo_habitat = frontendHabitat.tipo;
     }
 
     if (frontendHabitat.descripcion !== undefined) {
-      request.descripcion = frontendHabitat.descripcion;
+      request.descripcion_habitat = frontendHabitat.descripcion;
     }
 
     if (frontendHabitat.condicionesClimaticas !== undefined) {
       request.condiciones_climaticas = frontendHabitat.condicionesClimaticas;
+    }
+
+    if (frontendHabitat.isActive !== undefined) {
+      request.is_active = frontendHabitat.isActive;
     }
 
     return request;
@@ -144,12 +158,12 @@ export class HabitatAdapter {
   static isValidBackendResponse(obj: any): obj is HabitatBackendResponse {
     return (
       obj &&
-      typeof obj.id_habitat === 'number' &&
-      typeof obj.nombre_habitat === 'string' &&
-      typeof obj.tipo === 'string' &&
-      typeof obj.descripcion === 'string' &&
-      typeof obj.condiciones_climaticas === 'string' &&
-      typeof obj.is_active === 'boolean'
+      typeof obj.id_habitat === "number" &&
+      typeof obj.nombre_habitat === "string" &&
+      typeof obj.tipo === "string" &&
+      typeof obj.descripcion === "string" &&
+      typeof obj.condiciones_climaticas === "string" &&
+      typeof obj.is_active === "boolean"
     );
   }
 
@@ -161,12 +175,12 @@ export class HabitatAdapter {
   static isValidFrontendModel(obj: any): obj is Habitat {
     return (
       obj &&
-      typeof obj.id === 'number' &&
-      typeof obj.nombre === 'string' &&
-      typeof obj.tipo === 'string' &&
-      typeof obj.descripcion === 'string' &&
-      typeof obj.condicionesClimaticas === 'string' &&
-      typeof obj.isActive === 'boolean'
+      typeof obj.id === "number" &&
+      typeof obj.nombre === "string" &&
+      typeof obj.tipo === "string" &&
+      typeof obj.descripcion === "string" &&
+      typeof obj.condicionesClimaticas === "string" &&
+      typeof obj.isActive === "boolean"
     );
   }
 }

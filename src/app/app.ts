@@ -14,10 +14,18 @@ import { ShowToast } from "./shared/services";
 import { ButtonModule } from "primeng/button";
 import { MessageService } from "primeng/api";
 import AOS from "aos";
+import { ConfirmDialogModule } from "primeng/confirmdialog";
 
 @Component({
   selector: "app-root",
-  imports: [RouterOutlet, ScrollTopModule, Toast, ButtonModule, RouterLink],
+  imports: [
+    RouterOutlet,
+    ScrollTopModule,
+    Toast,
+    ButtonModule,
+    RouterLink,
+    ConfirmDialogModule,
+  ],
   templateUrl: "./app.html",
   styleUrl: "./app.scss",
 })
@@ -31,12 +39,10 @@ export class App implements OnInit {
 
   constructor() {
     afterRenderEffect(() => {
-      setTimeout(() => {
-        AOS.init({
-          once: true,
-          duration: 1000,
-        });
-      }, 500);
+      AOS.init({
+        once: true,
+        duration: 1000,
+      });
     });
   }
 

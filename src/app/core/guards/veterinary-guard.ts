@@ -7,6 +7,7 @@ export const veterinaryGuard: CanActivateChildFn = (childRoute, state) => {
   const router = inject(Router);
 
   if (!authStore.isVeterinario()) {
+    console.log(authStore.isVeterinario());
     return router.parseUrl("/inicio");
   }
 

@@ -1,0 +1,139 @@
+<div class="detalle-container">
+  @if (loading()) {
+  <div class="estado-simple">
+    <zoo-loader />
+  </div>
+  } @else if (error()) { @let errorMsg = error();
+  <div class="estado-simple error">
+    <i class="pi pi-exclamation-circle"></i>
+    <p>{{ errorMsg }}</p>
+    <p-button
+      label="Reintentar"
+      (onClick)="loadQuizDetails(quizId())"
+      icon="pi pi-refresh"
+      [text]="true"
+      severity="danger"
+    />
+  </div>
+  } @else if (quiz()) { @let quizlet = quiz();
+  <div class="detalle-header">
+    <i class="pi pi-question-circle header-icon"></i>
+    <div class="header-info">
+      <h3>Quiz del {{ quizlet!.fecha | date : "fullDate" }}</h3>
+      <p>ID de Trivia: {{ quizlet!.id }}</p>
+    </div>
+  </div>
+
+  <p-divider />
+
+  <ul class="detalle-atributos">
+    <li>
+      <div class="atributo">
+        <i class="pi pi-calendar-clock"></i>
+        <span>Hora</span>
+      </div>
+      <span class="valor">{{ quizlet!.fecha | date : "HH:mm 'hrs'" }}</span>
+    </li>
+    <li>
+      <div class="atributo">
+        <i class="pi pi-check-square"></i>
+        <span>Estado</span>
+      </div>
+      <p-tag
+        [value]="estadoQuiz().texto"
+        [severity]="estadoQuiz().severity"
+        [rounded]="true"
+      />
+    </li>
+    <li>
+      <div class="atributo">
+        <i class="pi pi-star"></i>
+        <span>Dificultad</span>
+      </div>
+      <p-tag
+        [value]="quizlet!.dificultad"
+        [severity]="severidadDificultad()"
+        [rounded]="true"
+      />
+    </li>
+    <li>
+      <div class="atributo">
+        <i class="pi pi-list"></i>
+        <span>Preguntas</span>
+      </div>
+      <span class="valor">{{ quizlet!.cantidadPreguntas }} Preguntas</span>
+    </li>
+    <li>
+      <div class="atributo">
+        <i class="pi pi-user"></i>
+        <span>Creado por (User ID)</span>
+      </div>
+      <span class="valor">{{ quizlet!.usuarioId }}</span>
+    </li>
+  </ul>
+
+  <p-divider />
+
+  <div class="seccion-participaciones">
+    <h4><i class="pi pi-users"></i> Últimas Participaciones</h4>
+    @if (loadingParticipaciones()) {
+    <div class="estado-simple">
+      <zoo-loader />
+    </div>
+    } @else if (errorParticipaciones()) { @let errorMsg =
+    errorParticipaciones();
+    <div class="estado-simple error">
+      <p>{{ errorMsg }}</p>
+      <p-button
+        label="Reintentar"
+        (onClick)="loadParticipaciones(quizId())"
+        icon="pi pi-refresh"
+        [text]="true"
+        severity="danger"
+      />
+    </div>
+    } @else if (participaciones()) { @let pagedData = participaciones(); @if
+    (pagedData!.items.length > 0) {
+    <p-table
+      [value]="pagedData!.items"
+      styleClass="p-table-simple"
+      [rows]="pagedData!.size"
+      [totalRecords]="pagedData!.total"
+      [paginator]="pagedData!.pages > 1"
+      [lazy]="true"
+      (onLazyLoad)="handleLazyLoad($event)"
+    >
+      <ng-template #header>
+        <tr>
+          <th>Usuario ID</th>
+          <th>Aciertos</th>
+          <th>Fecha</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-p>
+        <tr>
+          <td>{{ p.usuarioId }}</td>
+          <td>
+            <p-tag [value]="p.aciertos" severity="success" [rounded]="true" />
+          </td>
+          <td>{{ p.fechaTrivia | date : "dd/MM/yy HH:mm" }}</td>
+        </tr>
+      </ng-template>
+      <ng-template #empty>
+        <tr>
+          <td colspan="3">No hay participaciones registradas.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <small class="paginator-info"
+      >Mostrando página {{ pagedData!.page }} de {{ pagedData!.pages }}. Total:
+      {{ pagedData!.total }}</small
+    >
+    } @else {
+    <div class="estado-simple">
+      <p>No hay participaciones registradas para este quiz.</p>
+    </div>
+    } }
+  </div>
+  }
+</div>

@@ -1,0 +1,39 @@
+<p-card styleClass="habitat-card-compact">
+  <ng-template pTemplate="title">
+    <div class="card-title-container">
+      <div class="card-title-content">
+        <i class="pi pi-map-marker"></i>
+        <span>{{ habitat().nombre }}</span>
+      </div>
+
+      <p-tag
+        [value]="habitat().isActive ? 'Activo' : 'Inactivo'"
+        [severity]="getStatusSeverity(habitat().isActive)"
+        [rounded]="true"
+      />
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="subtitle"> {{ habitat().tipo }} </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="card-actions">
+      <p-button
+        label="Editar"
+        icon="pi pi-pencil"
+        severity="primary"
+        [rounded]="true"
+        [text]="true"
+        [routerLink]="['/admin/animales/habitat/editar', habitat().id]"
+      />
+      <p-button
+        label="Eliminar"
+        icon="pi pi-trash"
+        severity="danger"
+        [text]="true"
+        [rounded]="true"
+        (onClick)="deleteHabitat()"
+      />
+    </div>
+  </ng-template>
+</p-card>

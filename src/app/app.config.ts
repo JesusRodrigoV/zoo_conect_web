@@ -7,6 +7,7 @@ import {
 } from "@angular/core";
 import {
   provideRouter,
+  TitleStrategy,
   withComponentInputBinding,
   withInMemoryScrolling,
   withViewTransitions,
@@ -26,12 +27,12 @@ import {
 import { authInterceptor } from "./core/interceptors";
 import { providePrimeNG } from "primeng/config";
 import { provideAnimations } from "@angular/platform-browser/animations";
-import { provideCharts, withDefaultRegisterables } from "ng2-charts";
-import { MessageService } from "primeng/api";
+import { ConfirmationService, MessageService } from "primeng/api";
 import ZooPreset from "../theme/zoo-preset";
 import { AuthStore } from "@stores/auth.store";
 import { ShowToast } from "./shared/services";
 import { RolId } from "@models/usuario";
+import { CustomTitleStrategy } from "./core/services/custom-title-strategy";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -55,13 +56,14 @@ export const appConfig: ApplicationConfig = {
       },
     }),
     provideAnimations(),
-    provideCharts(withDefaultRegisterables()),
     MessageService,
+    ConfirmationService,
     provideAppInitializer(() => {
       const authStore = inject(AuthStore);
       const toastService = inject(ShowToast);
 
       return authStore.initializeAuth().then(() => {});
     }),
+    { provide: TitleStrategy, useClass: CustomTitleStrategy },
   ],
 };

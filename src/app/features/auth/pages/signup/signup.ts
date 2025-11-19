@@ -17,6 +17,8 @@ import { FloatLabelModule } from "primeng/floatlabel";
 import { InputTextModule } from "primeng/inputtext";
 import { PasswordModule } from "primeng/password";
 import { MessageModule } from "primeng/message";
+import { Auth } from "../../services";
+import { UpdateProfileRequest } from "@models/usuario";
 
 @Component({
   selector: "app-signup",
@@ -39,6 +41,7 @@ import { MessageModule } from "primeng/message";
 })
 export default class Signup {
   protected readonly authStore = inject(AuthStore);
+  authService = inject(Auth);
   private readonly fb = inject(FormBuilder);
 
   protected readonly isLoading = this.authStore.loading;

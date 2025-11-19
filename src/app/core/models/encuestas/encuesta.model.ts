@@ -21,3 +21,13 @@ export interface Encuesta {
   isActive: boolean;
   preguntas: Pregunta[];
 }
+
+export type CreateOpcion = Omit<OpcionPregunta, "idOpcion">;
+
+export type UpdateOpcion = Partial<CreateOpcion>;
+
+export type CreatePregunta = Omit<Pregunta, "idPregunta" | "opciones"> & {
+  opciones: CreateOpcion[];
+};
+
+export type UpdatePregunta = Partial<Omit<Pregunta, "idPregunta" | "opciones">>;

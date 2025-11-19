@@ -1,6 +1,7 @@
 import { Routes } from "@angular/router";
 import { authGuard, loggedGuard, veterinaryGuard } from "./core/guards";
-import { cuidadorGuard } from "./core/guards/cuidador-guard";
+import { cuidadorGuard } from "@guards/cuidador-guard";
+import { unsavedChangesGuard } from "@guards/unsaved-changes-guard";
 
 export const routes: Routes = [
   {
@@ -9,80 +10,90 @@ export const routes: Routes = [
     children: [
       {
         path: "inicio",
-        loadComponent: () => import("./features/home/home"),
+        title: "Inicio",
+        loadComponent: () => import("./features/public/home/home"),
       },
       {
         path: "perfil",
-        loadComponent: () => import("./features/profile/profile"),
+        title: "Perfil",
+        loadComponent: () => import("./features/private/profile/profile"),
         canActivate: [authGuard],
       },
       {
         path: "servicios",
+        title: "Servicios",
         loadComponent: () =>
-          import("./features/servicios/screens/servicios/servicios"),
+          import("./features/public/servicios/screens/servicios/servicios"),
       },
       {
         path: "ajustes",
-        loadComponent: () => import("./features/settings/settings"),
+        title: "Ajustes",
+        loadComponent: () => import("./features/private/settings/settings"),
         canActivate: [authGuard],
         children: [
+          {
+            path: "perfil",
+            title: "Perfil",
+            loadComponent: () =>
+              import(
+                "./features/private/settings/components/perfil-ajustes/perfil-ajustes"
+              ),
+          },
+          {
+            path: "seguridad",
+            title: "Seguridad",
+            loadComponent: () =>
+              import(
+                "./features/private/settings/components/seguridad-ajustes/seguridad-ajustes"
+              ),
+          },
+          {
+            path: "notificaciones",
+            title: "Notificaciones",
+            loadComponent: () =>
+              import(
+                "./features/private/settings/components/notificaciones-ajustes/notificaciones-ajustes"
+              ),
+          },
           {
             path: "",
             redirectTo: "perfil",
             pathMatch: "full",
           },
-          {
-            path: "perfil",
-            loadComponent: () =>
-              import(
-                "./features/settings/components/perfil-ajustes/perfil-ajustes"
-              ),
-            data: { title: "Perfil" },
-          },
-          {
-            path: "seguridad",
-            loadComponent: () =>
-              import(
-                "./features/settings/components/seguridad-ajustes/seguridad-ajustes"
-              ),
-            data: { title: "Seguridad" },
-          },
-          {
-            path: "notificaciones",
-            loadComponent: () =>
-              import(
-                "./features/settings/components/notificaciones-ajustes/notificaciones-ajustes"
-              ),
-            data: { title: "Notificaciones" },
-          },
         ],
       },
       {
         path: "encuestas",
+        title: "Encuestas",
         loadComponent: () =>
-          import("./features/encuestas/screens/encuestas/encuestas"),
+          import("./features/public/encuestas/screens/encuestas/encuestas"),
         children: [],
       },
       {
         path: "encuestas/:id",
+        title: "Encuesta",
+        canDeactivate: [unsavedChangesGuard],
         loadComponent: () =>
           import(
-            "./features/encuestas/screens/encuesta-detalle/encuesta-detalle"
+            "./features/public/encuestas/screens/encuesta-detalle/encuesta-detalle"
           ),
       },
       {
         path: "quizzes",
+        title: "Quizzes",
         loadComponent: () =>
-          import("./features/quizzes/screens/quizzes/quizzes"),
+          import("./features/public/quizzes/screens/quizzes/quizzes"),
       },
       {
         path: "acerca-de",
-        loadComponent: () => import("./features/about/about"),
+        title: "Acerca de",
+        loadComponent: () => import("./features/public/about/about"),
       },
       {
         path: "animales",
+        title: "Animales",
         loadComponent: () =>
-          import("./features/animales/screens/animales/animales"),
+          import("./features/public/animales/screens/animales/animales"),
       },
       {
         path: "",
@@ -94,218 +105,32 @@ export const routes: Routes = [
   {
     path: "",
     canActivateChild: [loggedGuard],
-    children: [
-      {
-        path: "login",
-        loadComponent: () => import("./features/auth/pages/login/login"),
-      },
-      {
-        path: "signup",
-        loadComponent: () => import("./features/auth/pages/signup/signup"),
-      },
-      {
-        path: "forgot-password",
-        loadComponent: () =>
-          import("./features/auth/pages/forgot-password/forgot-password"),
-      },
-      {
-        path: "reset-password",
-        loadComponent: () =>
-          import("./features/auth/pages/reset-password/reset-password"),
-      },
-      {
-        path: "verify-2fa",
-        loadComponent: () =>
-          import("./features/auth/pages/two-factor/two-factor"),
-      },
-    ],
+    loadChildren: () => import("./features/auth/auth.routes"),
   },
   {
     path: "admin",
     loadComponent: () =>
-      import("./features/admin/layout/admin-layout/admin-layout"),
+      import("./features/private/admin/layout/admin-layout/admin-layout"),
     canActivate: [authGuard],
-    children: [
-      {
-        path: "usuarios",
-        loadComponent: () =>
-          import("./features/admin/screens/gestion-usuarios/gestion-usuarios"),
-        children: [
-          {
-            path: "crear",
-            loadComponent: () =>
-              import(
-                "./features/admin/screens/gestion-usuarios/components/crear-usuario/crear-usuario"
-              ),
-          },
-          {
-            path: "lista",
-            loadComponent: () =>
-              import(
-                "./features/admin/screens/gestion-usuarios/components/lista-usuarios/lista-usuarios"
-              ),
-          },
-          {
-            path: "",
-            redirectTo: "lista",
-            pathMatch: "full",
-          },
-        ],
-      },
-      {
-        path: "animales",
-        loadComponent: () =>
-          import("./features/admin/screens/gestion-animales/gestion-animales"),
-        children: [
-          {
-            path: "crear",
-            loadComponent: () =>
-              import(
-                "./features/admin/screens/gestion-animales/components/animales/crear-animal/crear-animal"
-              ),
-          },
-          {
-            path: "lista",
-            loadComponent: () =>
-              import(
-                "./features/admin/screens/gestion-animales/components/animales/lista-animales/lista-animales"
-              ),
-          },
-          {
-            path: "especies",
-            children: [
-              {
-                path: "crear",
-                loadComponent: () =>
-                  import(
-                    "./features/admin/screens/gestion-animales/components/especies/crear-especie/crear-especie"
-                  ),
-              },
-              {
-                path: "lista",
-                loadComponent: () =>
-                  import(
-                    "./features/admin/screens/gestion-animales/components/especies/lista-especies/lista-especies"
-                  ),
-              },
-              {
-                path: "",
-                redirectTo: "lista",
-                pathMatch: "full",
-              },
-            ],
-          },
-          {
-            path: "habitat",
-            children: [
-              {
-                path: "crear",
-                loadComponent: () =>
-                  import(
-                    "./features/admin/screens/gestion-animales/components/habitat/crear-habitat/crear-habitat"
-                  ),
-              },
-              {
-                path: "lista",
-                loadComponent: () =>
-                  import(
-                    "./features/admin/screens/gestion-animales/components/habitat/lista-habitats/lista-habitats"
-                  ),
-              },
-              {
-                path: "",
-                redirectTo: "lista",
-                pathMatch: "full",
-              },
-            ],
-          },
-          {
-            path: "",
-            redirectTo: "lista",
-            pathMatch: "full",
-          },
-        ],
-      },
-      {
-        path: "dashboard",
-        loadComponent: () =>
-          import("./features/admin/screens/dashboard/dashboard"),
-      },
-      {
-        path: "encuestas",
-        loadComponent: () =>
-          import(
-            "./features/admin/screens/gestion-encuestas/gestion-encuestas"
-          ),
-        children: [
-          { path: "", redirectTo: "lista", pathMatch: "full" },
-          {
-            path: "crear",
-            loadComponent: () =>
-              import(
-                "./features/admin/screens/gestion-encuestas/components/crear-encuesta/crear-encuesta"
-              ),
-          },
-          {
-            path: "lista",
-            loadComponent: () =>
-              import(
-                "./features/admin/screens/gestion-encuestas/components/lista-encuestas/lista-encuestas"
-              ),
-          },
-        ],
-      },
-      {
-        path: "quizzes",
-        loadComponent: () =>
-          import("./features/admin/screens/gestion-quizzes/gestion-quizzes"),
-        children: [
-          {
-            path: "crear",
-            loadComponent: () =>
-              import(
-                "./features/admin/screens/gestion-quizzes/components/crear-quiz/crear-quiz"
-              ),
-          },
-          {
-            path: "lista",
-            loadComponent: () =>
-              import(
-                "./features/admin/screens/gestion-quizzes/components/lista-quizzes/lista-quizzes"
-              ),
-          },
-          {
-            path: "",
-            redirectTo: "lista",
-            pathMatch: "full",
-          },
-        ],
-      },
-      {
-        path: "reportes",
-        loadComponent: () =>
-          import("./features/admin/screens/gestion-reportes/gestion-reportes"),
-      },
-      {
-        path: "",
-        redirectTo: "dashboard",
-        pathMatch: "full",
-      },
-    ],
+    loadChildren: () => import("./features/private/admin/admin.routes"),
   },
   {
     path: "vet",
-    loadComponent: () => import("./features/veterinario/veterinario"),
+    loadComponent: () =>
+      import("./features/private/veterinario/layout/vet-layout/vet-layout"),
     canActivate: [veterinaryGuard],
+    loadChildren: () =>
+      import("./features/private/veterinario/veterinario.routes"),
   },
   {
     path: "cuidador",
-    loadComponent: () => import("./features/cuidador/cuidador"),
+    loadComponent: () => import("./features/private/cuidador/cuidador"),
     canActivate: [cuidadorGuard],
+    loadChildren: () => import("./features/private/cuidador/cuidador.routes"),
   },
   {
     path: "404",
-    loadComponent: () => import("./features/not-found/not-found"),
+    loadComponent: () => import("./features/public/not-found/not-found"),
   },
   {
     path: "**",

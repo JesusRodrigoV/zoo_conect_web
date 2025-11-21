@@ -4,9 +4,9 @@ import {
   HttpInterceptorFn,
   HttpRequest,
   HttpErrorResponse,
-} from '@angular/common/http';
-import { AuthStore } from '../store/auth.store';
-import { inject } from '@angular/core';
+} from "@angular/common/http";
+import { AuthStore } from "../stores/auth.store";
+import { inject } from "@angular/core";
 import {
   Observable,
   throwError,
@@ -16,104 +16,116 @@ import {
   switchMap,
   catchError,
   from,
-} from 'rxjs';
+  finalize,
+} from "rxjs";
+import { environment } from "@env";
 
 let isRefreshing = false;
-let refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+let refreshTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<
+  string | null
+>(null);
 
-export const authInterceptor: HttpInterceptorFn = (
-  req: HttpRequest<unknown>,
-  next: HttpHandlerFn
-): Observable<HttpEvent<unknown>> => {
-  const authStore = inject(AuthStore);
-  
+function resetRefreshState(): void {
+  isRefreshing = false;
+  refreshTokenSubject.next(null);
+}
 
-  const headers: { [key: string]: string } = {
-    'Content-Type': 'application/json',
-  };
-
-  const token = authStore.accessToken();
-  if (!isAuthRoute(req.url) && token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
-
-  const reqWithHeaders = req.clone({
-    setHeaders: headers,
+function addAuthHeader(
+  request: HttpRequest<any>,
+  token: string,
+): HttpRequest<any> {
+  return request.clone({
+    setHeaders: {
+      Authorization: `Bearer ${token}`,
+    },
   });
-
-  return next(reqWithHeaders).pipe(
-    catchError((error: HttpErrorResponse) => {
-      if (error.status === 401) {
-        return handle401Error(req, next, authStore);
-      }
-
-      return throwError(() => error);
-    })
-  );
-};
+}
 
 function isAuthRoute(url: string): boolean {
-  return (
-    url.includes('/auth/login') ||
-    url.includes('/auth/register') ||
-    url.includes('/auth/refresh')
-  );
+  const authPaths = [
+    "/auth/login",
+    "/auth/register",
+    "/auth/refresh",
+    "/auth/forgot-password",
+    "/auth/reset-password",
+    "/auth/2fa/verify-login",
+  ];
+  return authPaths.some((path) => url.endsWith(path));
 }
 
 function handle401Error(
   request: HttpRequest<any>,
   next: HttpHandlerFn,
-  authStore: any
+  authStore: any,
 ): Observable<HttpEvent<any>> {
-  if (!isRefreshing) {
+  if (isRefreshing) {
+    return refreshTokenSubject.pipe(
+      filter((token): token is string => token !== null),
+      take(1),
+      switchMap((jwt) => {
+        return next(addAuthHeader(request, jwt));
+      }),
+      catchError((err) => {
+        authStore.logoutSilently();
+        return throwError(() => err);
+      }),
+    );
+  } else {
     isRefreshing = true;
     refreshTokenSubject.next(null);
 
-    const refreshToken = authStore.refreshToken();
-
-    if (!refreshToken) {
-      isRefreshing = false;
-      authStore.logout();
-      return throwError(
-        () => new Error('No hay token de actualización disponible')
-      );
-    }
-
     return from(authStore.refreshTokens()).pipe(
       switchMap((response: any) => {
-        isRefreshing = false;
-        refreshTokenSubject.next(response.access_token);
-
-        const reqWithNewToken = request.clone({
-          setHeaders: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${response.access_token}`,
-          },
-        });
-        return next(reqWithNewToken);
+        const newAccessToken = response.access_token;
+        refreshTokenSubject.next(newAccessToken);
+        return next(addAuthHeader(request, newAccessToken));
       }),
       catchError((error: any) => {
-        isRefreshing = false;
-        refreshTokenSubject.next(null);
-
-        authStore.logout();
         return throwError(() => error);
-      })
-    );
-  } else {
-    // Ya se está renovando el token, esperar a que termine
-    return refreshTokenSubject.pipe(
-      filter((token) => token !== null),
-      take(1),
-      switchMap((token) => {
-        const reqWithToken = request.clone({
-          setHeaders: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        return next(reqWithToken);
-      })
+      }),
+      finalize(() => {
+        resetRefreshState();
+      }),
     );
   }
 }
+
+export const authInterceptor: HttpInterceptorFn = (
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+): Observable<HttpEvent<unknown>> => {
+  const authStore = inject(AuthStore);
+
+  let modifiedReq = req;
+  if (
+    req.url.startsWith(environment.apiUrl) ||
+    req.url.startsWith("/zooconnect")
+  ) {
+    modifiedReq = req.clone({
+      withCredentials: true,
+    });
+  }
+
+  if (isAuthRoute(modifiedReq.url)) {
+    return next(modifiedReq);
+  }
+
+  const token = authStore.accessToken();
+
+  if (!token) {
+    return next(modifiedReq);
+  }
+  const reqWithAuth = addAuthHeader(modifiedReq, token);
+
+  return next(reqWithAuth).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401 && !isAuthRoute(reqWithAuth.url)) {
+        return handle401Error(modifiedReq, next, authStore);
+      }
+      if (error.status === 403) {
+        console.error("Forbidden request:", error);
+      }
+      return throwError(() => error);
+    }),
+  );
+};

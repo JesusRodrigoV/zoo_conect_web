@@ -1,0 +1,129 @@
+.animal-card {
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--p-card-shadow);
+  }
+
+  :host ::ng-deep {
+    .p-card {
+      background: var(--p-surface-card);
+      border-radius: 1rem;
+      border: 1px solid var(--p-surface-border);
+
+      .p-card-header {
+        padding: 1rem;
+        border-bottom: 1px solid var(--p-surface-border);
+      }
+
+      .p-card-content {
+        padding: 1.5rem;
+      }
+    }
+  }
+
+  .card-header {
+    .header-content {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .card-icon {
+        font-size: 1.5rem;
+        color: var(--p-primary-color);
+      }
+
+      .header-text {
+        flex: 1;
+
+        .animal-nombre {
+          margin: 0 0 0.5rem;
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: var(--p-text-color);
+        }
+      }
+    }
+  }
+
+  .animal-imagen {
+    margin: -1.5rem -1.5rem 1rem;
+    overflow: hidden;
+
+    :host ::ng-deep {
+      img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .animal-descripcion {
+    margin-bottom: 1rem;
+
+    .descripcion-texto {
+      color: var(--p-text-color-secondary);
+      font-size: 0.875rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+  }
+
+  .info-basica {
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+
+      .info-icon {
+        font-size: 1.25rem;
+        color: var(--p-primary-color);
+
+        &.especie {
+          color: var(--p-teagreen-600);
+        }
+      }
+
+      .info-details {
+        display: flex;
+        flex-direction: column;
+
+        .info-label {
+          font-size: 0.75rem;
+          color: var(--p-text-color-secondary);
+          margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+          font-size: 0.875rem;
+          color: var(--p-text-color);
+          font-weight: 500;
+        }
+
+        .info-cientifico {
+          font-size: 0.75rem;
+          color: var(--p-text-color-secondary);
+          font-style: italic;
+        }
+      }
+    }
+  }
+
+  .card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+}
+
+:host ::ng-deep {
+  .p-tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}

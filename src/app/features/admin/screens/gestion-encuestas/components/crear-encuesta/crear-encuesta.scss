@@ -1,0 +1,153 @@
+.crear-form-card {
+  :host ::ng-deep {
+    .p-card {
+      background: var(--p-surface-card);
+      border-radius: 1rem;
+      box-shadow: var(--p-card-shadow);
+
+      .p-card-header {
+        padding: 1.5rem 1.5rem 0;
+        border-bottom: 1px solid var(--p-surface-border);
+        margin-bottom: 1.5rem;
+
+        h3 {
+          margin: 0;
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: var(--p-text-color);
+        }
+      }
+
+      .p-card-content {
+        padding: 0 1.5rem 1.5rem;
+      }
+
+      .p-card-footer {
+        padding: 1rem 1.5rem;
+        background: var(--p-surface-50);
+        border-top: 1px solid var(--p-surface-border);
+        border-radius: 0 0 1rem 1rem;
+      }
+    }
+  }
+
+  .form-section {
+    margin-bottom: 2rem;
+
+    h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--p-text-color);
+      margin: 0 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--p-primary-color);
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .form-row {
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .form-row-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+
+  :host ::ng-deep {
+    .p-float-label {
+      width: 100%;
+
+      input, 
+      textarea {
+        width: 100%;
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+    }
+
+    .p-checkbox {
+      margin-right: 0.5rem;
+    }
+
+    .p-select {
+      width: 100%;
+    }
+
+    .p-datepicker {
+      width: 100%;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      color: var(--p-text-color);
+      cursor: pointer;
+    }
+
+    .p-fileupload {
+      width: 100%;
+      
+      .p-fileupload-buttonbar {
+        background: var(--p-surface-50);
+        border-color: var(--p-surface-border);
+        padding: 1rem;
+        border-radius: 0.5rem 0.5rem 0 0;
+      }
+
+      .p-fileupload-content {
+        background: var(--p-surface-0);
+        border-color: var(--p-surface-border);
+        padding: 1rem;
+        border-radius: 0 0 0.5rem 0.5rem;
+      }
+    }
+
+    .p-button {
+      transition: all 0.2s ease;
+
+      &:not(.p-button-outlined):not(.p-button-text) {
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: var(--p-card-shadow);
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .form-row-group {
+      grid-template-columns: 1fr;
+    }
+
+    .actions {
+      flex-direction: column;
+      
+      .p-button {
+        width: 100%;
+      }
+    }
+  }
+}

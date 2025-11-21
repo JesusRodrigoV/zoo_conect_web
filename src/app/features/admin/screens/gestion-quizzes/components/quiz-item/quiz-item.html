@@ -1,0 +1,86 @@
+@if (quiz(); as q) {
+<p-card class="quiz-card">
+  <ng-template #header>
+    <div class="card-header">
+      <div class="header-content">
+        <i class="pi pi-question-circle card-icon"></i>
+        <div class="header-text">
+          <h3 class="quiz-titulo">Quiz Trivia</h3>
+          <p-tag 
+            [value]="estadoQuiz().texto" 
+            [severity]="estadoQuiz().severity"
+            class="estado-tag"
+          />
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="quiz-info">
+    <div class="info-item">
+      <i class="pi pi-calendar info-icon"></i>
+      <div class="info-details">
+        <span class="info-label">Fecha de la Trivia</span>
+        <span class="info-valor">{{q.fechaTrivia | date:'dd/MM/yyyy HH:mm'}}</span>
+      </div>
+    </div>
+    
+    <div class="info-item">
+      <i class="pi pi-list info-icon"></i>
+      <div class="info-details">
+        <span class="info-label">Cantidad de Preguntas</span>
+        <span class="info-valor">{{q.cantidadPreguntas}} preguntas</span>
+      </div>
+    </div>
+
+    <div class="info-item">
+      <i class="pi pi-star info-icon"></i>
+      <div class="info-details">
+        <span class="info-label">Dificultad</span>
+        <p-tag 
+          [value]="q.dificultad" 
+          [severity]="severidadDificultad()"
+        />
+      </div>
+    </div>
+  </div>
+  
+  @if (diasHastaTrivia() > 0 && estadoQuiz().severity === 'info') {
+    <div class="dias-restantes">
+      <i class="pi pi-clock"></i>
+      <span>{{diasHastaTrivia()}} día{{diasHastaTrivia() !== 1 ? 's' : ''}} para la trivia</span>
+    </div>
+  }
+  
+  <p-divider />
+  
+  <div class="quiz-actions">
+    <p-button
+      label="Ver Detalles"
+      icon="pi pi-eye"
+      [outlined]="true"
+      [rounded]="true"
+      severity="info"
+      (onClick)="verDetalles()"
+    />
+    
+    <p-button
+      label="Editar"
+      icon="pi pi-pencil"
+      [outlined]="true"
+      [rounded]="true"
+      severity="secondary"
+      (onClick)="editarQuiz()"
+    />
+    
+    <p-button
+      label="Eliminar"
+      icon="pi pi-trash"
+      [outlined]="true"
+      [rounded]="true"
+      severity="danger"
+      (onClick)="eliminarQuiz()"
+    />
+  </div>
+</p-card>
+}

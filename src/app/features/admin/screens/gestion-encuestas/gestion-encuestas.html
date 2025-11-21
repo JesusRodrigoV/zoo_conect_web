@@ -1,1 +1,24 @@
-<p>gestion-encuestas works!</p>
+<zoo-splitter-layout>
+  <div splitter-menu>
+    <p-button
+      label="Crear Encuesta"
+      routerLink="/admin/encuestas/crear"
+      [rounded]="true"
+      routerLinkActive="p-button-active"
+      icon="pi pi-plus"
+    />
+    <p-button
+      label="Lista"
+      routerLink="/admin/encuestas/"
+      [rounded]="true"
+      routerLinkActive="p-button-active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      icon="pi pi-list"
+    />
+  </div>
+  <div splitter-content>
+    <zoo-main-container>
+      <router-outlet />
+    </zoo-main-container>
+  </div>
+</zoo-splitter-layout>

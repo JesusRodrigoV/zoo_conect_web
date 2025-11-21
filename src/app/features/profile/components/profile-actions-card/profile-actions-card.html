@@ -1,38 +1,64 @@
-<mat-card class="actions-card">
-  <mat-card-content>
-    <div class="buttons">
-      <button mat-raised-button color="primary" (click)="onEditProfile()">
-        <mat-icon>edit</mat-icon>
-        Editar
-      </button>
-      
-      <button mat-raised-button (click)="onShareProfile()">
-        <mat-icon>share</mat-icon>
-        Compartir
-      </button>
-    </div>
+<p-card class="actions-card">
+  <div class="buttons">
+    <p-button
+      label="Editar"
+      icon="pi pi-pencil"
+      severity="primary"
+      [rounded]="true"
+      styleClass="w-full"
+      (click)="onEditProfile()"
+      [disabled]="disabledActions()?.edit"
+      [pTooltip]="tooltips()?.edit"
+      [tooltipDisabled]="!disabledActions()?.edit"
+    />
+    <p-button
+      label="Compartir"
+      icon="pi pi-share-alt"
+      severity="primary"
+      [rounded]="true"
+      styleClass="w-full"
+      (click)="onShareProfile()"
+      [disabled]="disabledActions()?.share"
+      [pTooltip]="tooltips()?.share"
+      [tooltipDisabled]="!disabledActions()?.share"
+    />
+  </div>
 
-    <mat-divider></mat-divider>
+  <p-divider />
 
-    <div class="menu-options">
-      <button mat-button class="menu-option" (click)="onViewStats()">
-        <mat-icon>bar_chart</mat-icon>
+  <div class="menu-options">
+    <button
+      class="menu-option"
+      (click)="onViewStats()"
+      [disabled]="disabledActions()?.stats"
+      [pTooltip]="tooltips()?.stats"
+      [tooltipDisabled]="!disabledActions()?.stats"
+    >
+      <span class="menu-label">
+        <i class="pi pi-chart-bar"></i>
         <span>Mis Estadísticas</span>
-        <mat-icon>chevron_right</mat-icon>
-      </button>
-
-      <button mat-button class="menu-option" (click)="onViewParticipations()">
-        <mat-icon>history</mat-icon>
-        <span>Mis Participaciones</span>
-        <mat-icon>chevron_right</mat-icon>
-      </button>
-    </div>
-
-    <mat-divider></mat-divider>
-
-    <button mat-button class="logout-btn" (click)="onLogout()">
-      <mat-icon>logout</mat-icon>
-      Cerrar Sesión
+      </span>
+      <i class="pi pi-chevron-right"></i>
     </button>
-  </mat-card-content>
-</mat-card>
+
+    <button class="menu-option" (click)="onViewParticipations()">
+      <span class="menu-label">
+        <i class="pi pi-history"></i>
+        <span>Mis Participaciones</span>
+      </span>
+      <i class="pi pi-chevron-right"></i>
+    </button>
+  </div>
+
+  <p-divider />
+
+  <p-button
+    label="Cerrar Sesión"
+    icon="pi pi-sign-out"
+    severity="danger"
+    [rounded]="true"
+    [text]="true"
+    styleClass="w-full logout-btn"
+    (click)="onLogout()"
+  />
+</p-card>

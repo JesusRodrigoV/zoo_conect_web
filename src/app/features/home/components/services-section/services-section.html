@@ -1,0 +1,53 @@
+<section class="services-section">
+  <div class="services-container">
+    <div class="section-header">
+      <span class="section-badge">Servicios</span>
+      <h2 class="section-title">Experiencias que transforman</h2>
+      <p class="section-description">
+        Descubre nuestros programas diseñados para conectarte con la naturaleza
+        de manera única y memorable.
+      </p>
+    </div>
+
+    <div class="services-grid">
+      @for(card of serviceCards; track $index){
+      <div
+        class="service-card"
+        [class.primary]="card.isPrimary"
+        data-aos="fade-up"
+        [attr.data-aos-delay]="$index * 100"
+      >
+        <div class="card-header">
+          <div class="icon-wrapper">
+            <i [class]="card.icon"></i>
+          </div>
+          <h3>{{ card.title }}</h3>
+        </div>
+        <p>{{ card.description }}</p>
+        <ul class="service-features">
+          @for(feature of card.features; track $index){
+          <li>
+            <i class="pi pi-check-circle"></i>
+            <span>{{ feature.text }}</span>
+          </li>
+          }
+        </ul>
+      </div>
+      }
+    </div>
+
+    <div class="cta-banner" data-aos="fade-up" data-aos-delay="100">
+      <div class="banner-content">
+        <h3>¿Listo para explorar?</h3>
+        <p>Planifica tu visita hoy mismo y vive una aventura inolvidable.</p>
+      </div>
+      <a
+        pButton
+        routerLink="/servicios"
+        label="Explorar Servicios"
+        class="banner-cta p-button-lg"
+      >
+      </a>
+    </div>
+  </div>
+</section>

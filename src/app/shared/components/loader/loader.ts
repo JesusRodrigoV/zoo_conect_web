@@ -9,4 +9,5 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 })
 export class Loader {
   readonly size = input<number>(30);
+  readonly color = input<string | null>(null);
 }

@@ -3,10 +3,10 @@ import {
   Component,
   computed,
   inject,
+  signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { AuthStore } from '@app/core/store/auth.store';
+import { AuthStore } from '@app/core/stores/auth.store';
 import { Loader } from '@app/shared/components';
 import {
   LogoutDialogComponent,
@@ -14,13 +14,16 @@ import {
   ProfileActionsCardComponent,
   type UserStats,
 } from './components';
+import { MainContainer } from '@app/shared/components/main-container';
 
 @Component({
   selector: 'zoo-profile',
   imports: [
     UserInfoCardComponent,
     ProfileActionsCardComponent,
+    LogoutDialogComponent,
     Loader,
+    MainContainer
   ],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
@@ -29,15 +32,17 @@ import {
 export default class Profile {
   private readonly authStore = inject(AuthStore);
   private readonly router = inject(Router);
-  private readonly dialog = inject(MatDialog);
 
   protected readonly currentUser = this.authStore.usuario;
+  protected readonly showLogoutDialog = signal(false);
 
-  protected readonly userStats = computed((): UserStats => ({
-    quizzes: 12,
-    surveys: 8,
-    points: 245,
-  }));
+  protected readonly userStats = computed(
+    (): UserStats => ({
+      quizzes: 12,
+      surveys: 8,
+      points: 245,
+    })
+  );
 
   protected editProfile(): void {
     console.log('Editar perfil');
@@ -56,15 +61,15 @@ export default class Profile {
   }
 
   protected confirmLogout(): void {
-    const dialogRef = this.dialog.open(LogoutDialogComponent, {
-      width: '400px',
-      disableClose: true,
-    });
+    this.showLogoutDialog.set(true);
+  }
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === true) {
-        this.authStore.logout();
-      }
-    });
+  protected onLogoutCancel(): void {
+    this.showLogoutDialog.set(false);
+  }
+
+  protected onLogoutConfirm(): void {
+    this.showLogoutDialog.set(false);
+    this.authStore.logout();
   }
 }

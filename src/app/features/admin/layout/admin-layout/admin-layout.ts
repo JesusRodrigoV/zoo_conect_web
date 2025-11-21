@@ -1,24 +1,27 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Footer, Header } from '@app/shared/components';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { RouterOutlet } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { SidebarAdminMenu } from '../../components/sidebar-admin-menu';
+import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
+import { Footer, Header } from "@app/shared/components";
+import { RouterOutlet } from "@angular/router";
+import { SidebarAdminMenu } from "../../components/sidebar-admin-menu";
+import { ButtonModule } from "primeng/button";
+import { DrawerModule } from "primeng/drawer";
 
 @Component({
-  selector: 'app-admin-layout',
+  selector: "app-admin-layout",
   imports: [
     Header,
     Footer,
     RouterOutlet,
-    MatSidenavModule,
-    MatButtonModule,
-    MatIconModule,
     SidebarAdminMenu,
+    ButtonModule,
+    DrawerModule,
   ],
-  templateUrl: './admin-layout.html',
-  styleUrl: './admin-layout.scss',
+  templateUrl: "./admin-layout.html",
+  styleUrl: "./admin-layout.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class AdminLayout {}
+export default class AdminLayout {
+  protected drawerVisible = signal(false);
+  toggleDrawer(): void {
+    this.drawerVisible.update((visible) => !visible);
+  }
+}

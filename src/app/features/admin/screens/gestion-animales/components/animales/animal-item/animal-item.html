@@ -1,0 +1,120 @@
+@defer(on viewport; prefetch on hover; hydrate on interaction){
+  @if (animal(); as animalData) {
+  <p-card class="animal-card">
+    <ng-template #header>
+      <div class="card-header">
+        <div class="header-content">
+          <i class="pi pi-heart card-icon"></i>
+          <div class="header-text">
+            <h3 class="animal-nombre">{{animalData.nombre}}</h3>
+            <p-tag 
+              [value]="estadoAnimal().texto" 
+              [severity]="estadoAnimal().severity"
+              class="estado-tag"
+            />
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- Imagen del animal -->
+    @if(imagenPrincipal()) {
+      <div class="animal-imagen">
+        <p-image 
+          [src]="imagenPrincipal()" 
+          [alt]="animalData.nombre"
+          width="100%"
+          height="200"
+          [preview]="true"
+        />
+      </div>
+    }
+
+    <!-- Descripción -->
+    <div class="animal-descripcion">
+      <p class="descripcion-texto">{{animalData.descripcion}}</p>
+    </div>
+    
+    <p-divider />
+    
+    <!-- Información básica -->
+    <div class="info-basica">
+      <div class="info-item">
+        <i class="pi pi-tag info-icon especie"></i>
+        <div class="info-details">
+          <span class="info-label">Especie:</span>
+          <span class="info-value">{{animalData.especie.nombreComun}}</span>
+          <small class="info-cientifico">{{animalData.especie.nombreCientifico}}</small>
+        </div>
+      </div>
+      
+      <div class="info-item">
+        <i class="pi pi-home info-icon habitat"></i>
+        <div class="info-details">
+          <span class="info-label">Hábitat:</span>
+          <span class="info-value">{{animalData.habitat.nombre}}</span>
+        </div>
+      </div>
+    </div>
+    
+    <p-divider />
+    
+    <!-- Información adicional -->
+    <div class="info-adicional">
+      <div class="info-grid">
+        <div class="grid-item">
+          <i class="pi pi-user info-icon"></i>
+          <span class="grid-label">Género:</span>
+          <span class="grid-value">{{generoTexto()}}</span>
+        </div>
+        
+        <div class="grid-item">
+          <i class="pi pi-calendar info-icon"></i>
+          <span class="grid-label">Edad aprox:</span>
+          <span class="grid-value">{{edadAproximada()}}</span>
+        </div>
+        
+        <div class="grid-item">
+          <i class="pi pi-map-marker info-icon"></i>
+          <span class="grid-label">Procedencia:</span>
+          <span class="grid-value">{{animalData.procedencia}}</span>
+        </div>
+        
+        <div class="grid-item">
+          <i class="pi pi-eye info-icon"></i>
+          <span class="grid-label">Público:</span>
+          <span class="grid-value">{{animalData.es_publico ? 'Sí' : 'No'}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Acciones -->
+    <ng-template #footer>
+      <div class="card-actions">
+        <p-button 
+          label="Ver Detalles" 
+          icon="pi pi-eye" 
+          severity="info"
+          size="small"
+        />
+        <p-button 
+          label="Editar" 
+          icon="pi pi-pencil" 
+          severity="secondary"
+          size="small"
+        />
+        <p-button 
+          label="Eliminar" 
+          icon="pi pi-trash" 
+          severity="danger"
+          size="small"
+        />
+      </div>
+    </ng-template>
+  </p-card>
+  }
+} @placeholder {
+  <div class="animal-card-skeleton">
+    <p>Cargando animal...</p>
+  </div>
+}

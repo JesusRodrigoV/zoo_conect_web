@@ -1,0 +1,44 @@
+<p-card class="survey-card">
+  <div class="card-content">
+    <p-tag [value]="status().value" [severity]="status().severity" />
+
+    <h3 class="title">{{ encuesta().titulo }}</h3>
+    <p class="description">{{ encuesta().descripcion }}</p>
+
+    <div class="dates">
+      <div class="date-item start">
+        <i class="pi pi-calendar"></i>
+        <div class="date-info">
+          <small>Inicia</small>
+          <span>{{ encuesta().fechaInicio | date:'d MMM, y' }}</span>
+        </div>
+      </div>
+      <div class="date-item end">
+        <i class="pi pi-calendar-times"></i>
+        <div class="date-info">
+          <small>Finaliza</small>
+          <span>{{ encuesta().fechaFin | date:'d MMM, y' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      [label]="isAvailable() ? 'Participar Ahora' : 'Próximamente'"
+      [severity]="isAvailable() ? 'primary' : 'secondary'"
+      [rounded]="true"
+      [disabled]="!isAvailable()"
+      [routerLink]="['/encuestas', encuesta().idEncuesta]"
+      [pTooltip]="tooltipText()"
+      tooltipPosition="top"
+      styleClass="w-full"
+    >
+      <i
+        class="pi"
+        [class.pi-arrow-right]="isAvailable()"
+        [class.pi-clock]="!isAvailable()"
+      ></i>
+    </p-button>
+  </ng-template>
+</p-card>

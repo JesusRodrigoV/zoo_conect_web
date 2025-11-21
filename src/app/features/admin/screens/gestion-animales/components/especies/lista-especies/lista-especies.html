@@ -1,0 +1,49 @@
+<div class="lista-especies-container">
+  <div class="header-actions">
+    <h2>Gestión de Especies</h2>
+    <p-button
+      icon="pi pi-plus"
+      label="Registrar Especie"
+      [rounded]="true"
+      severity="primary"
+      routerLink="/admin/animales/especies/crear"
+    />
+  </div>
+
+  @defer(on viewport; prefetch on idle; hydrate on interaction){
+    @let especies = this.especies$ | async;
+    @if(especies){
+      <p-dataview #dv [value]="especies">
+        <ng-template #header>
+          <div class="dataview-header">
+            <span>Total: {{ especies.length }} especies</span>
+          </div>
+        </ng-template>
+        
+        <ng-template #list let-items>
+          @for(item of items; track item.idEspecie){
+            <zoo-especie-item [especie]="item"/>
+          } @empty {
+            <div class="empty-state">
+              <p>No hay especies disponibles.</p>
+              <p-button
+                icon="pi pi-plus"
+                label="Registrar Primera Especie"
+                [rounded]="true"
+                severity="primary"
+                routerLink="/admin/animales/especies/crear"
+              />
+            </div>
+          }
+        </ng-template>
+      </p-dataview>
+    }
+  } @loading {
+    <zoo-loader />
+  }
+  @placeholder {
+    <div class="loading-placeholder">
+      <p>Cargando especies...</p>
+    </div>
+  }
+</div>

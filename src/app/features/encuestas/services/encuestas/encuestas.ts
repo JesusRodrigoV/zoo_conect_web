@@ -1,26 +1,24 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { environment } from '@env/envieronment';
-import { Observable, map } from 'rxjs';
-import { 
-  EncuestaAdapter, 
-  BackendEncuestaResponse 
-} from '../../adapters/encuesta.adapter';
-import { 
+import { HttpClient } from "@angular/common/http";
+import { inject, Injectable } from "@angular/core";
+import { environment } from "@env";
+import { Observable, map } from "rxjs";
+import { EncuestaAdapter, BackendEncuestaResponse } from "@adapters/encuesta";
+import {
   EstadisticaEncuestaAdapter,
-  BackendStatsResponse 
-} from '../../adapters/estadistica-encuesta.adapter';
-import { Encuesta } from '../../models/encuesta.model';
-import { EstadisticaEncuesta } from '../../models/estadistica-encuesta.model';
+  BackendStatsResponse,
+} from "@adapters/encuesta";
+import { EstadisticaEncuesta } from "@models/encuestas";
+import { Encuesta } from "@models/encuestas";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class EncuestaService {
   private http = inject(HttpClient);
 
   private apiUrl = environment.apiUrl;
-  private encuestasUrl = `${this.apiUrl}/surveys`;
+  private surveysUrl = `${this.apiUrl}/surveys`;
+  private encuestasUrl = `${this.surveysUrl}/surveys`;
 
   getSurveys(skip: number = 0, limit: number = 10): Observable<Encuesta[]> {
     return this.http
@@ -29,8 +27,8 @@ export class EncuestaService {
       })
       .pipe(
         map((surveys) =>
-          surveys.map((survey) => EncuestaAdapter.fromBackend(survey))
-        )
+          surveys.map((survey) => EncuestaAdapter.fromBackend(survey)),
+        ),
       );
   }
 

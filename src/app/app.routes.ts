@@ -96,6 +96,13 @@ export const routes: Routes = [
           import("./features/public/animales/screens/animales/animales"),
       },
       {
+        path: "animales/:id",
+        loadComponent: () =>
+          import(
+            "./features/public/animales/screens/animal-detail/animal-detail"
+          ),
+      },
+      {
         path: "",
         redirectTo: "inicio",
         pathMatch: "full",

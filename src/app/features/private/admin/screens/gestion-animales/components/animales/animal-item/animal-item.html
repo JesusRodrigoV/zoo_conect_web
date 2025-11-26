@@ -1,48 +1,53 @@
-@if (animal(); as animal) {
-<p-card styleClass="animal-item-card">
-  <div class="animal-content">
-    <div class="animal-info">
-      <h3>{{ animal.nombre }}</h3>
-      <p class="especie">{{ animal.especie.nombreComun }}</p>
-      <div class="animal-badges">
-        <p-tag [value]="generoTexto()" [rounded]="true" />
+<p-card class="animal-card">
+  <div class="item-content">
+    <div class="item-info">
+      <div class="item-header">
+        <h3>{{ animal().nombre }}</h3>
         <p-tag
-          [value]="estadoAnimal().texto"
-          [severity]="estadoAnimal().severity"
+          [value]="generoInfo().label"
+          [icon]="generoInfo().icon"
+          [severity]="generoInfo().severity"
           [rounded]="true"
         />
       </div>
+
+      <p class="subtitle">
+        {{ animal().especie.nombreComun }}
+        <span class="dot">•</span>
+        <span class="status-text">{{ animal().estado_operativo }}</span>
+      </p>
     </div>
 
-    <div class="animal-actions">
+    <div class="item-actions">
       <p-button
         icon="pi pi-eye"
         [rounded]="true"
-        severity="info"
+        severity="secondary"
         [outlined]="true"
-        pTooltip="Ver Detalles"
+        pTooltip="Ver Ficha"
         tooltipPosition="top"
         (onClick)="verDetalles()"
       />
+
       <p-button
         icon="pi pi-pencil"
         [rounded]="true"
-        severity="secondary"
+        severity="info"
         [outlined]="true"
         pTooltip="Editar"
         tooltipPosition="top"
-        [routerLink]="['/admin/animales/editar', animal.id_animal]"
+        [routerLink]="['/admin/animales/editar', animal().id_animal]"
       />
+
       <p-button
         icon="pi pi-trash"
         [rounded]="true"
         severity="danger"
         [outlined]="true"
-        pTooltip="Eliminar"
+        pTooltip="Dar de baja"
         tooltipPosition="top"
         (onClick)="eliminar()"
       />
     </div>
   </div>
 </p-card>
-}

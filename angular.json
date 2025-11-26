@@ -22,7 +22,11 @@
               "aos",
               "qrcode",
               "dijkstrajs",
-              "pngjs"
+              "pngjs",
+              "debug",
+              "agent-base",
+              "node-domexception",
+              "web-streams-polyfill/dist/ponyfill.es2018.js"
             ],
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",

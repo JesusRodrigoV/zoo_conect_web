@@ -4,8 +4,6 @@ import {
   EstadoOperativo,
   MediaAnimal,
 } from "@models/animales";
-import { Especie } from "@models/animales/especie.model";
-import { Habitat } from "@models/habitat";
 import { EspecieAdapter, EspecieApiResponse } from "./especie.adapter";
 import { HabitatAdapter, HabitatBackendResponse } from "@adapters/habitat";
 

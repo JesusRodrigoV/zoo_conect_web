@@ -4,10 +4,13 @@ import {
   isMainModule,
   writeResponseToNodeResponse,
 } from "@angular/ssr/node";
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { join } from "node:path";
+import { GoogleGenAI } from "@google/genai";
 
 import "dotenv/config";
+import { QuizJsonSchema, QuizSchema } from "@models/quiz";
+import { environment } from "@env";
 
 const browserDistFolder = join(import.meta.dirname, "../browser");
 
@@ -26,7 +29,33 @@ const angularApp = new AngularNodeAppEngine();
  * ```
  */
 
-app.get("/api/weather", async (req, res, next) => {
+const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    res.status(401).json({ error: "Acceso denegado: No autenticado" });
+    return;
+  }
+
+  try {
+    const backendRealUrl = environment.apiUrl + "/auth/me";
+    const validationResponse = await fetch(backendRealUrl, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!validationResponse.ok) {
+      throw new Error("Token inválido o expirado");
+    }
+
+    next();
+  } catch (error) {
+    res.status(403).json({ error: "Token inválido" });
+    return;
+  }
+};
+
+app.get("/api/weather", requireAuth, async (req, res, next) => {
   const city = (req.query["city"] as string) || "La Paz";
   const apiKey = process.env["WEATHER_API_KEY"];
 
@@ -51,9 +80,44 @@ app.get("/api/weather", async (req, res, next) => {
 
     return res.json(data);
   } catch (error) {
-    console.error("Error en el proxy:", error);
-
     return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.get("/api/generate-quiz", requireAuth, async (req, res) => {
+  try {
+    const amount = req.query["amount"] || "5";
+    const difficulty = req.query["difficulty"] || "medio";
+    const topic =
+      (req.query["category"] as string) || "Fauna Silvestre y Conservación";
+
+    const ai = new GoogleGenAI({});
+
+    const prompt = `
+          Genera un quiz educativo sobre: "${topic}".
+          Cantidad: ${amount}. Dificultad: ${difficulty}. Idioma: Español Neutro.
+        `;
+
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: prompt,
+      config: {
+        systemInstruction: "Eres un experto zoólogo y educador veterinario.",
+        responseMimeType: "application/json",
+        responseJsonSchema: QuizJsonSchema,
+      },
+    });
+
+    const rawData = JSON.parse(response.text!);
+    const quizData = QuizSchema.parse(rawData);
+
+    return res.json(quizData);
+  } catch (error) {
+    console.error("Error generando quiz con Gemini:", error);
+    return res.status(500).json({
+      error: "Error al generar el quiz",
+      details: error instanceof Error ? error.message : "Unknown",
+    });
   }
 });
 

@@ -2,13 +2,12 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { environment } from "@env";
 import { Observable, map } from "rxjs";
-import { EncuestaAdapter, BackendEncuestaResponse } from "@adapters/encuesta";
 import {
-  EstadisticaEncuestaAdapter,
-  BackendStatsResponse,
+  EncuestaAdapter,
+  BackendEncuestaResponse,
+  surveyStatsAdapter,
 } from "@adapters/encuesta";
-import { EstadisticaEncuesta } from "@models/encuestas";
-import { Encuesta } from "@models/encuestas";
+import { BackendStatsResponse, Encuesta } from "@models/encuestas";
 import { Participacion } from "@models/encuestas/participacion.model";
 import {
   BackendParticipacionResponse,
@@ -51,12 +50,10 @@ export class EncuestaService {
       .pipe(map((survey) => EncuestaAdapter.fromBackend(survey)));
   }
 
-  getStatsBySurveyId(
-    surveyId: string | number,
-  ): Observable<EstadisticaEncuesta> {
+  getStatsBySurveyId(surveyId: string | number) {
     return this.http
       .get<BackendStatsResponse>(`${this.encuestasUrl}/${surveyId}/stats`)
-      .pipe(map((stats) => EstadisticaEncuestaAdapter.fromBackend(stats)));
+      .pipe(map((response) => surveyStatsAdapter(response)));
   }
 
   createParticipation(encuestaId: number): Observable<Participacion> {

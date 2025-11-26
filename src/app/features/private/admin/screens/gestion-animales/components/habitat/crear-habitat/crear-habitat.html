@@ -144,32 +144,37 @@
 
           @if (isEditMode() && existingMedia().length > 0) {
           <div class="form-section">
-            <h4>Galería Actual</h4>
-            <p class="subtitle">
-              Gestiona las imágenes existentes del hábitat.
-            </p>
-            <div class="galeria-grid">
+            <div class="section-header-row">
+              <h4>Galería del Hábitat</h4>
+              <span class="counter-badge"
+                >{{ existingMedia().length }} imágenes</span
+              >
+            </div>
+
+            <div class="media-grid">
               @for (media of existingMedia(); track media.id_media_habitat) {
-              <div class="galeria-item">
-                <p-image
-                  [src]="media.url_habitat"
-                  [alt]="media.titulo_media_habitat"
-                  width="100"
-                  [preview]="true"
-                />
-                <span class="galeria-titulo"
-                  >{{ media.titulo_media_habitat }}</span
-                >
-                <p-button
-                  icon="pi pi-trash"
-                  severity="danger"
-                  [rounded]="true"
-                  [outlined]="true"
-                  (click)="onDeleteMedia(media.id_media_habitat)"
-                  [disabled]="isProcessing()"
-                  pTooltip="Eliminar imagen"
-                  tooltipPosition="bottom"
-                />
+              <div class="media-card">
+                <div class="image-container">
+                  <p-image
+                    [src]="media.url_habitat"
+                    [alt]="media.titulo_media_habitat"
+                    imageClass="gallery-img"
+                    styleClass="full-width-image"
+                    [preview]="true"
+                  />
+
+                  <div class="card-actions-overlay">
+                    <p-button
+                      icon="pi pi-trash"
+                      severity="danger"
+                      [rounded]="true"
+                      (click)="onDeleteMedia(media.id_media_habitat)"
+                      [disabled]="isProcessing()"
+                      pTooltip="Eliminar imagen"
+                      tooltipPosition="left"
+                    />
+                  </div>
+                </div>
               </div>
               }
             </div>

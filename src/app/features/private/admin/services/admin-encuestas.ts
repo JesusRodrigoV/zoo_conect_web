@@ -2,9 +2,8 @@ import {
   BackendEncuestaResponse,
   BackendOpcion,
   BackendPregunta,
-  BackendStatsResponse,
   EncuestaAdapter,
-  EstadisticaEncuestaAdapter,
+  surveyStatsAdapter,
 } from "@adapters/encuesta";
 import { OpcionAdapter } from "@adapters/encuesta/opcion.adapter";
 import { PreguntaAdapter } from "@adapters/encuesta/pregunta.adapter";
@@ -20,7 +19,7 @@ import {
   UpdatePregunta,
 } from "@app/core/models/encuestas/encuesta.model";
 import { environment } from "@env";
-import { EstadisticaEncuesta } from "@models/encuestas";
+import { BackendStatsResponse } from "@models/encuestas";
 import { map, Observable } from "rxjs";
 
 @Injectable({
@@ -57,10 +56,10 @@ export class AdminEncuestas {
       .pipe(map((survey) => EncuestaAdapter.fromBackend(survey)));
   }
 
-  getStatsBySurveyId(surveyId: string): Observable<EstadisticaEncuesta> {
+  getStats(surveyId: string) {
     return this.http
       .get<BackendStatsResponse>(`${this.encuestasUrl}/${surveyId}/stats`)
-      .pipe(map((stats) => EstadisticaEncuestaAdapter.fromBackend(stats)));
+      .pipe(map((response) => surveyStatsAdapter(response)));
   }
 
   updateSurvey(id: number, surveyData: any) {
@@ -84,15 +83,10 @@ export class AdminEncuestas {
       .pipe(map(PreguntaAdapter.fromBackend));
   }
 
-  /**
-   * PUT /zooconnect/surveys/surveys/preguntas/{pregunta_id}
-   */
   updatePregunta(
     preguntaId: number,
     preguntaData: UpdatePregunta,
   ): Observable<Pregunta> {
-    // Tu API no especifica el body para PUT Pregunta, asumo que es similar a Create
-    // pero sin opciones. Usaré un adapter.
     const body = PreguntaAdapter.toBackendUpdate(preguntaData);
     return this.http
       .put<BackendPregunta>(`${this.preguntasUrl}/${preguntaId}`, body)
@@ -106,13 +100,6 @@ export class AdminEncuestas {
     return this.http.delete<void>(`${this.preguntasUrl}/${preguntaId}`);
   }
 
-  // =============================================
-  // === MÉTODOS DE OPCIÓN (Faltantes) ===
-  // =============================================
-
-  /**
-   * POST /zooconnect/surveys/surveys/preguntas/{pregunta_id}/opciones
-   */
   addOpcionToPregunta(
     preguntaId: number,
     opcionData: CreateOpcion,
@@ -123,14 +110,10 @@ export class AdminEncuestas {
       .pipe(map(OpcionAdapter.fromBackend));
   }
 
-  /**
-   * PUT /zooconnect/surveys/surveys/opciones/{opcion_id}
-   */
   updateOpcion(
     opcionId: number,
     opcionData: UpdateOpcion,
   ): Observable<OpcionPregunta> {
-    // El body de tu API es texto y orden
     const body = {
       texto_opcion: opcionData.textoOpcion,
       orden: opcionData.orden,
@@ -140,9 +123,6 @@ export class AdminEncuestas {
       .pipe(map(OpcionAdapter.fromBackend));
   }
 
-  /**
-   * DELETE /zooconnect/surveys/surveys/opciones/{opcion_id}
-   */
   deleteOpcion(opcionId: number): Observable<void> {
     return this.http.delete<void>(`${this.opcionesUrl}/${opcionId}`);
   }

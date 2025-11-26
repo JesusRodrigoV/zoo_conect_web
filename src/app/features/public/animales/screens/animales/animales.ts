@@ -1,4 +1,3 @@
-import { NgOptimizedImage } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,11 +10,10 @@ import { GetAnimales } from "../../services";
 import { Loader } from "@app/shared/components";
 import { MainContainer } from "@app/shared/components/main-container";
 import { AnimalItem } from "../../components/animal-item";
-import { Router } from "@angular/router";
 
 @Component({
   selector: "app-animales",
-  imports: [InfiniteScroll, Loader, MainContainer, AnimalItem],
+  imports: [InfiniteScroll, MainContainer, AnimalItem],
   templateUrl: "./animales.html",
   styleUrl: "./animales.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -9,6 +9,7 @@ export const WEATHER_TRANSLATIONS: Record<string, string> = {
   fog: "Niebla",
 
   "patchy rain possible": "Posible lluvia irregular",
+  "patchy rain nearby": "Lluvia irregular cerca",
   "patchy light rain": "Lluvia ligera irregular",
   "light rain": "Lluvia ligera",
   "moderate rain at times": "Lluvia moderada ocasional",

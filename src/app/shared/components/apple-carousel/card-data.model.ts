@@ -4,5 +4,6 @@ export interface CardData {
   src: string;
   title: string;
   category: string;
-  content: Type<any>;
+  content?: Type<any>;
+  description?: string;
 }

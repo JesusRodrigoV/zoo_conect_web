@@ -1,19 +1,36 @@
-import { EstadisticaEncuesta, RespuestasPorPregunta } from "../../models/encuestas/estadistica-encuesta.model";
+import {
+  BackendStatsResponse,
+  QuestionStat,
+  SurveyStats,
+} from "@models/encuestas";
 
-export class EstadisticaEncuestaAdapter {
-  static fromBackend(backendStats: BackendStatsResponse): EstadisticaEncuesta {
-    return {
-      totalParticipaciones: backendStats.total_participaciones,
-      participacionesCompletadas: backendStats.participaciones_completadas,
-      porcentajeCompletitud: backendStats.porcentaje_completitud,
-      respuestasPorPregunta: backendStats.respuestas_por_pregunta
-    };
-  }
-}
+export const surveyStatsAdapter = (
+  backend: BackendStatsResponse,
+): SurveyStats => {
+  const questions: QuestionStat[] = Object.entries(
+    backend.estadisticas_preguntas,
+  )
+    .map(([qId, qData]) => {
+      const options = Object.entries(qData.opciones)
+        .map(([optId, optData]) => ({
+          id: optId,
+          label: optData.texto_opcion || "Sin respuesta",
+          count: optData.conteo_respuestas,
+          originalText: optData.texto_opcion,
+        }))
+        .filter((opt) => opt.originalText !== null);
 
-export interface BackendStatsResponse {
-  total_participaciones: number;
-  participaciones_completadas: number;
-  porcentaje_completitud: number;
-  respuestas_por_pregunta: RespuestasPorPregunta;
-}
+      return {
+        id: qId,
+        text: qData.texto_pregunta,
+        options: options,
+        hasData: options.length > 0,
+      };
+    })
+    .filter((q) => q.hasData);
+
+  return {
+    totalParticipations: backend.total_participaciones,
+    questions,
+  };
+};

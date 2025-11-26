@@ -52,11 +52,6 @@ export class SidebarAdminMenu {
       route: "/admin/encuestas",
     },
     {
-      text: "Quizzes",
-      icon: "pi pi-question-circle",
-      route: "/admin/quizzes",
-    },
-    {
       text: "Reportes",
       icon: "pi pi-chart-bar",
       route: "/admin/reportes",
@@ -68,12 +63,10 @@ export class SidebarAdminMenu {
       icon: "pi pi-users",
       route: "/admin/audit",
     },
-    /*
-      {
-        text: 'Configuración',
-        icon: 'pi pi-cog', // PrimeIcon
-        route: '/admin/configuracion'
-      }
-      */
+    {
+      text: "Gestion Inventario",
+      icon: "pi pi-box",
+      route: "/admin/inventario",
+    },
   ]);
 }

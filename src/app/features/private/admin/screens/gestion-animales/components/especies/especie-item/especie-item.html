@@ -1,89 +1,44 @@
-@if (especie(); as esp) {
-<p-card class="especie-card-compact">
-  <ng-template #header>
-    <div class="card-header">
-      <div class="header-content">
-        <i class="pi pi-globe card-icon"></i>
-        <div class="header-text">
-          <h3 class="especie-nombre">{{ esp.nombreComun }}</h3>
-          <p class="especie-cientifico">{{ esp.nombreCientifico }}</p>
-          <p-tag
-            [value]="estadoEspecie().texto"
-            [severity]="estadoEspecie().severity"
-            class="estado-tag"
-            [rounded]="true"
-          />
-        </div>
+<p-card class="especie-card">
+  <div class="item-content">
+    <div class="item-info">
+      <div class="item-header">
+        <h3>{{ especie().nombreComun }}</h3>
       </div>
-    </div>
-  </ng-template>
 
-  <ng-template #content>
-    <div class="taxonomia-info">
-      <h4 class="taxonomia-label">Clasificación Taxonómica</h4>
-      <div class="taxonomia-grid">
-        <div class="tax-item">
-          <span class="tax-label">Filo:</span>
-          <span class="tax-value">{{ esp.filo }}</span>
-        </div>
-        <div class="tax-item">
-          <span class="tax-label">Clase:</span>
-          <span class="tax-value">{{ esp.clase }}</span>
-        </div>
-        <div class="tax-item">
-          <span class="tax-label">Orden:</span>
-          <span class="tax-value">{{ esp.orden }}</span>
-        </div>
-        <div class="tax-item">
-          <span class="tax-label">Familia:</span>
-          <span class="tax-value">{{ esp.familia }}</span>
-        </div>
-      </div>
+      <p class="scientific-name">{{ especie().nombreCientifico }}</p>
+      <p class="taxonomy-text">{{ taxonomiaResumen() }}</p>
     </div>
-  </ng-template>
 
-  <ng-template #footer>
-    <div class="card-actions">
+    <div class="item-actions">
       <p-button
         icon="pi pi-eye"
-        label="Ver Detalles"
+        [rounded]="true"
         severity="secondary"
         [outlined]="true"
-        size="small"
-        [rounded]="true"
-        (onClick)="onVerDetalles()"
-        pTooltip="Ver Detalles"
+        pTooltip="Ver detalles"
         tooltipPosition="top"
+        (onClick)="verDetalles.emit(especie().idEspecie)"
       />
+
       <p-button
         icon="pi pi-pencil"
-        label="Editar"
+        [rounded]="true"
         severity="info"
-        size="small"
-        [rounded]="true"
-        (onClick)="onEditar()"
-        pTooltip="Editar Especie"
-        tooltipPosition="top"
-      />
-      <p-button
-        icon="pi pi-trash"
-        label="Eliminar"
-        severity="danger"
         [outlined]="true"
-        size="small"
-        [rounded]="true"
-        (onClick)="onEliminar()"
-        pTooltip="Eliminar Especie"
+        pTooltip="Editar especie"
         tooltipPosition="top"
+        (onClick)="editar.emit(especie().idEspecie)"
+      />
+
+      <p-button
+        [icon]="especie().isActive ? 'pi pi-trash' : 'pi pi-undo'"
+        [rounded]="true"
+        [severity]="especie().isActive ? 'danger' : 'success'"
+        [outlined]="true"
+        [pTooltip]="especie().isActive ? 'Desactivar especie' : 'Reactivar especie'"
+        tooltipPosition="top"
+        (onClick)="eliminar.emit(especie().idEspecie)"
       />
     </div>
-  </ng-template>
-</p-card>
-} @else {
-<p-card class="especie-card empty-card">
-  <div class="empty-state">
-    <i class="pi pi-exclamation-circle empty-icon"></i>
-    <p>No hay datos de especie disponibles</p>
   </div>
 </p-card>
-}

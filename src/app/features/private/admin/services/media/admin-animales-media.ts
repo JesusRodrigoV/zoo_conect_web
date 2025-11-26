@@ -18,8 +18,11 @@ export interface AnimalMediaMetadata {
 })
 export class AdminAnimalesMultimedia {
   private http = inject(HttpClient);
-  private apiUrl = environment.apiUrl;
-  private animalesUrl = `${this.apiUrl}/animals`;
+
+  readonly apiUrl = environment.apiUrl;
+  readonly animalUrl = `${this.apiUrl}/animals`;
+  readonly animalesUrl = `${this.animalUrl}/animals`;
+  readonly mediaUrl = `${this.animalUrl}/media/animal`;
 
   uploadAnimalMedia(
     datos: AnimalMediaMetadata,
@@ -44,7 +47,7 @@ export class AdminAnimalesMultimedia {
       formData.append("descripcion_media_animal", datos.descripcion);
     }
 
-    const url = `${this.animalesUrl}/animals/${datos.animalId}/media`;
+    const url = `${this.animalesUrl}/${datos.animalId}/media`;
 
     return this.http.post<AnimalMediaApiResponse>(url, formData).pipe(
       map(AnimalMediaAdapter.fromApi),
@@ -63,7 +66,7 @@ export class AdminAnimalesMultimedia {
       .set("page", page.toString())
       .set("size", size.toString());
 
-    const url = `${this.animalesUrl}/animals/${animalId}/media`;
+    const url = `${this.animalesUrl}/${animalId}/media`;
 
     return this.http
       .get<PaginatedResponse<AnimalMediaApiResponse>>(url, { params })
@@ -81,7 +84,7 @@ export class AdminAnimalesMultimedia {
   }
 
   deleteAnimalMedia(mediaId: number): Observable<void> {
-    const url = `${this.animalesUrl}/animals/media/animal/${mediaId}`;
+    const url = `${this.mediaUrl}/${mediaId}`;
     return this.http
       .delete<void>(url)
       .pipe(
@@ -102,7 +105,7 @@ export class AdminAnimalesMultimedia {
     return this.http
       .get<
         PaginatedResponse<AnimalMediaApiResponse>
-      >(`${this.animalesUrl}/animals/media/animals`, { params })
+      >(`${this.animalesUrl}/media/animals`, { params })
       .pipe(
         map((response) => ({
           ...response,

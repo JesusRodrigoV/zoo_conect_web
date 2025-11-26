@@ -1,53 +1,66 @@
 <section class="services-section">
+  <div class="organic-shape-bg"></div>
+
   <div class="services-container">
-    <div class="section-header">
-      <span class="section-badge">Servicios</span>
-      <h2 class="section-title">Experiencias que transforman</h2>
+    <header class="section-header">
+      <div class="badge-pill">
+        <i class="bx bxs-tree"></i>
+        <span>Nuestros Programas</span>
+      </div>
+      <h2 class="section-title">
+        Conecta con lo <span class="highlight">Salvaje</span>
+      </h2>
       <p class="section-description">
-        Descubre nuestros programas diseñados para conectarte con la naturaleza
-        de manera única y memorable.
+        Más que una visita, una experiencia de inmersión. Diseñamos cada
+        actividad para despertar tu instinto de conservación.
       </p>
-    </div>
+    </header>
 
     <div class="services-grid">
       @for(card of serviceCards; track $index){
-      <div
+      <article
         class="service-card"
-        [class.primary]="card.isPrimary"
+        [class.highlighted]="card.isPrimary"
         data-aos="fade-up"
         [attr.data-aos-delay]="$index * 100"
       >
-        <div class="card-header">
-          <div class="icon-wrapper">
-            <i [class]="card.icon"></i>
-          </div>
-          <h3>{{ card.title }}</h3>
+        <div class="card-icon-blob">
+          <i [class]="card.icon"></i>
         </div>
-        <p>{{ card.description }}</p>
-        <ul class="service-features">
-          @for(feature of card.features; track $index){
-          <li>
-            <i class="pi pi-check-circle"></i>
-            <span>{{ feature.text }}</span>
-          </li>
-          }
-        </ul>
-      </div>
+
+        <div class="card-content">
+          <h3>{{ card.title }}</h3>
+          <p>{{ card.description }}</p>
+
+          <div class="divider"></div>
+
+          <ul class="features-list">
+            @for(feature of card.features; track $index){
+            <li>
+              <i class="bx bx-leaf"></i>
+              <span>{{ feature.text }}</span>
+            </li>
+            }
+          </ul>
+        </div>
+      </article>
       }
     </div>
 
-    <div class="cta-banner" data-aos="fade-up" data-aos-delay="100">
-      <div class="banner-content">
-        <h3>¿Listo para explorar?</h3>
-        <p>Planifica tu visita hoy mismo y vive una aventura inolvidable.</p>
+    <div class="nature-cta" data-aos="zoom-in" data-aos-delay="200">
+      <div class="cta-content">
+        <h3>Empieza tu Aventura</h3>
+        <p>
+          Cada entrada apoya directamente nuestros programas de rescate y
+          rehabilitación.
+        </p>
       </div>
-      <a
-        pButton
+      <p-button
         routerLink="/servicios"
-        label="Explorar Servicios"
-        class="banner-cta p-button-lg"
-      >
-      </a>
+        label="Planear Visita"
+        icon="bx bx-map"
+        styleClass="p-button-rounded p-button-lg nature-btn"
+      />
     </div>
   </div>
 </section>

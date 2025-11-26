@@ -12,8 +12,8 @@ import { PaginatedResponse } from "@models/common";
 export class AdminAnimales {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = environment.apiUrl;
-  private readonly animalesUrl = `${this.apiUrl}/animals/animals`;
+  readonly apiUrl = environment.apiUrl;
+  readonly animalesUrl = `${this.apiUrl}/animals/animals`;
 
   /**
    * Crear un nuevo animal

@@ -13,7 +13,9 @@ export class GetAnimales {
   private http = inject(HttpClient);
 
   readonly apiUrl = environment.apiUrl;
-  readonly animalesUrl = `${this.apiUrl}/animals/animals`;
+  readonly animalUrl = `${this.apiUrl}/animals`;
+  readonly animalesUrl = `${this.animalUrl}/animals`;
+  readonly mediaUrl = `${this.animalUrl}/media/animal`;
 
   getAllAnimals(
     page: number = 1,

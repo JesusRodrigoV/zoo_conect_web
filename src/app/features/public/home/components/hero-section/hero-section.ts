@@ -31,16 +31,13 @@ export class HeroSection {
   split: any;
   animation: any;
   heroTitleRef = viewChild<ElementRef>("heroTitle");
-
   private readonly authStore = inject(AuthStore);
   protected readonly autenticado = computed(() => !!this.authStore.usuario());
 
   constructor() {
     afterNextRender(() => {
       gsap.registerPlugin(SplitText);
-
       AOS.refresh();
-
       this.setup();
       this.splitText();
     });

@@ -1,0 +1,63 @@
+<div class="product-card" [ngClass]="layout()">
+  <div class="image-wrapper">
+    <img
+      [ngSrc]="product().photoUrl || 'assets/images/placeholder-inventory.png'"
+      [alt]="product().nombre"
+      width="200"
+      height="200"
+      class="prod-img"
+    />
+
+    @if(layout() === 'grid') {
+    <p-tag
+      [value]="product().tipoProducto.nombre"
+      severity="info"
+      styleClass="category-badge"
+    />
+    }
+  </div>
+
+  <div class="content-wrapper">
+    <div class="header-info">
+      <div class="title-row">
+        <h3>{{ product().nombre }}</h3>
+        @if(layout() === 'list') {
+        <p-tag [value]="product().tipoProducto.nombre" severity="info" />
+        }
+      </div>
+      <p class="description">{{ product().descripcion }}</p>
+    </div>
+
+    <div class="inventory-stats">
+      <div class="stat">
+        <span class="label">Stock Actual</span>
+        <span class="value highlight">
+          {{ product().stockActual | number:'1.0-2' }}
+          <small>{{ product().unidadMedida.abreviatura }}</small>
+        </span>
+      </div>
+      <div class="stat">
+        <span class="label">Mínimo</span>
+        <span class="value warning">{{ product().stockMinimo }}</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <p-button
+        icon="pi pi-pencil"
+        [text]="true"
+        severity="secondary"
+        pTooltip="Editar"
+        (onClick)="onEdit.emit(product().id)"
+      />
+
+      <p-button
+        icon="pi pi-trash"
+        [text]="true"
+        severity="danger"
+        pTooltip="Eliminar"
+        (onClick)="onDelete.emit(product().id)"
+      />
+    </div>
+  </div>
+</div>

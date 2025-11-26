@@ -1,39 +1,33 @@
-<p-card styleClass="habitat-card-compact">
-  <ng-template pTemplate="title">
-    <div class="card-title-container">
-      <div class="card-title-content">
-        <i class="pi pi-map-marker"></i>
-        <span>{{ habitat().nombre }}</span>
+<p-card class="habitat-card">
+  <div class="item-content">
+    <div class="item-info">
+      <div class="item-header">
+        <i class="pi pi-map-marker icon-marker"></i>
+        <h3>{{ habitat().nombre }}</h3>
       </div>
-
-      <p-tag
-        [value]="habitat().isActive ? 'Activo' : 'Inactivo'"
-        [severity]="getStatusSeverity(habitat().isActive)"
-        [rounded]="true"
-      />
+      <p class="tipo-habitat">{{ habitat().tipo }}</p>
     </div>
-  </ng-template>
 
-  <ng-template pTemplate="subtitle"> {{ habitat().tipo }} </ng-template>
-
-  <ng-template pTemplate="footer">
-    <div class="card-actions">
+    <div class="item-actions">
       <p-button
-        label="Editar"
         icon="pi pi-pencil"
-        severity="primary"
         [rounded]="true"
-        [text]="true"
+        severity="info"
+        [outlined]="true"
+        pTooltip="Editar hábitat"
+        tooltipPosition="top"
         [routerLink]="['/admin/animales/habitat/editar', habitat().id]"
       />
+
       <p-button
-        label="Eliminar"
-        icon="pi pi-trash"
-        severity="danger"
-        [text]="true"
+        [icon]="habitat().isActive ? 'pi pi-trash' : 'pi pi-undo'"
         [rounded]="true"
+        [severity]="habitat().isActive ? 'danger' : 'success'"
+        [outlined]="true"
+        [pTooltip]="habitat().isActive ? 'Desactivar hábitat' : 'Reactivar hábitat'"
+        tooltipPosition="top"
         (onClick)="deleteHabitat()"
       />
     </div>
-  </ng-template>
+  </div>
 </p-card>

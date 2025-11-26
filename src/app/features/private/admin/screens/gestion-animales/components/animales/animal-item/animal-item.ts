@@ -29,32 +29,10 @@ export class AnimalItem {
   readonly onDetails = output<number>();
   readonly onDelete = output<number>();
 
-  readonly estadoAnimal = computed(() => {
-    const animal = this.animal();
-    if (!animal) return { texto: "Sin datos", severity: "secondary" as const };
-
-    const severityMap: Record<
-      string,
-      "success" | "info" | "warn" | "secondary" | "danger" | "contrast"
-    > = {
-      success: "success",
-      info: "info",
-      warn: "warn",
-      secondary: "secondary",
-      danger: "danger",
-      contrast: "contrast",
-    };
-
-    const color = AnimalAdapter.getEstadoColor(animal.estado_operativo);
-    return {
-      texto: animal.estado_operativo,
-      severity: severityMap[color] || "secondary",
-    };
-  });
-
-  readonly generoTexto = computed(() => {
-    const animal = this.animal();
-    return animal ? AnimalAdapter.getGeneroTexto(animal.genero) : "";
+  readonly generoInfo = computed(() => {
+    return this.animal().genero
+      ? { label: "Macho", icon: "pi pi-mars", severity: "info" as const }
+      : { label: "Hembra", icon: "pi pi-venus", severity: "danger" as const };
   });
 
   protected verDetalles(): void {

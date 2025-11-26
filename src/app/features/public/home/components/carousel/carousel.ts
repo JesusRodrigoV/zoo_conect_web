@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import { CardData } from "@shared/components/apple-carousel/card-data.model";
 import { AppleCarousel } from "@shared/components/apple-carousel";
 import { Card } from "@shared/components/apple-carousel/card/card";
-import { DummyContent } from "@app/shared/components/apple-carousel/dummy-content";
 
 @Component({
   selector: "app-carousel",
@@ -14,40 +13,40 @@ import { DummyContent } from "@app/shared/components/apple-carousel/dummy-conten
 export class Carousel {
   readonly cards = signal<CardData[]>([
     {
-      category: "Artificial Intelligence",
-      title: "You can do more with AI.",
+      category: "Aviario",
+      title: "El pico que pinta la selva.",
       src: "/assets/images/hero-carousel/1.jpg",
-      content: DummyContent,
+      //content: DummyContent,
     },
     {
-      category: "Productivity",
-      title: "Enhance your productivity.",
+      category: "Conservación",
+      title: "Vuelo libre en nuestros cielos.",
       src: "/assets/images/hero-carousel/2.jpg",
-      content: DummyContent,
+      //content: DummyContent,
     },
     {
-      category: "Product",
-      title: "Launching the new Apple Vision Pro.",
+      category: "Educación Infantil",
+      title: "Conoce a nuestros amigos más tiernos.",
       src: "/assets/images/hero-carousel/3.jpeg",
-      content: DummyContent,
+      //content: DummyContent,
     },
     {
-      category: "Artificial Intelligence",
-      title: "You can do more with AI.",
+      category: "Fauna Silvestre",
+      title: "Maestros de la velocidad y el camuflaje.",
       src: "/assets/images/hero-carousel/4.jpg",
-      content: DummyContent,
+      //content: DummyContent,
     },
     {
-      category: "Productivity",
-      title: "Enhance your productivity.",
+      category: "Vida Nocturna",
+      title: "Curiosidad e inteligencia en la sombra.",
       src: "/assets/images/hero-carousel/5.jpg",
-      content: DummyContent,
+      //content: DummyContent,
     },
     {
-      category: "Product",
-      title: "Launching the new Apple Vision Pro.",
+      category: "Biodiversidad",
+      title: "Cada pequeña vida importa en ARCA.",
       src: "/assets/images/hero-carousel/6.jpg",
-      content: DummyContent,
+      //content: DummyContent,
     },
   ]);
 }

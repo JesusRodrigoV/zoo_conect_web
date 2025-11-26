@@ -1,20 +1,27 @@
 @defer(on viewport; prefetch on idle; hydrate on viewport){
+
 <section class="hero-section">
   <div class="hero-overlay"></div>
+
   <div class="hero-content">
     <div class="hero-text">
       <span class="hero-badge">🦁 Descubre la naturaleza</span>
+
       <h1 class="hero-title" #heroTitle>
         Conecta con la
+
         <span class="highlight" data-text="vida salvaje">vida salvaje</span>
       </h1>
+
       <p class="hero-description">
         Una experiencia única que combina educación, conservación y
         entretenimiento. Descubre más de 200 especies en sus hábitats
         naturalizados.
       </p>
+
       <div class="hero-actions">
         @if(!autenticado()){
+
         <p-button
           styleClass="cta-primary"
           routerLink="/signup"
@@ -23,6 +30,7 @@
           iconPos="right"
           [rounded]="true"
         />
+
         <p-button
           styleClass="cta-secondary"
           routerLink="/login"
@@ -30,7 +38,9 @@
           [text]="true"
           [rounded]="true"
         />
+
         } @else {
+
         <p-button
           styleClass="cta-primary"
           routerLink="/admin"
@@ -39,10 +49,13 @@
           iconPos="right"
           [rounded]="true"
         />
+
         }
       </div>
+
       <div class="hero-stats">
         @for (stat of stats; track $index) {
+
         <div
           class="stat-item"
           data-aos="fade-up"
@@ -50,11 +63,14 @@
           data-aos-duration="2000"
         >
           <span class="stat-number">{{ stat.number }}</span>
+
           <span class="stat-label">{{ stat.label }}</span>
         </div>
+
         }
       </div>
     </div>
+
     <div class="hero-visual">
       <div class="visual-card main-card" data-aos="zoom-out-down">
         <p-galleria
@@ -79,8 +95,10 @@
             />
           </ng-template>
         </p-galleria>
+
         <div class="card-badge" data-aos="zoom-in">
           <i class="pi pi-verified"></i>
+
           <span>Conservación Premium</span>
         </div>
       </div>
@@ -89,8 +107,11 @@
 
   <div class="hero-divider"></div>
 </section>
+
 } @placeholder{
+
 <div class="placeholder-content">
   <p>Placeholder content</p>
 </div>
+
 }

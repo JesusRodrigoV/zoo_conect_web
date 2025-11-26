@@ -1,1 +1,67 @@
-<p>quizzes works!</p>
+<div class="quiz-page-wrapper">
+  @if (!generatedQuiz() && !isLoading()) {
+  <section class="intro-section">
+    <h1>Centro de Trivias</h1>
+    <p>
+      Configura tu reto y pon a prueba tus conocimientos sobre la naturaleza.
+    </p>
+  </section>
+
+  <p-card styleClass="config-card">
+    <div class="form-grid">
+      <div class="field-col">
+        <label>Dificultad</label>
+        <p-select
+          [options]="difficulties"
+          [(ngModel)]="config.difficulty"
+          optionLabel="label"
+          optionValue="value"
+          styleClass="w-full"
+        >
+        </p-select>
+      </div>
+
+      <div class="field-col">
+        <label>Preguntas</label>
+        <p-inputNumber
+          [(ngModel)]="config.amount"
+          [min]="3"
+          [max]="10"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          styleClass="w-full"
+          inputStyleClass="text-center w-full"
+        >
+        </p-inputNumber>
+      </div>
+
+      <div class="actions">
+        <p-button
+          label="Generar Desafío"
+          icon="pi pi-bolt"
+          styleClass="w-full"
+          (onClick)="createQuiz()"
+        >
+        </p-button>
+      </div>
+    </div>
+  </p-card>
+  } @if (isLoading()) {
+  <div class="loading-view">
+    <zoo-loader />
+  </div>
+  } @if (generatedQuiz()) {
+  <div class="game-view">
+    <p-button
+      label="Cancelar y Volver"
+      icon="pi pi-arrow-left"
+      [text]="true"
+      (onClick)="reset()"
+      styleClass="mb-3"
+    >
+    </p-button>
+
+    <app-quiz-detalle [quiz]="generatedQuiz()!" />
+  </div>
+  }
+</div>

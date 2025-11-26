@@ -1,12 +1,81 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from "@angular/core";
+import { GenerateQuiz } from "../../services";
+import { CardModule } from "primeng/card";
+import { ButtonModule } from "primeng/button";
+import { QuizDetalle } from "../quiz-detalle";
+import { Loader } from "@app/shared/components";
+import { InputTextModule } from "primeng/inputtext";
+import { InputNumberModule } from "primeng/inputnumber";
+import { FormsModule } from "@angular/forms";
+import { GeneratedQuiz } from "@models/quiz";
+import { ShowToast } from "@app/shared/services";
+import { SelectModule } from "primeng/select";
 
 @Component({
-  selector: 'app-quizzes',
-  imports: [],
-  templateUrl: './quizzes.html',
-  styleUrl: './quizzes.scss',
+  selector: "app-quizzes",
+  imports: [
+    QuizDetalle,
+    Loader,
+    ButtonModule,
+    InputTextModule,
+    InputNumberModule,
+    SelectModule,
+    CardModule,
+    FormsModule,
+  ],
+  templateUrl: "./quizzes.html",
+  styleUrl: "./quizzes.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class Quizzes {
+  private quizService = inject(GenerateQuiz);
+  private toast = inject(ShowToast);
 
+  config = {
+    amount: 5,
+    difficulty: "medio",
+    category: "",
+  };
+
+  difficulties = [
+    { label: "Fácil (Principiante)", value: "facil" },
+    { label: "Medio (Explorador)", value: "medio" },
+    { label: "Difícil (Experto)", value: "dificil" },
+  ];
+
+  generatedQuiz = signal<GeneratedQuiz | null>(null);
+  isLoading = signal(false);
+
+  createQuiz() {
+    this.isLoading.set(true);
+    this.generatedQuiz.set(null);
+
+    this.quizService
+      .generate(
+        this.config.amount,
+        this.config.difficulty,
+        this.config.category,
+      )
+      .subscribe({
+        next: (data) => {
+          this.generatedQuiz.set(data);
+          this.isLoading.set(false);
+        },
+        error: (err) => {
+          console.error("Error generating quiz", err);
+          this.isLoading.set(false);
+          this.toast.showError("Error", "No se pudo contactar a la IA.");
+        },
+      });
+  }
+
+  reset() {
+    this.generatedQuiz.set(null);
+    this.config.category = "";
+  }
 }

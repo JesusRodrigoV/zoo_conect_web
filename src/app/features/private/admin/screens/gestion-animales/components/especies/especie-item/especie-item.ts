@@ -10,55 +10,24 @@ import { CardModule } from "primeng/card";
 import { ButtonModule } from "primeng/button";
 import { TagModule } from "primeng/tag";
 import { DividerModule } from "primeng/divider";
+import { TooltipModule } from "primeng/tooltip";
 
 @Component({
   selector: "zoo-especie-item",
-  imports: [CardModule, ButtonModule, TagModule, DividerModule],
+  imports: [CardModule, ButtonModule, TagModule, DividerModule, TooltipModule],
   templateUrl: "./especie-item.html",
   styleUrl: "./especie-item.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EspecieItem {
-  readonly especie = input<Especie | null>(null);
+  readonly especie = input.required<Especie>();
 
-  readonly verDetalles = output<Especie>();
-  readonly editar = output<Especie>();
-  readonly eliminar = output<Especie>();
+  readonly verDetalles = output<number>();
+  readonly editar = output<number>();
+  readonly eliminar = output<number>();
 
-  readonly estadoEspecie = computed(() => {
+  readonly taxonomiaResumen = computed(() => {
     const esp = this.especie();
-    if (!esp) return { texto: "Sin datos", severity: "secondary" as const };
-
-    return esp.isActive
-      ? { texto: "Activa", severity: "success" as const }
-      : { texto: "Inactiva", severity: "danger" as const };
+    return `${esp.clase} • ${esp.orden} • ${esp.familia}`;
   });
-
-  readonly taxonomiaCompleta = computed(() => {
-    const esp = this.especie();
-    if (!esp) return "";
-
-    return `${esp.filo} > ${esp.clase} > ${esp.orden} > ${esp.familia}`;
-  });
-
-  protected onVerDetalles(): void {
-    const esp = this.especie();
-    if (esp) {
-      this.verDetalles.emit(esp);
-    }
-  }
-
-  protected onEditar(): void {
-    const esp = this.especie();
-    if (esp) {
-      this.editar.emit(esp);
-    }
-  }
-
-  protected onEliminar(): void {
-    const esp = this.especie();
-    if (esp) {
-      this.eliminar.emit(esp);
-    }
-  }
 }

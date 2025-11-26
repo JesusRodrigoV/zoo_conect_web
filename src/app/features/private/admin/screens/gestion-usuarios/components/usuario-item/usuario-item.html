@@ -8,10 +8,6 @@
             [value]="usuario().rol.nombre"
             [severity]="getSeverityForRole(usuario().rol.id)"
           />
-          <p-tag
-            [value]="usuario().activo ? 'Activo' : 'Inactivo'"
-            [severity]="getSeverityForStatus(usuario().activo)"
-          />
         </div>
       </div>
       <p class="email">{{ usuario().email }}</p>
@@ -27,12 +23,13 @@
         tooltipPosition="top"
         (onClick)="editUser()"
       />
+
       <p-button
-        [icon]="usuario().activo ? 'pi pi-lock' : 'pi pi-lock-open'"
+        [icon]="usuario().activo ? 'pi pi-trash' : 'pi pi-undo'"
         [rounded]="true"
-        [severity]="getButtonSeverity(usuario().activo)"
+        [severity]="usuario().activo ? 'danger' : 'success'"
         [outlined]="true"
-        [pTooltip]="usuario().activo ? 'Desactivar usuario' : 'Activar usuario'"
+        [pTooltip]="usuario().activo ? 'Desactivar usuario' : 'Reactivar usuario'"
         tooltipPosition="top"
         (onClick)="toggleUserStatus()"
         [disabled]="isSelf() || isAuthLoading()"

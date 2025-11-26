@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
@@ -28,54 +29,43 @@ interface ServiceCard {
 })
 export class ServicesSection {
   constructor() {
-    afterRenderEffect(() => {
+    afterNextRender(() => {
       AOS.refresh();
     });
   }
 
   readonly serviceCards: ServiceCard[] = [
     {
-      icon: "pi pi-book",
-      title: "Educación Ambiental",
-      description: "Programas educativos innovadores para todas las edades",
+      icon: "bx bxs-book-reader",
+      title: "Educación Viva",
+      description: "Aprende sintiendo la naturaleza de cerca",
       isPrimary: true,
       features: [
-        { text: "Talleres interactivos" },
-        { text: "Charlas con expertos" },
-        { text: "Material didáctico" },
+        { text: "Talleres sensoriales" },
+        { text: "Charlas con cuidadores" },
+        { text: "Aulas abiertas" },
       ],
     },
     {
-      icon: "pi pi-id-card",
-      title: "Exhibiciones",
-      description: "Más de 200 especies en hábitats naturalizados",
+      icon: "bx bxs-landscape",
+      title: "Hábitats",
+      description: "Inmersión total en ecosistemas recreados",
       isPrimary: false,
       features: [
-        { text: "Mamíferos exóticos" },
-        { text: "Aves tropicales" },
-        { text: "Reptiles fascinantes" },
+        { text: "Selva tropical húmeda" },
+        { text: "Aviario de vuelo libre" },
+        { text: "Sabana africana" },
       ],
     },
     {
-      icon: "pi pi-leaf",
+      icon: "bx bxs-leaf",
       title: "Conservación",
-      description: "Programas activos de reproducción y rescate",
+      description: "Nuestra misión principal en acción",
       isPrimary: false,
       features: [
-        { text: "Especies en peligro" },
-        { text: "Rehabilitación" },
+        { text: "Rescate de fauna" },
+        { text: "Medicina veterinaria" },
         { text: "Reintroducción" },
-      ],
-    },
-    {
-      icon: "pi pi-question-circle",
-      title: "Experiencias Interactivas",
-      description: "Participa en actividades educativas únicas",
-      isPrimary: false,
-      features: [
-        { text: "Quizzes temáticos" },
-        { text: "Encuestas" },
-        { text: "Tours virtuales" },
       ],
     },
   ];

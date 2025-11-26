@@ -19,7 +19,7 @@
     <p class="modal-title">{{ card().title }}</p>
     <div class="py-10">
       @if (card().content) {
-      <ng-container [ngComponentOutlet]="card().content" />
+      <ng-container [ngComponentOutlet]="card().content ?? null" />
       }
     </div>
   </div>

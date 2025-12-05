@@ -30,7 +30,10 @@
           @if (pregunta.esOpcionUnica && pregunta.opciones.length > 0) {
           <div class="opciones-grid">
             @for (opcion of pregunta.opciones; track opcion.idOpcion) {
-            <div class="opcion-card">
+            <div
+              class="opcion-card"
+              [class.selected]="form().get(pregunta.idPregunta.toString())?.value === opcion.idOpcion"
+            >
               <p-radioButton
                 [formControlName]="pregunta.idPregunta"
                 [value]="opcion.idOpcion"
@@ -46,7 +49,10 @@
           } @else if (!pregunta.esOpcionUnica && pregunta.opciones.length > 0) {
           <div class="opciones-grid" [formGroupName]="pregunta.idPregunta">
             @for (opcion of pregunta.opciones; track opcion.idOpcion) {
-            <div class="opcion-card">
+            <div
+              class="opcion-card"
+              [class.selected]="form().get(pregunta.idPregunta.toString())?.get(opcion.idOpcion.toString())?.value"
+            >
               <p-checkbox
                 [binary]="true"
                 [formControlName]="opcion.idOpcion"
@@ -80,6 +86,7 @@
           iconPos="right"
           [loading]="isSubmitting()"
           [disabled]="isSubmitting() || !form().valid"
+          [rounded]="true"
           styleClass="w-full md:w-auto"
         />
       </div>

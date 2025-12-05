@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from "@angular/core";
 import { FetchWeather } from "../../services/fetch-weather";
 import {
   AsyncPipe,
@@ -7,6 +13,8 @@ import {
   NgOptimizedImage,
 } from "@angular/common";
 import { ZooHours } from "../../services/zoo-hours";
+import { ZooWeather } from "../../models/weather.model";
+import { Observable, of } from "rxjs";
 
 @Component({
   selector: "app-weather-section",
@@ -18,9 +26,14 @@ import { ZooHours } from "../../services/zoo-hours";
 export class WeatherSection {
   weatherService = inject(FetchWeather);
   private zooHours = inject(ZooHours);
+  protected $weather = signal<Observable<ZooWeather | null>>(of(null));
 
-  $weather = this.weatherService.getWeather("La Paz");
-  today = new Date();
+  protected today = new Date();
+  protected zooStatus = this.zooHours.getStatus();
 
-  zooStatus = this.zooHours.getStatus();
+  constructor() {
+    afterNextRender(() => {
+      this.$weather.set(this.weatherService.getWeather("La Paz"));
+    });
+  }
 }

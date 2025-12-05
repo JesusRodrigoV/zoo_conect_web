@@ -26,7 +26,7 @@ import {
 } from "@angular/common/http";
 import { authInterceptor } from "./core/interceptors";
 import { providePrimeNG } from "primeng/config";
-import { provideAnimations } from "@angular/platform-browser/animations";
+import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 import { ConfirmationService, MessageService } from "primeng/api";
 import ZooPreset from "../theme/zoo-preset";
 import { AuthStore } from "@stores/auth.store";
@@ -54,10 +54,10 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
-    provideAnimations(),
+    provideAnimationsAsync(),
     MessageService,
     ConfirmationService,
-    provideAppInitializer(() => {
+    provideAppInitializer(async () => {
       const authStore = inject(AuthStore);
       const toastService = inject(ShowToast);
 

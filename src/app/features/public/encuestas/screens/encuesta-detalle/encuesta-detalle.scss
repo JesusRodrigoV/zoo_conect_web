@@ -32,21 +32,28 @@
 
 .zoo-card {
   border: 1px solid var(--p-surface-border);
-  border-radius: 1rem;
+  border-radius: 2rem;
   overflow: hidden;
+  background: var(--p-surface-card);
   box-shadow: 0 4px 20px
     color-mix(in srgb, var(--p-surface-900), transparent 95%);
 
   .zoo-card-header {
-    padding: 2rem 2rem 1.5rem;
+    padding: 2.5rem 2rem 1.5rem;
     text-align: center;
     border-bottom: 1px solid var(--p-surface-border);
+    background: linear-gradient(
+      to bottom,
+      var(--p-surface-card),
+      var(--p-surface-ground)
+    );
 
     .header-icon {
       width: 80px;
       height: 80px;
       margin: 0 auto 1.5rem;
-      color: var(--p-primary-600);
+      color: var(--p-primary-color);
+      background: var(--p-highlight-background);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -55,7 +62,7 @@
     }
 
     h1 {
-      color: var(--p-text-color);
+      color: var(--p-primary-color);
       margin: 0 0 0.5rem;
       font-size: 2rem;
       font-weight: 800;
@@ -72,17 +79,23 @@
   }
 
   .zoo-card-content {
-    padding: 2rem;
+    padding: 2.5rem;
+
+    @media (max-width: 600px) {
+      padding: 1.5rem;
+    }
   }
 
   .zoo-card-footer {
-    padding: 1.5rem 2rem;
+    padding: 1.5rem 2.5rem;
     border-top: 1px solid var(--p-surface-border);
     display: flex;
     justify-content: flex-end;
+    background: var(--p-surface-ground);
 
     @media (max-width: 600px) {
       justify-content: stretch;
+      padding: 1.5rem;
 
       p-button {
         width: 100%;
@@ -92,7 +105,7 @@
 }
 
 .pregunta-container {
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
   animation: fadeInUp 0.5s ease-out forwards;
 
   &:last-child {
@@ -102,24 +115,25 @@
   h3 {
     color: var(--p-text-color);
     margin-bottom: 1.25rem;
-    font-size: 1.15rem;
-    font-weight: 600;
+    font-size: 1.2rem;
+    font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 1rem;
 
     .pregunta-marker {
       display: block;
-      width: 4px;
-      height: 1.25rem;
+      width: 6px;
+      height: 24px;
       border-radius: 4px;
+      background: var(--p-primary-color);
     }
   }
 
   .opciones-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: 1rem;
 
     @media (min-width: 600px) {
       grid-template-columns: repeat(2, 1fr);
@@ -130,23 +144,27 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 1rem;
-    border: 1px solid var(--p-surface-border);
-    border-radius: 12px;
+    padding: 1.25rem;
+    border: 2px solid var(--p-surface-border);
+    border-radius: 1rem;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
+
+    background: transparent;
 
     &:hover {
-      border-color: var(--p-primary-300);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px
-        color-mix(in srgb, var(--p-surface-900), transparent 96%);
+      border-color: var(--p-primary-color);
+      background: var(--p-highlight-background);
     }
 
-    &:focus-within {
-      border-color: var(--p-primary-500);
-      box-shadow: 0 0 0 1px var(--p-primary-200);
+    &.selected {
+      border-color: var(--p-primary-color);
+      background: var(--p-highlight-background);
+
+      .opcion-label {
+        color: var(--p-highlight-color);
+        font-weight: 700;
+      }
     }
 
     .opcion-label {
@@ -156,24 +174,21 @@
       line-height: 1.4;
       flex: 1;
       cursor: pointer;
-    }
-
-    p-radioButton,
-    p-checkbox {
-      pointer-events: none;
+      transition: color 0.2s;
     }
   }
 
   .custom-textarea {
-    border: 1px solid var(--p-surface-border);
-    border-radius: 8px;
-    padding: 1rem;
-    transition: all 0.2s;
+    border: 2px solid var(--p-surface-border);
+    border-radius: 1rem;
+    padding: 1.25rem;
     color: var(--p-text-color);
+    background: transparent;
+    resize: vertical;
 
     &:focus {
-      border-color: var(--p-primary-500);
-      box-shadow: 0 0 0 1px var(--p-primary-200);
+      border-color: var(--p-primary-color);
+      box-shadow: none;
     }
   }
 }
@@ -186,16 +201,9 @@
   min-height: 50vh;
   gap: 1.5rem;
 
-  zoo-loader {
-    filter: drop-shadow(
-      0 4px 6px color-mix(in srgb, var(--p-surface-900), transparent 90%)
-    );
-  }
-
   p {
     color: var(--p-text-muted-color);
-    font-weight: 500;
-    letter-spacing: 0.5px;
+    font-weight: 600;
     animation: pulse 2s infinite;
   }
 }

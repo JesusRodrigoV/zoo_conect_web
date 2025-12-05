@@ -6,6 +6,12 @@
     <h2>Inventario General</h2>
     <div class="buttons">
       <p-button
+        label="Alertas"
+        (onClick)="store.loadStockAlerts()"
+        [rounded]="true"
+        pTooltip="Alertas"
+      />
+      <p-button
         variant="text"
         (onClick)="store.loadProducts()"
         icon="pi pi-refresh"

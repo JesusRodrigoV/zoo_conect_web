@@ -10,25 +10,19 @@ export default [
         path: "crear",
         title: "Crear Usuario",
         loadComponent: () =>
-          import(
-            "./screens/gestion-usuarios/components/crear-usuario/crear-usuario"
-          ),
+          import("./screens/gestion-usuarios/components/crear-usuario/crear-usuario"),
       },
       {
         path: "editar/:id",
         title: "Editar Usuario",
         loadComponent: () =>
-          import(
-            "./screens/gestion-usuarios/components/crear-usuario/crear-usuario"
-          ),
+          import("./screens/gestion-usuarios/components/crear-usuario/crear-usuario"),
       },
       {
         path: "lista",
         title: "Lista de Usuarios",
         loadComponent: () =>
-          import(
-            "./screens/gestion-usuarios/components/lista-usuarios/lista-usuarios"
-          ),
+          import("./screens/gestion-usuarios/components/lista-usuarios/lista-usuarios"),
       },
       {
         path: "",
@@ -46,25 +40,19 @@ export default [
         path: "crear",
         title: "Crear Animal",
         loadComponent: () =>
-          import(
-            "./screens/gestion-animales/components/animales/crear-animal/crear-animal"
-          ),
+          import("./screens/gestion-animales/components/animales/crear-animal/crear-animal"),
       },
       {
         path: "editar/:id",
         title: "Editar Animal",
         loadComponent: () =>
-          import(
-            "./screens/gestion-animales/components/animales/crear-animal/crear-animal"
-          ),
+          import("./screens/gestion-animales/components/animales/crear-animal/crear-animal"),
       },
       {
         path: "lista",
         title: "Lista de Animales",
         loadComponent: () =>
-          import(
-            "./screens/gestion-animales/components/animales/lista-animales/lista-animales"
-          ),
+          import("./screens/gestion-animales/components/animales/lista-animales/lista-animales"),
       },
       {
         path: "especies",
@@ -73,25 +61,19 @@ export default [
             path: "crear",
             title: "Crear Especie",
             loadComponent: () =>
-              import(
-                "./screens/gestion-animales/components/especies/crear-especie/crear-especie"
-              ),
+              import("./screens/gestion-animales/components/especies/crear-especie/crear-especie"),
           },
           {
             path: "editar/:id",
             title: "Editar Especie",
             loadComponent: () =>
-              import(
-                "./screens/gestion-animales/components/especies/crear-especie/crear-especie"
-              ),
+              import("./screens/gestion-animales/components/especies/crear-especie/crear-especie"),
           },
           {
             path: "lista",
             title: "Lista de Especies",
             loadComponent: () =>
-              import(
-                "./screens/gestion-animales/components/especies/lista-especies/lista-especies"
-              ),
+              import("./screens/gestion-animales/components/especies/lista-especies/lista-especies"),
           },
           {
             path: "",
@@ -107,25 +89,19 @@ export default [
             path: "crear",
             title: "Crear Habitat",
             loadComponent: () =>
-              import(
-                "./screens/gestion-animales/components/habitat/crear-habitat/crear-habitat"
-              ),
+              import("./screens/gestion-animales/components/habitat/crear-habitat/crear-habitat"),
           },
           {
             path: "editar/:id",
             title: "Editar Habitat",
             loadComponent: () =>
-              import(
-                "./screens/gestion-animales/components/habitat/crear-habitat/crear-habitat"
-              ),
+              import("./screens/gestion-animales/components/habitat/crear-habitat/crear-habitat"),
           },
           {
             path: "lista",
             title: "Lista de Habitats",
             loadComponent: () =>
-              import(
-                "./screens/gestion-animales/components/habitat/lista-habitats/lista-habitats"
-              ),
+              import("./screens/gestion-animales/components/habitat/lista-habitats/lista-habitats"),
           },
           {
             path: "",
@@ -157,33 +133,25 @@ export default [
         path: "crear",
         title: "Crear Encuesta",
         loadComponent: () =>
-          import(
-            "./screens/gestion-encuestas/components/crear-encuesta/crear-encuesta"
-          ),
+          import("./screens/gestion-encuestas/components/crear-encuesta/crear-encuesta"),
       },
       {
         path: "editar/:id",
         title: "Editar Encuesta",
         loadComponent: () =>
-          import(
-            "./screens/gestion-encuestas/components/crear-encuesta/crear-encuesta"
-          ),
+          import("./screens/gestion-encuestas/components/crear-encuesta/crear-encuesta"),
       },
       {
         path: "lista",
         title: "Lista de Encuestas",
         loadComponent: () =>
-          import(
-            "./screens/gestion-encuestas/components/lista-encuestas/lista-encuestas"
-          ),
+          import("./screens/gestion-encuestas/components/lista-encuestas/lista-encuestas"),
       },
       {
         path: "stats/:id",
         title: "Estadísticas de Encuesta",
         loadComponent: () =>
-          import(
-            "./screens/gestion-encuestas/components/encuesta-stats/encuesta-stats"
-          ),
+          import("./screens/gestion-encuestas/components/encuesta-stats/encuesta-stats"),
       },
     ],
   },
@@ -208,9 +176,7 @@ export default [
         path: "lista",
         title: "Lista de Encuestas",
         loadComponent: () =>
-          import(
-            "./screens/gestion-quizzes/components/lista-quizzes/lista-quizzes"
-          ),
+          import("./screens/gestion-quizzes/components/lista-quizzes/lista-quizzes"),
       },
       {
         path: "",
@@ -237,23 +203,17 @@ export default [
       {
         path: "crear",
         loadComponent: () =>
-          import(
-            "./screens/gestion-inventario/components/productos/crear-producto/crear-producto"
-          ),
+          import("./screens/gestion-inventario/components/productos/crear-producto/crear-producto"),
       },
       {
         path: "editar/:id",
         loadComponent: () =>
-          import(
-            "./screens/gestion-inventario/components/productos/crear-producto/crear-producto"
-          ),
+          import("./screens/gestion-inventario/components/productos/crear-producto/crear-producto"),
       },
       {
         path: "lista",
         loadComponent: () =>
-          import(
-            "./screens/gestion-inventario/components/productos/lista-producto/lista-producto"
-          ),
+          import("./screens/gestion-inventario/components/productos/lista-producto/lista-producto"),
       },
       {
         path: "tipo",
@@ -261,23 +221,17 @@ export default [
           {
             path: "lista",
             loadComponent: () =>
-              import(
-                "./screens/gestion-inventario/components/tipo-productos/lista-tipos/lista-tipos"
-              ),
+              import("./screens/gestion-inventario/components/tipo-productos/lista-tipos/lista-tipos"),
           },
           {
             path: "crear",
             loadComponent: () =>
-              import(
-                "./screens/gestion-inventario/components/tipo-productos/crear-tipo/crear-tipo"
-              ),
+              import("./screens/gestion-inventario/components/tipo-productos/crear-tipo/crear-tipo"),
           },
           {
             path: "editar/:id",
             loadComponent: () =>
-              import(
-                "./screens/gestion-inventario/components/tipo-productos/crear-tipo/crear-tipo"
-              ),
+              import("./screens/gestion-inventario/components/tipo-productos/crear-tipo/crear-tipo"),
           },
           {
             path: "",
@@ -292,23 +246,17 @@ export default [
           {
             path: "lista",
             loadComponent: () =>
-              import(
-                "./screens/gestion-inventario/components/proveedor/lista-proveedor/lista-proveedor"
-              ),
+              import("./screens/gestion-inventario/components/proveedor/lista-proveedor/lista-proveedor"),
           },
           {
             path: "crear",
             loadComponent: () =>
-              import(
-                "./screens/gestion-inventario/components/proveedor/crear-proveedor/crear-proveedor"
-              ),
+              import("./screens/gestion-inventario/components/proveedor/crear-proveedor/crear-proveedor"),
           },
           {
             path: "editar/:id",
             loadComponent: () =>
-              import(
-                "./screens/gestion-inventario/components/proveedor/crear-proveedor/crear-proveedor"
-              ),
+              import("./screens/gestion-inventario/components/proveedor/crear-proveedor/crear-proveedor"),
           },
           {
             path: "",
@@ -323,23 +271,17 @@ export default [
           {
             path: "lista",
             loadComponent: () =>
-              import(
-                "./screens/gestion-inventario/components/unidades-medida/lista-unidad/lista-unidad"
-              ),
+              import("./screens/gestion-inventario/components/unidades-medida/lista-unidad/lista-unidad"),
           },
           {
             path: "crear",
             loadComponent: () =>
-              import(
-                "./screens/gestion-inventario/components/unidades-medida/crear-unidad/crear-unidad"
-              ),
+              import("./screens/gestion-inventario/components/unidades-medida/crear-unidad/crear-unidad"),
           },
           {
             path: "editar/:id",
             loadComponent: () =>
-              import(
-                "./screens/gestion-inventario/components/unidades-medida/crear-unidad/crear-unidad"
-              ),
+              import("./screens/gestion-inventario/components/unidades-medida/crear-unidad/crear-unidad"),
           },
           {
             path: "",
@@ -349,9 +291,60 @@ export default [
         ],
       },
       {
+        path: "transacciones",
+        children: [
+          {
+            path: "",
+            redirectTo: "lista",
+            pathMatch: "full",
+          },
+          {
+            path: "lista",
+            loadComponent: () =>
+              import("./screens/gestion-inventario/components/entradas-salidas/historial/historial"),
+          },
+          {
+            path: "crear-entrada",
+            loadComponent: () =>
+              import("./screens/gestion-inventario/components/entradas-salidas/crear-entrada/crear-entrada"),
+          },
+          {
+            path: "crear-salida",
+            loadComponent: () =>
+              import("./screens/gestion-inventario/components/entradas-salidas/crear-salida/crear-salida"),
+          },
+        ],
+      },
+      {
         path: "",
         redirectTo: "lista",
         pathMatch: "full",
+      },
+    ],
+  },
+  {
+    path: "tareas",
+    loadComponent: () => import("./screens/gestion-tareas/gestion-tareas"),
+    children: [
+      {
+        path: "",
+        redirectTo: "operaciones",
+        pathMatch: "full",
+      },
+      {
+        path: "operaciones",
+        loadComponent: () =>
+          import("./screens/gestion-tareas/components/tablero/tablero"),
+      },
+      {
+        path: "planificador",
+        loadComponent: () =>
+          import("./screens/gestion-tareas/components/rutina/planificador/planificador"),
+      },
+      {
+        path: "configuracion",
+        loadComponent: () =>
+          import("./screens/gestion-tareas/components/configuracion/configuracion"),
       },
     ],
   },

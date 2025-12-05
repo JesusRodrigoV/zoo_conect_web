@@ -1,0 +1,43 @@
+<div class="inbox-grid">
+  @for (task of tasks(); track task.id) {
+  <div class="task-alert-card">
+    <div class="card-left-border"></div>
+    <div class="card-content">
+      <div class="card-top">
+        <span class="origin-badge">
+          <i class="pi pi-bolt"></i> {{ task.tipoTarea?.nombre }}
+        </span>
+        <span class="priority-text">Alta Prioridad</span>
+      </div>
+
+      <h4>{{ task.titulo }}</h4>
+      <p>{{ task.descripcion }}</p>
+
+      <div class="card-footer">
+        <div class="meta">
+          <i class="pi pi-map-marker"></i>
+          <span>{{ task.habitat?.nombre || 'General' }}</span>
+        </div>
+
+        <div class="actions">
+          <p-button
+            label="Asignar"
+            icon="pi pi-user-plus"
+            iconPos="right"
+            [rounded]="true"
+            size="small"
+            (onClick)="onAssign.emit(task.id)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  } @empty {
+  <div class="empty-state">
+    <div class="empty-icon">
+      <i class="pi pi-check-circle"></i>
+    </div>
+    <p>Todo asignado. ¡Buen trabajo!</p>
+  </div>
+  }
+</div>

@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ScrollPanelModule } from "primeng/scrollpanel";
+import { SplitterModule } from "primeng/splitter";
 
 @Component({
-  selector: 'app-splitter-layout',
-  imports: [],
-  templateUrl: './splitter-layout.html',
-  styleUrl: './splitter-layout.scss',
+  selector: "zoo-splitter-layout",
+  imports: [SplitterModule, ScrollPanelModule],
+  templateUrl: "./splitter-layout.html",
+  styleUrl: "./splitter-layout.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SplitterLayout {
-
-}
+export class SplitterLayout {}

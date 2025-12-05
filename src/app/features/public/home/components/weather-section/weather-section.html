@@ -1,4 +1,4 @@
-@let weather = $weather | async; @if (weather) {
+@let weather = $weather() | async; @if (weather) {
 <section class="weather-glass-panel">
   <div class="hero-data">
     <div class="icon-glow">

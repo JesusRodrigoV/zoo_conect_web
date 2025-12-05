@@ -42,6 +42,7 @@ export default class GestionInventario {
       ruta: "/admin/inventario/proveedor",
       exacto: true,
     },
+    /*
     {
       icono: "pi pi-tag",
       texto: "Crear tipo producto",
@@ -49,6 +50,7 @@ export default class GestionInventario {
       ruta: "/admin/inventario/tipo/crear",
       exacto: true,
     },
+  */
     {
       icono: "pi pi-tags",
       texto: "Lista de tipos",
@@ -56,6 +58,7 @@ export default class GestionInventario {
       ruta: "/admin/inventario/tipo",
       exacto: true,
     },
+    /*
     {
       icono: "pi pi-pencil",
       texto: "Crear unidad medida",
@@ -63,11 +66,19 @@ export default class GestionInventario {
       ruta: "/admin/inventario/unidades/crear",
       exacto: true,
     },
+    */
     {
       icono: "pi pi-sliders-h",
       texto: "Lista de unidades",
       descripcion: "Configurar métricas de conversión del sistema",
       ruta: "/admin/inventario/unidades",
+      exacto: true,
+    },
+    {
+      icono: "pi pi-history",
+      texto: "Historial de movimientos",
+      descripcion: "Ver registro de entradas y salidas",
+      ruta: "/admin/inventario/transacciones",
       exacto: true,
     },
   ];

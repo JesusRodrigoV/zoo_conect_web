@@ -37,36 +37,34 @@ export class SidebarAdminMenu {
       comingSoon: true,
     },
     {
-      text: "Gestión de Usuarios",
-      icon: "pi pi-users",
-      route: "/admin/usuarios",
-    },
-    {
       text: "Gestión de Animales",
       icon: "pi pi-id-card",
       route: "/admin/animales",
     },
     {
-      text: "Encuestas",
+      text: "Gestión Tareas",
+      icon: "pi pi-list-check",
+      route: "/admin/tareas",
+    },
+    {
+      text: "Gestión Inventario",
+      icon: "pi pi-box",
+      route: "/admin/inventario",
+    },
+    {
+      text: "Gestión de Usuarios",
+      icon: "pi pi-users",
+      route: "/admin/usuarios",
+    },
+    {
+      text: "Gestión de Encuestas",
       icon: "pi pi-chart-line",
       route: "/admin/encuestas",
     },
     {
-      text: "Reportes",
-      icon: "pi pi-chart-bar",
-      route: "/admin/reportes",
-      disabled: true,
-      comingSoon: true,
-    },
-    {
-      text: "Auxiliar Auditoria",
-      icon: "pi pi-users",
+      text: "Auxiliar Auditoría",
+      icon: "pi pi-history",
       route: "/admin/audit",
-    },
-    {
-      text: "Gestion Inventario",
-      icon: "pi pi-box",
-      route: "/admin/inventario",
     },
   ]);
 }

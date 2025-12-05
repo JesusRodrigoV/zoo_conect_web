@@ -1,0 +1,88 @@
+<p-dialog
+  [visible]="visible()"
+  (visibleChange)="onCancel.emit()"
+  header="Asignar Tarea"
+  [modal]="true"
+  [dismissableMask]="false"
+  [style]="{ width: '450px' }"
+  [resizable]="false"
+  styleClass="assign-dialog"
+>
+  <div class="dialog-content">
+    <div class="form-field">
+      <label for="caretaker" class="field-label">
+        Seleccionar responsable
+      </label>
+
+      <p-select
+        inputId="caretaker"
+        [options]="usuarios()"
+        [(ngModel)]="selectedUserId"
+        optionLabel="username"
+        optionValue="id"
+        placeholder="Buscar usuario..."
+        [showClear]="true"
+        [filter]="true"
+        filterBy="username"
+        [loading]="loadingUsuarios()"
+        styleClass="user-select"
+        panelStyleClass="select-panel"
+        appendTo="body"
+        emptyMessage="No hay usuarios disponibles"
+        emptyFilterMessage="No se encontraron resultados"
+      >
+        <ng-template let-user pTemplate="item">
+          <div class="user-option">
+            <i
+              class="pi pi-user user-icon"
+              [ngClass]="getRoleIconClass(user.rol.id)"
+            ></i>
+            <div class="user-info">
+              <div class="user-name">{{ user.username }}</div>
+              <div class="user-email">{{ user.email }}</div>
+            </div>
+            <span
+              class="user-role-badge"
+              [ngClass]="getRoleBadgeClass(user.rol.id)"
+            >
+              {{ user.rol.nombre }}
+            </span>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="selectedItem" let-user>
+          @if(user){
+          <div class="selected-user">
+            <i class="pi pi-user"></i>
+            <span class="selected-user-name">{{ user.username }}</span>
+          </div>
+          }
+        </ng-template>
+      </p-select>
+
+      <small class="field-hint">
+        * Se excluyen automáticamente usuarios con rol de Visitante
+      </small>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="dialog-footer">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        [rounded]="true"
+        [text]="true"
+        (onClick)="onCancel.emit()"
+      />
+
+      <p-button
+        label="Asignar Tarea"
+        icon="pi pi-check"
+        [rounded]="true"
+        [disabled]="!selectedUserId()"
+        (onClick)="confirm()"
+      />
+    </div>
+  </ng-template>
+</p-dialog>

@@ -139,12 +139,10 @@ export default class CrearUsuario implements OnInit {
 
     if (this.usuarioForm.valid) {
       this.isLoading.set(true);
+
       if (!this.isEditMode) {
         const generatedPassword = this.usuarioForm.value.username! + "ABC123!";
-
-        const usuarioData: Omit<Usuario, "id" | "creadoEn" | "activo"> & {
-          password: string;
-        } = {
+        const usuarioData = {
           email: this.usuarioForm.value.email!,
           username: this.usuarioForm.value.username!,
           password: generatedPassword,
@@ -159,15 +157,42 @@ export default class CrearUsuario implements OnInit {
           .createUser(usuarioData)
           .pipe(finalize(() => this.isLoading.set(false)))
           .subscribe({
-            next: (usuario) => {
+            next: () => {
               this.zooToast.showSuccess("Éxito", "Usuario creado exitosamente");
               this.router.navigate(["/admin/usuarios/lista"]);
             },
-            error: (error) => {
-              this.zooToast.showError("Error", error.message);
-            },
+            error: (error) => this.zooToast.showError("Error", error.message),
           });
       } else {
+        const idParam = this.route.snapshot.paramMap.get("id");
+        const userId = idParam ? parseInt(idParam) : 0;
+
+        if (!userId) {
+          this.isLoading.set(false);
+          return;
+        }
+
+        const updateData = {
+          username: this.usuarioForm.value.username!,
+          rol: {
+            id: this.usuarioForm.value.rol!,
+            nombre: this.getRoleName(this.usuarioForm.value.rol!),
+          },
+        };
+
+        this.adminUsuarios
+          .updateUser(userId, updateData)
+          .pipe(finalize(() => this.isLoading.set(false)))
+          .subscribe({
+            next: () => {
+              this.zooToast.showSuccess(
+                "Actualizado",
+                "Usuario modificado correctamente",
+              );
+              this.router.navigate(["/admin/usuarios/lista"]);
+            },
+            error: (error) => this.zooToast.showError("Error", error.message),
+          });
       }
     } else {
       this.zooToast.showError(

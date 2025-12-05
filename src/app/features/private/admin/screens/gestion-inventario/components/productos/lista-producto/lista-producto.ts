@@ -12,10 +12,11 @@ import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { DataViewModule } from "primeng/dataview";
 import { PaginatorModule } from "primeng/paginator";
 import { SelectButtonModule } from "primeng/selectbutton";
-import { ProductoItem } from "../producto-item/producto-item";
+import { ProductoItem } from "../producto-item";
 import { ProductStore } from "@app/features/private/admin/stores/admin-productos.store";
 import { ConfirmationService } from "primeng/api";
 import { ShowToast } from "@app/shared/services";
+import { ZooConfirmationService } from "@app/shared/services/zoo-confirmation-service";
 
 @Component({
   selector: "app-lista-producto",
@@ -39,7 +40,7 @@ export default class ListaProducto implements OnInit {
   readonly store = inject(ProductStore);
   readonly router = inject(Router);
 
-  private confirmationService = inject(ConfirmationService);
+  private confirm = inject(ZooConfirmationService);
   private toast = inject(ShowToast);
 
   layoutOptions = [
@@ -56,18 +57,14 @@ export default class ListaProducto implements OnInit {
     this.store.setPage(page, event.rows);
   }
 
-  confirmDelete(id: number) {
-    this.confirmationService.confirm({
-      message: "¿Estás seguro de eliminar este producto?",
-      header: "Confirmar Baja",
-      icon: "pi pi-exclamation-triangle",
-      acceptButtonStyleClass: "p-button-danger p-button-text",
-      rejectButtonStyleClass: "p-button-text",
+  confirmDelete(id: number, event?: Event) {
+    this.confirm.delete({
+      message: "¿Estás seguro de eliminar este producto del inventario?",
       accept: () => {
         this.store.deleteProduct(id);
         this.toast.showSuccess(
           "Confirmado",
-          "Producto eliminado del inventario",
+          "Producto eliminado correctamente",
         );
       },
     });

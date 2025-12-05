@@ -9,6 +9,11 @@ export const routes: Routes = [
     loadComponent: () => import("./core/layout/layout"),
     children: [
       {
+        path: "",
+        redirectTo: "inicio",
+        pathMatch: "full",
+      },
+      {
         path: "inicio",
         title: "Inicio",
         loadComponent: () => import("./features/public/home/home"),
@@ -35,25 +40,19 @@ export const routes: Routes = [
             path: "perfil",
             title: "Perfil",
             loadComponent: () =>
-              import(
-                "./features/private/settings/components/perfil-ajustes/perfil-ajustes"
-              ),
+              import("./features/private/settings/components/perfil-ajustes/perfil-ajustes"),
           },
           {
             path: "seguridad",
             title: "Seguridad",
             loadComponent: () =>
-              import(
-                "./features/private/settings/components/seguridad-ajustes/seguridad-ajustes"
-              ),
+              import("./features/private/settings/components/seguridad-ajustes/seguridad-ajustes"),
           },
           {
             path: "notificaciones",
             title: "Notificaciones",
             loadComponent: () =>
-              import(
-                "./features/private/settings/components/notificaciones-ajustes/notificaciones-ajustes"
-              ),
+              import("./features/private/settings/components/notificaciones-ajustes/notificaciones-ajustes"),
           },
           {
             path: "",
@@ -74,9 +73,7 @@ export const routes: Routes = [
         title: "Encuesta",
         canDeactivate: [unsavedChangesGuard],
         loadComponent: () =>
-          import(
-            "./features/public/encuestas/screens/encuesta-detalle/encuesta-detalle"
-          ),
+          import("./features/public/encuestas/screens/encuesta-detalle/encuesta-detalle"),
       },
       {
         path: "quizzes",
@@ -98,9 +95,7 @@ export const routes: Routes = [
       {
         path: "animales/:id",
         loadComponent: () =>
-          import(
-            "./features/public/animales/screens/animal-detail/animal-detail"
-          ),
+          import("./features/public/animales/screens/animal-detail/animal-detail"),
       },
       {
         path: "",

@@ -25,20 +25,16 @@
 
   <ng-template pTemplate="footer">
     <p-button
-      [label]="isAvailable() ? 'Participar Ahora' : 'Próximamente'"
+      [label]="buttonConfig().label"
       [severity]="isAvailable() ? 'primary' : 'secondary'"
       [rounded]="true"
-      [disabled]="!isAvailable()"
-      [routerLink]="['/encuestas', encuesta().idEncuesta]"
-      [pTooltip]="tooltipText()"
+      [disabled]="buttonConfig().disabled"
+      [routerLink]="isAvailable() ? ['/encuestas', encuesta().idEncuesta] : null"
+      [pTooltip]="buttonConfig().tooltip"
+      [icon]="buttonConfig().icon"
+      iconPos="right"
       tooltipPosition="top"
-      styleClass="w-full"
-    >
-      <i
-        class="pi"
-        [class.pi-arrow-right]="isAvailable()"
-        [class.pi-clock]="!isAvailable()"
-      ></i>
-    </p-button>
+      fluid
+    />
   </ng-template>
 </p-card>

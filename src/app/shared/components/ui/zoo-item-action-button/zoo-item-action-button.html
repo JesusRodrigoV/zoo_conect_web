@@ -1,0 +1,10 @@
+<p-button
+  [icon]="config().icon"
+  [severity]="config().severity"
+  [pTooltip]="tooltip() || config().tooltip"
+  tooltipPosition="top"
+  [rounded]="true"
+  [outlined]="true"
+  [disabled]="disabled()"
+  (onClick)="onAction.emit()"
+/>

@@ -13,7 +13,6 @@ import { Toast } from "primeng/toast";
 import { ShowToast } from "./shared/services";
 import { ButtonModule } from "primeng/button";
 import { MessageService } from "primeng/api";
-import AOS from "aos";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 
 @Component({
@@ -38,11 +37,14 @@ export class App implements OnInit {
   private messageService = inject(MessageService);
 
   constructor() {
-    afterRenderEffect(() => {
-      AOS.init({
-        once: true,
-        duration: 1000,
-      });
+    afterRenderEffect(async () => {
+      if (isPlatformBrowser(this.platformId)) {
+        const AOS = (await import("aos")).default;
+        AOS.init({
+          once: true,
+          duration: 1000,
+        });
+      }
     });
   }
 

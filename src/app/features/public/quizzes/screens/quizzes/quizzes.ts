@@ -15,6 +15,9 @@ import { FormsModule } from "@angular/forms";
 import { GeneratedQuiz } from "@models/quiz";
 import { ShowToast } from "@app/shared/services";
 import { SelectModule } from "primeng/select";
+import { AuthStore } from "@stores/auth.store";
+import { RouterLink } from "@angular/router";
+import { MainContainer } from "@app/shared/components/main-container";
 
 @Component({
   selector: "app-quizzes",
@@ -27,6 +30,7 @@ import { SelectModule } from "primeng/select";
     SelectModule,
     CardModule,
     FormsModule,
+    RouterLink,
   ],
   templateUrl: "./quizzes.html",
   styleUrl: "./quizzes.scss",
@@ -35,6 +39,7 @@ import { SelectModule } from "primeng/select";
 export default class Quizzes {
   private quizService = inject(GenerateQuiz);
   private toast = inject(ShowToast);
+  readonly authStore = inject(AuthStore);
 
   config = {
     amount: 5,

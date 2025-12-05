@@ -153,6 +153,33 @@ export const ProductStore = signalStore(
           ),
         ),
       ),
+
+      loadStockAlerts: rxMethod<void>(
+        pipe(
+          tap(() => patchState(store, { loading: true, error: null })),
+          switchMap(() => {
+            const { page, size } = store;
+            return service.getStockAlertProducts(page(), size()).pipe(
+              tapResponse({
+                next: (response) => {
+                  console.log("Alertas recibidas:", response.items);
+                  console.log("Total encontradas:", response.total);
+                  patchState(store, {
+                    products: response.items,
+                    total: response.total,
+                    loading: false,
+                  });
+                },
+                error: (err: any) =>
+                  patchState(store, {
+                    loading: false,
+                    error: err.message || "Error al cargar alertas de stock",
+                  }),
+              }),
+            );
+          }),
+        ),
+      ),
     }),
   ),
 );

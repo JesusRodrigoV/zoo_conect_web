@@ -1,22 +1,17 @@
 <zoo-main-container>
-  @let surveys = this.surveys$ | async; @defer(on viewport; prefetch on idle;
-  hydrate on interaction){
+  @if (surveys$ | async; as surveys) {
   <div class="surveys-grid">
-    @for(survey of surveys; track survey.idEncuesta){
+    @for(survey of surveys; track $index){
     <app-encuesta-item [encuesta]="survey" />
     } @empty {
     <p class="no-data">No hay encuestas disponibles.</p>
     }
   </div>
-  } @loading {
+  } @else {
   <div class="surveys-grid">
     @for(placeholder of [1,2,3,4]; track placeholder){
-    <p-skeleton height="200px" />
+    <p-skeleton height="200px" styleClass="mb-2" borderRadius="16px" />
     }
-  </div>
-  } @placeholder {
-  <div class="surveys-grid">
-    <zoo-loader [size]="100" />
   </div>
   }
 </zoo-main-container>

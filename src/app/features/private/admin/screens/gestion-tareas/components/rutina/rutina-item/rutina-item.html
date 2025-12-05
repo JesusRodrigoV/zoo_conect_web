@@ -1,0 +1,42 @@
+<td>
+  <strong>{{ item().titulo }}</strong>
+  <br />
+  <small class="description-text">{{ item().descripcion }}</small>
+</td>
+
+<td>{{ item().tipoTarea?.nombre || '-' }}</td>
+
+<td>
+  @if (item().animalId || item().habitatId) {
+  <div class="location-cell">
+    @if (item().habitatId) {
+    <i class="pi pi-home location-icon"></i>
+    } @else if (item().animalId) {
+    <i class="pi pi-paw location-icon"></i>
+    }
+    <span>{{ item().animal?.nombre || item().habitat?.nombre || '—' }}</span>
+  </div>
+  } @else {
+  <span class="general-text">General</span>
+  }
+</td>
+
+<td>
+  <code class="cron-badge">{{ item().frecuenciaCron }}</code>
+</td>
+
+<td>
+  <p-tag
+    [value]="item().isActive ? 'Activa' : 'Pausada'"
+    [severity]="item().isActive ? 'success' : 'secondary'"
+    [rounded]="true"
+  />
+</td>
+
+<td class="actions-cell">
+  <div class="action-buttons">
+    <zoo-item-action-button tipo="edit" (click)="onEdit.emit(item().id)" />
+
+    <zoo-item-action-button tipo="delete" (click)="onDelete.emit(item().id)" />
+  </div>
+</td>

@@ -25,14 +25,22 @@ export const unsavedChangesGuard: CanDeactivateFn<HasUnsavedChanges> = (
         "Tienes respuestas sin enviar. ¿Estás seguro de que deseas salir?",
       header: "Cambios sin guardar",
       icon: "pi pi-exclamation-triangle",
-      acceptLabel: "Salir",
-      rejectLabel: "Permanecer",
+      rejectButtonProps: {
+        label: "Salir",
+        severity: "danger",
+        rounded: true,
+      },
+      acceptButtonProps: {
+        label: "Permanecer",
+        severity: "success",
+        rounded: true,
+      },
       accept: () => {
-        subscriber.next(true);
+        subscriber.next(false);
         subscriber.complete();
       },
       reject: () => {
-        subscriber.next(false);
+        subscriber.next(true);
         subscriber.complete();
       },
     });

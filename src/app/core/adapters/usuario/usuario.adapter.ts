@@ -1,5 +1,5 @@
 import { UpdateProfileRequest } from "@models/usuario";
-import { Usuario, Rol, RolId } from "../../models/usuario/usuario.model";
+import { Usuario, RolId } from "../../models/usuario/usuario.model";
 
 export interface UsuarioBackendResponse {
   id: number;

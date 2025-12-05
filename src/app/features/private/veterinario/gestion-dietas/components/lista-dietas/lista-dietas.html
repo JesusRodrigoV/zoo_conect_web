@@ -1,0 +1,160 @@
+@defer(on viewport; prefetch on idle){
+<div class="list-page-container">
+  <p-confirmDialog />
+
+  <div class="header-actions" style="flex-wrap: wrap; gap: 1rem">
+    <div>
+      <h2>Gestión de Dietas</h2>
+      <p style="margin: 0; color: var(--p-text-muted-color)">
+        Planificación nutricional clínica
+      </p>
+    </div>
+
+    <div
+      class="flex gap-2 align-items-center"
+      style="flex-grow: 1; justify-content: flex-end"
+    >
+      <p-iconfield iconPosition="left">
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          type="text"
+          pInputText
+          placeholder="Buscar dieta..."
+          [ngModel]="searchTerm()"
+          (ngModelChange)="searchTerm.set($event)"
+          (keydown.enter)="onSearch()"
+          style="width: 250px"
+        />
+      </p-iconfield>
+
+      @if(searchTerm()) {
+      <p-button
+        icon="pi pi-times"
+        [text]="true"
+        [rounded]="true"
+        (onClick)="clearSearch()"
+        pTooltip="Limpiar"
+      />
+      }
+
+      <div class="buttons">
+        <p-button
+          variant="text"
+          (onClick)="store.loadDietas()"
+          icon="pi pi-refresh"
+          severity="secondary"
+          [rounded]="true"
+          pTooltip="Recargar lista"
+        />
+        <p-button
+          icon="pi pi-plus"
+          label="Nueva Dieta"
+          [rounded]="true"
+          severity="success"
+          routerLink="../crear"
+        />
+      </div>
+    </div>
+  </div>
+
+  @if(store.loading() && store.dietas().length === 0){
+  <zoo-loader />
+  } @else if(store.error()) {
+  <div class="error-state">
+    <i class="pi pi-times-circle"></i>
+    <p>Error al cargar dietas:</p>
+    <p>{{ store.error() }}</p>
+    <p-button
+      label="Reintentar"
+      (onClick)="store.loadDietas()"
+      severity="danger"
+      [rounded]="true"
+    />
+  </div>
+  } @else {
+
+  <p-dataview
+    #dv
+    [value]="store.dietas()"
+    [paginator]="true"
+    [rows]="store.size()"
+    [totalRecords]="store.total()"
+    [first]="(store.page() - 1) * store.size()"
+    [layout]="layout"
+    [rowsPerPageOptions]="[10, 20, 50]"
+    (onPage)="onPageChange($event)"
+    paginatorPosition="bottom"
+    [lazy]="true"
+  >
+    <ng-template #header>
+      <div class="dataview-header">
+        <span>Total: {{ store.total() }} dietas registradas</span>
+
+        <p-selectButton
+          [options]="layoutOptions"
+          [(ngModel)]="layout"
+          optionLabel="icon"
+          optionValue="value"
+          [allowEmpty]="false"
+        >
+          <ng-template let-item pTemplate="item">
+            <i [class]="item.icon"></i>
+          </ng-template>
+        </p-selectButton>
+      </div>
+    </ng-template>
+
+    <ng-template #list let-items>
+      <div class="flex flex-column gap-3">
+        @for (dieta of items; track dieta.id) {
+        <zoo-dieta-item
+          [dieta]="dieta"
+          layout="list"
+          (onDelete)="confirmDelete($event)"
+          (onEdit)="editDieta($event)"
+          (onView)="viewDieta($event)"
+        />
+        }
+      </div>
+    </ng-template>
+
+    <ng-template #grid let-items>
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+      >
+        @for (dieta of items; track dieta.id) {
+        <zoo-dieta-item
+          [dieta]="dieta"
+          layout="grid"
+          (onDelete)="confirmDelete($event)"
+          (onEdit)="editDieta($event)"
+          (onView)="viewDieta($event)"
+        />
+        }
+      </div>
+    </ng-template>
+
+    <ng-template #empty>
+      <div class="empty-state">
+        <i
+          class="pi pi-apple"
+          style="font-size: 3rem; color: var(--p-green-500)"
+        ></i>
+        <p>No se encontraron dietas.</p>
+        <p-button
+          label="Crear Primera Dieta"
+          icon="pi pi-plus"
+          [rounded]="true"
+          severity="success"
+          routerLink="../crear"
+        />
+      </div>
+    </ng-template>
+  </p-dataview>
+  }
+</div>
+} @placeholder {
+<div class="loading-placeholder">
+  <p>Cargando módulo...</p>
+</div>
+}

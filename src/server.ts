@@ -9,7 +9,7 @@ import { join } from "node:path";
 import { GoogleGenAI } from "@google/genai";
 
 import "dotenv/config";
-import { QuizJsonSchema, QuizSchema } from "@models/quiz";
+import { QuizJsonSchema, QuizSchema } from "@models/quiz/quiz.schemas";
 import { environment } from "@env";
 
 const browserDistFolder = join(import.meta.dirname, "../browser");

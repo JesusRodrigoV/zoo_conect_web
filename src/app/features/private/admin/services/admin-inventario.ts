@@ -17,6 +17,7 @@ export class AdminInventario {
   private http = inject(HttpClient);
   private readonly apiUrl = environment.apiUrl;
   private readonly inventoryUrl = `${this.apiUrl}/inventario/productos`;
+  readonly alertasStockUrl = `${this.apiUrl}/transacciones/alertas-stock`;
 
   getProducts(
     page: number = 1,
@@ -86,5 +87,21 @@ export class AdminInventario {
     return this.http
       .delete<any>(`${this.inventoryUrl}/${id}/imagen`)
       .pipe(map((item) => ProductoAdapter.fromBackend(item)));
+  }
+
+  getStockAlertProducts(
+    page: number = 1,
+    size: number = 20,
+  ): Observable<PaginatedResponse<Producto>> {
+    let params = new HttpParams().set("page", page).set("size", size);
+
+    return this.http.get<any>(this.alertasStockUrl, { params }).pipe(
+      map((response) => ({
+        ...response,
+        items: response.items.map((item: any) =>
+          ProductoAdapter.fromBackend(item),
+        ),
+      })),
+    );
   }
 }

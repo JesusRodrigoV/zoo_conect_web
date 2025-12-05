@@ -1,0 +1,111 @@
+<p-dialog
+  [visible]="visible()"
+  (visibleChange)="!$event ? close() : null"
+  [modal]="true"
+  [header]="pageTitle()"
+  styleClass="rutina-dialog"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form [formGroup]="form" (ngSubmit)="save()" class="rutina-form">
+    <div class="form-grid">
+      <div class="field full-width">
+        <label for="titulo"
+          >Título de la Rutina <span class="required">*</span></label
+        >
+        <input
+          pInputText
+          id="titulo"
+          formControlName="titulo"
+          fluid
+          placeholder="Ej: Limpieza matutina de recinto"
+        />
+      </div>
+
+      <div class="field">
+        <label for="tipo"
+          >Tipo de Actividad <span class="required">*</span></label
+        >
+        <p-select
+          inputId="tipo"
+          formControlName="tipoTareaId"
+          [options]="tiposStore.items()"
+          optionLabel="nombre"
+          optionValue="id"
+          fluid
+          [loading]="tiposStore.loading()"
+          placeholder="Seleccionar tipo..."
+          appendTo="body"
+        />
+      </div>
+
+      <div class="field">
+        <label for="lugar">Ubicación / Animal</label>
+        <p-select
+          inputId="lugar"
+          formControlName="lugarSeleccionado"
+          [options]="lugares()"
+          optionLabel="label"
+          [filter]="true"
+          filterBy="label"
+          placeholder="General (Sin asignar)"
+          fluid
+          [showClear]="true"
+          appendTo="body"
+        />
+      </div>
+
+      <div class="field full-width">
+        <label for="frecuenciaCron"
+          >Frecuencia de Repetición <span class="required">*</span></label
+        >
+        <p-select
+          inputId="frecuenciaCron"
+          formControlName="frecuenciaCron"
+          [options]="cronPresets"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Selecciona cuándo se repite"
+          fluid
+          appendTo="body"
+        />
+        <small class="field-hint"
+          >La tarea se generará automáticamente según este horario.</small
+        >
+      </div>
+
+      <div class="field full-width">
+        <label for="desc">Instrucciones Detalladas</label>
+        <textarea
+          pTextarea
+          id="desc"
+          formControlName="descripcion"
+          rows="4"
+          fluid
+          [autoResize]="true"
+          placeholder="Describe los pasos necesarios..."
+        ></textarea>
+      </div>
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <div class="dialog-footer-actions">
+      <p-button
+        label="Cancelar"
+        icon="pi pi-times"
+        [text]="true"
+        [rounded]="true"
+        severity="secondary"
+        (onClick)="close()"
+      />
+      <p-button
+        label="Guardar Rutina"
+        icon="pi pi-check"
+        [rounded]="true"
+        [loading]="isProcessing()"
+        (onClick)="save()"
+      />
+    </div>
+  </ng-template>
+</p-dialog>

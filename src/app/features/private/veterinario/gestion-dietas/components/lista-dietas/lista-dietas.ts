@@ -39,22 +39,43 @@ import { ZooConfirmationService } from "@app/shared/services/zoo-confirmation-se
     DietaItem,
   ],
   templateUrl: "./lista-dietas.html",
-  styleUrl: "../../../lista-styles.scss",
+  styleUrls: ["./lista-dietas.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfirmationService],
 })
-export default class ListaDietas implements OnInit {
+export default class ListaDietas {
   readonly store = inject(AlimentacionStore);
-  private router = inject(Router);
-  confirmation = inject(ZooConfirmationService);
+  private readonly router = inject(Router);
+  private readonly confirmation = inject(ZooConfirmationService);
 
-  layout: "list" | "grid" = "list";
-  searchTerm = signal("");
+  protected readonly layout = signal<"list" | "grid">("list");
+  protected readonly searchTerm = signal("");
 
-  layoutOptions = [
+  protected readonly layoutOptions = [
     { icon: "pi pi-list", value: "list" },
     { icon: "pi pi-table", value: "grid" },
   ];
+
+  loading = this.store.loading;
+  error = this.store.error;
+  currentPage = this.store.page;
+  pageSize = this.store.size;
+
+  dietaData = computed(() => {
+    const items = this.store.dietas();
+    const total = this.store.total();
+    const size = this.store.size();
+
+    if (this.store.loading() && items.length === 0) return null;
+
+    return {
+      items,
+      total,
+      page: this.store.page(),
+      size,
+      pages: size > 0 ? Math.ceil(total / size) : 0,
+    };
+  });
 
   ngOnInit() {
     this.store.loadDietas();
@@ -67,6 +88,10 @@ export default class ListaDietas implements OnInit {
   clearSearch() {
     this.searchTerm.set("");
     this.onSearch();
+  }
+
+  loadDietas(page: number, size: number) {
+    this.store.setPage(page, size);
   }
 
   onPageChange(event: any) {
@@ -87,6 +112,6 @@ export default class ListaDietas implements OnInit {
   }
 
   viewDieta(id: number) {
-    console.log("Ver detalle", id);
+    this.router.navigate(["/vet/dietas/detalle", id]);
   }
 }

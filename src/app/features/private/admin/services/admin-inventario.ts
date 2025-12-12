@@ -22,12 +22,22 @@ export class AdminInventario {
   getProducts(
     page: number = 1,
     size: number = 20,
-    includeInactive = false,
+    includeInactive: boolean = false,
+    nombre?: string | null,
+    tipoProductoId?: number | null,
   ): Observable<PaginatedResponse<Producto>> {
     let params = new HttpParams()
       .set("page", page)
       .set("size", size)
       .set("include_inactive", includeInactive);
+
+    if (nombre) {
+      params = params.set("nombre", nombre);
+    }
+
+    if (tipoProductoId) {
+      params = params.set("tipo_producto_id", tipoProductoId);
+    }
 
     return this.http.get<any>(this.inventoryUrl, { params }).pipe(
       map((response) => ({

@@ -4,6 +4,7 @@ import {
   computed,
   inject,
   OnInit,
+  signal,
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { MainContainer } from "@app/shared/components/main-container";
@@ -16,6 +17,8 @@ import { SelectButtonModule } from "primeng/selectbutton";
 import { FormsModule } from "@angular/forms";
 import { KpiCard, KpiModel } from "./components/kpi-card/kpi-card";
 import { ZooIcon } from "@app/shared/components/ui/zoo-icon";
+import { GenerarReportes } from "@app/shared/services/generar-reportes";
+import { ShowToast } from "@app/shared/services";
 
 @Component({
   selector: "app-dashboard",
@@ -37,6 +40,10 @@ import { ZooIcon } from "@app/shared/components/ui/zoo-icon";
 })
 export default class Dashboard {
   readonly store = inject(DashboardStore);
+  private reportesService = inject(GenerarReportes);
+  private toast = inject(ShowToast);
+
+  protected isDownloadingDiario = signal(false);
 
   groupByOptions = [
     { label: "Clase", value: "clase" },
@@ -125,5 +132,23 @@ export default class Dashboard {
     if (event.value) {
       this.store.updateAnimalChartFilter(event.value);
     }
+  }
+
+  descargarReporteDiario() {
+    this.isDownloadingDiario.set(true);
+
+    this.reportesService.downloadDiario(new Date()).subscribe({
+      next: () => {
+        this.isDownloadingDiario.set(false);
+        this.toast.showSuccess(
+          "Descarga completa",
+          "El reporte diario se ha descargado.",
+        );
+      },
+      error: () => {
+        this.isDownloadingDiario.set(false);
+        this.toast.showError("Error", "No se pudo generar el reporte diario.");
+      },
+    });
   }
 }

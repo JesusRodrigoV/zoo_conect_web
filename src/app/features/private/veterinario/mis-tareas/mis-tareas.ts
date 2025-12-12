@@ -19,6 +19,8 @@ import { MisTareasStore } from "@app/shared/stores/ejecucion-tarea.store";
 import { Tarea } from "../../admin/models/tareas/tarea.model";
 import { InputNumberModule } from "primeng/inputnumber";
 import { DatePipe } from "@angular/common";
+import { VetRecetas } from "../services/historiales/vet-recetas";
+import { Receta } from "../models/historiales/receta.model";
 
 interface DetalleFormulario {
   productoId: number;
@@ -49,10 +51,15 @@ interface DetalleFormulario {
 })
 export default class MisTareas {
   readonly store = inject(MisTareasStore);
+  readonly vetRecetasService = inject(VetRecetas);
 
   displayDialog = signal(false);
   tareaSeleccionada = signal<Tarea | null>(null);
   observaciones = signal("");
+  displayRecetaDialog = signal(false);
+  recetaSeleccionada = signal<Receta | null>(null);
+  loadingReceta = signal(false);
+  errorReceta = signal<string | null>(null);
 
   formDetalles = signal<DetalleFormulario[]>([]);
 
@@ -67,26 +74,23 @@ export default class MisTareas {
     { label: "Historial", value: true },
   ];
   constructor() {
-    effect(
-      () => {
-        const sugerencia = this.store.sugerenciaDieta();
+    effect(() => {
+      const sugerencia = this.store.sugerenciaDieta();
 
-        if (sugerencia && this.displayDialog()) {
-          const nuevosDetalles: DetalleFormulario[] =
-            sugerencia.detalles_dieta.map((d) => ({
-              productoId: d.producto_id,
-              nombreProducto: d.producto.nombre_producto,
-              unidad: d.producto.unidad_medida.abreviatura,
-              cantidadSugerida: parseFloat(d.cantidad),
-              cantidadEntregada: parseFloat(d.cantidad),
-              cantidadConsumida: null,
-            }));
+      if (sugerencia && this.displayDialog()) {
+        const nuevosDetalles: DetalleFormulario[] =
+          sugerencia.detalles_dieta.map((d) => ({
+            productoId: d.producto_id,
+            nombreProducto: d.producto.nombre_producto,
+            unidad: d.producto.unidad_medida.abreviatura,
+            cantidadSugerida: parseFloat(d.cantidad),
+            cantidadEntregada: parseFloat(d.cantidad),
+            cantidadConsumida: null,
+          }));
 
-          this.formDetalles.set(nuevosDetalles);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+        this.formDetalles.set(nuevosDetalles);
+      }
+    });
   }
 
   ngOnInit() {
@@ -176,15 +180,55 @@ export default class MisTareas {
     | "contrast"
     | null
     | undefined {
-    switch (estado?.toLowerCase()) {
-      case "completada":
-        return "success";
-      case "pendiente":
-        return "warn";
-      case "vencida":
-        return "danger";
-      default:
-        return "info";
+    if (estado) {
+      return "success";
+    } else {
+      return "info";
     }
+  }
+
+  esTareaDeVerReceta(tarea: Tarea): boolean {
+    const descripcion = tarea.descripcion?.toLowerCase();
+    const contieneId = descripcion?.includes("receta id");
+
+    const esTipoReceta = tarea.tipoTarea?.id === 2;
+
+    return esTipoReceta && contieneId;
+  }
+  private extraerRecetaId(descripcion: string): number | null {
+    const match = descripcion.match(/receta\s*id\s*(\d+)/i);
+    if (match && match[1]) {
+      return parseInt(match[1], 10);
+    }
+    return null;
+  }
+
+  verReceta(tarea: Tarea) {
+    this.recetaSeleccionada.set(null);
+    this.errorReceta.set(null);
+    this.loadingReceta.set(true);
+    this.displayRecetaDialog.set(true);
+
+    const recetaId = this.extraerRecetaId(tarea.descripcion);
+
+    if (recetaId === null) {
+      this.errorReceta.set(
+        "No se pudo extraer el ID de la receta de la descripción.",
+      );
+      this.loadingReceta.set(false);
+      return;
+    }
+
+    this.vetRecetasService.getRecetaById(recetaId).subscribe({
+      next: (receta) => {
+        this.recetaSeleccionada.set(receta);
+        this.loadingReceta.set(false);
+      },
+      error: (err) => {
+        console.error("Error al cargar la receta:", err);
+        this.errorReceta.set("Error al cargar la receta. Intente más tarde.");
+        this.loadingReceta.set(false);
+      },
+    });
   }
 }

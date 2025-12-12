@@ -31,11 +31,13 @@ export class SidebarVetMenu {
   rutaBaseVet = "/vet";
 
   protected readonly navigationItems = signal<NavigationItem[]>([
+    /*
     {
       text: "Dashboard Médico",
       icon: "pi pi-heart-pulse",
       route: `${this.rutaBaseVet}/dashboard`,
     },
+   */
     {
       text: "Mis Tareas",
       icon: "pi pi-check-square",
@@ -49,10 +51,10 @@ export class SidebarVetMenu {
       tooltip: "Planificación nutricional",
     },
     {
-      text: "Gestión de Historiales",
-      icon: "pi pi-apple",
+      text: "Historiales Clínicos",
+      icon: "pi pi-clipboard",
       route: `${this.rutaBaseVet}/historiales/`,
-      tooltip: "Planificación medica??",
+      tooltip: "Registro médico y seguimiento",
     },
   ]);
 }

@@ -23,6 +23,7 @@ import { ProductStore } from "@app/features/private/admin/stores/admin-productos
 import { UnidadesMedidaStore } from "@app/features/private/admin/stores/admin-unidades-medida.store";
 import { DatePickerModule } from "primeng/datepicker";
 import { SelectButtonModule } from "primeng/selectbutton";
+import { AuthStore } from "@stores/auth.store";
 
 @Component({
   selector: "app-crear-receta",
@@ -49,6 +50,8 @@ export class CrearReceta {
   readonly unidadesStore = inject(UnidadesMedidaStore);
   private fb = inject(FormBuilder);
   private dialogRef = inject(DynamicDialogRef);
+  authStore = inject(AuthStore);
+  idUsuario = this.authStore.userId();
 
   frecuenciaOptions = [
     { label: "Cada X Horas", value: "hourly" },
@@ -90,20 +93,34 @@ export class CrearReceta {
   constructor() {
     this.form.controls.generarTarea.valueChanges.subscribe((checked) => {
       const cronControl = this.form.controls.frecuenciaCron;
+      const asignadoControl = this.form.controls.usuarioAsignadoId;
+
       if (checked) {
         cronControl.setValidators([Validators.required]);
+        asignadoControl.setValue(this.idUsuario);
         this.recalcularCron();
       } else {
         cronControl.clearValidators();
         cronControl.setValue("");
+        asignadoControl.setValue(null);
       }
       cronControl.updateValueAndValidity();
+      asignadoControl.updateValueAndValidity();
     });
   }
 
   ngOnInit() {
+    this.productStore.setPage(1, 100);
+    this.productStore.updateFilters({
+      tipoProductoId: 4,
+      nombre: null,
+    });
+
     this.productStore.loadProducts();
     this.unidadesStore.setPage(1, 100);
+    if (this.form.value.generarTarea) {
+      this.recalcularCron();
+    }
   }
 
   recalcularCron() {
@@ -180,6 +197,14 @@ export class CrearReceta {
   }
 
   guardar() {
+    if (this.form.value.generarTarea && !this.form.value.frecuenciaCron) {
+      this.recalcularCron();
+    }
+
+    this.form.controls.usuarioAsignadoId.setValue(
+      this.form.value.generarTarea ? this.idUsuario : null,
+    );
+
     if (this.form.invalid) return;
 
     if (
@@ -190,13 +215,17 @@ export class CrearReceta {
       return;
     }
 
+    const finalUsuarioAsignadoId = this.form.value.generarTarea
+      ? this.idUsuario
+      : null;
+
     this.store.agregarReceta({
       ...(this.form.value as any),
       productoId: this.form.value.productoId!,
       unidadMedidaId: this.form.value.unidadMedidaId!,
       generarTarea: this.form.value.generarTarea || false,
       frecuenciaCron: this.form.value.frecuenciaCron || "",
-      usuarioAsignadoId: null,
+      usuarioAsignadoId: finalUsuarioAsignadoId,
     });
 
     this.dialogRef.close();

@@ -86,7 +86,7 @@ export default [
   },
   {
     path: "",
-    redirectTo: "tareas",
+    redirectTo: "mis-tareas",
     pathMatch: "full",
   },
 ] as Routes;

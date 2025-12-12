@@ -7,12 +7,19 @@ import { Producto } from "../models/productos.model";
 import { AdminInventario } from "../services/admin-inventario";
 import { ShowToast } from "@app/shared/services";
 
+type ProductFilters = {
+  nombre: string | null;
+  tipoProductoId: number | null;
+  includeInactive: boolean;
+};
+
 type ProductState = {
   products: Producto[];
   total: number;
   page: number;
   size: number;
   layout: "list" | "grid";
+  filters: ProductFilters;
   loading: boolean;
   isSaving: boolean;
   error: string | null;
@@ -24,6 +31,11 @@ const initialState: ProductState = {
   page: 1,
   size: 20,
   layout: "list",
+  filters: {
+    nombre: null,
+    tipoProductoId: null,
+    includeInactive: false,
+  },
   loading: false,
   isSaving: false,
   error: null,
@@ -38,6 +50,14 @@ export const ProductStore = signalStore(
         patchState(store, { layout });
       },
 
+      updateFilters(filters: Partial<ProductFilters>) {
+        patchState(store, (state) => ({
+          filters: { ...state.filters, ...filters },
+          page: 1,
+        }));
+        this.loadProducts();
+      },
+
       setPage(page: number, size: number) {
         patchState(store, { page, size });
         this.loadProducts();
@@ -47,22 +67,31 @@ export const ProductStore = signalStore(
         pipe(
           tap(() => patchState(store, { loading: true, error: null })),
           switchMap(() => {
-            const { page, size } = store;
-            return service.getProducts(page(), size()).pipe(
-              tapResponse({
-                next: (response) =>
-                  patchState(store, {
-                    products: response.items,
-                    total: response.total,
-                    loading: false,
-                  }),
-                error: (err: any) =>
-                  patchState(store, {
-                    loading: false,
-                    error: err.message || "Error al cargar productos",
-                  }),
-              }),
-            );
+            const { page, size, filters } = store;
+
+            return service
+              .getProducts(
+                page(),
+                size(),
+                filters.includeInactive(),
+                filters.nombre(),
+                filters.tipoProductoId(),
+              )
+              .pipe(
+                tapResponse({
+                  next: (response) =>
+                    patchState(store, {
+                      products: response.items,
+                      total: response.total,
+                      loading: false,
+                    }),
+                  error: (err: any) =>
+                    patchState(store, {
+                      loading: false,
+                      error: err.message || "Error al cargar productos",
+                    }),
+                }),
+              );
           }),
         ),
       ),

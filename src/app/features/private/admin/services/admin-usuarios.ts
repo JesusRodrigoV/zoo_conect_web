@@ -9,6 +9,12 @@ import { Usuario } from "@app/core/models/usuario";
 import { environment } from "@env";
 import { PaginatedResponse } from "@models/common";
 
+export interface UserFilters {
+  roleIds?: number[] | null;
+  isActive?: boolean | null;
+  search?: string | null;
+}
+
 @Injectable({
   providedIn: "root",
 })
@@ -21,12 +27,35 @@ export class AdminUsuarios {
     page: number = 1,
     size: number = 10,
   ): Observable<PaginatedResponse<Usuario>> {
-    const validPage = Number.isFinite(page) && page > 0 ? page : 1;
-    const validSize = Number.isFinite(size) && size > 0 ? size : 10;
+    return this.getUsers(page, size, {
+      isActive: true,
+    });
+  }
 
-    const params = new HttpParams()
-      .set("page", validPage.toString())
-      .set("size", validSize.toString());
+  getUsers(
+    page: number = 1,
+    size: number = 10,
+    filters?: UserFilters,
+  ): Observable<PaginatedResponse<Usuario>> {
+    let params = new HttpParams()
+      .set("page", page.toString())
+      .set("size", size.toString());
+
+    if (filters) {
+      if (filters.roleIds && filters.roleIds.length > 0) {
+        filters.roleIds.forEach((id) => {
+          params = params.append("role_id", id.toString());
+        });
+      }
+
+      if (filters.isActive !== undefined && filters.isActive !== null) {
+        params = params.set("is_active", filters.isActive.toString());
+      }
+
+      if (filters.search) {
+        params = params.set("search", filters.search);
+      }
+    }
 
     return this.http
       .get<PaginatedResponse<UsuarioBackendResponse>>(this.usuariosUrl, {
@@ -39,7 +68,7 @@ export class AdminUsuarios {
         })),
         catchError((error) => {
           console.error("Error fetching users:", error);
-          throw error;
+          return throwError(() => error);
         }),
       );
   }

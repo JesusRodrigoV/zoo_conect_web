@@ -8,11 +8,24 @@ import {
 import { ButtonModule } from "primeng/button";
 import { TooltipModule } from "primeng/tooltip";
 
-export type ActionType = "edit" | "delete" | "restore" | "view" | "add";
+export type ActionType =
+  | "edit"
+  | "delete"
+  | "restore"
+  | "view"
+  | "add"
+  | "download";
 
 interface ActionConfig {
   icon: string;
-  severity: "secondary" | "danger" | "success" | "info" | "help" | "primary";
+  severity:
+    | "secondary"
+    | "danger"
+    | "success"
+    | "info"
+    | "help"
+    | "primary"
+    | "warn";
   tooltip: string;
 }
 
@@ -42,6 +55,11 @@ const ACTION_CONFIG: Record<ActionType, ActionConfig> = {
     severity: "primary",
     tooltip: "Agregar",
   },
+  download: {
+    icon: "pi pi-download",
+    severity: "secondary",
+    tooltip: "Descargar",
+  },
 };
 
 @Component({
@@ -56,8 +74,13 @@ export class ZooItemActionButton {
 
   tooltip = input<string>();
   disabled = input<boolean>(false);
+  loading = input<boolean>(false);
 
   onAction = output<void>();
 
   protected config = computed(() => ACTION_CONFIG[this.type()]);
+
+  protected finalTooltip = computed(
+    () => this.tooltip() || this.config().tooltip,
+  );
 }

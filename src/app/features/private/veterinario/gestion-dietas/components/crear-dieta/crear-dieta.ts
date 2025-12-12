@@ -99,6 +99,11 @@ export default class CrearDieta implements OnInit {
   }
 
   ngOnInit() {
+    this.productStore.setPage(1, 100);
+    this.productStore.updateFilters({
+      tipoProductoId: 2,
+      nombre: null,
+    });
     this.productStore.loadProducts();
     this.unidadesStore.loadItems();
     this.especieStore.loadEspecies();

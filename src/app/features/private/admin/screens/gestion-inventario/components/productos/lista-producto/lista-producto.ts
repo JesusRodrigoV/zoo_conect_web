@@ -3,6 +3,7 @@ import {
   Component,
   inject,
   OnInit,
+  signal,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { Router, RouterLink } from "@angular/router";
@@ -17,6 +18,7 @@ import { ProductStore } from "@app/features/private/admin/stores/admin-productos
 import { ConfirmationService } from "primeng/api";
 import { ShowToast } from "@app/shared/services";
 import { ZooConfirmationService } from "@app/shared/services/zoo-confirmation-service";
+import { GenerarReportes } from "@app/shared/services/generar-reportes";
 
 @Component({
   selector: "app-lista-producto",
@@ -39,9 +41,11 @@ import { ZooConfirmationService } from "@app/shared/services/zoo-confirmation-se
 export default class ListaProducto implements OnInit {
   readonly store = inject(ProductStore);
   readonly router = inject(Router);
-
   private confirm = inject(ZooConfirmationService);
   private toast = inject(ShowToast);
+  private reportesService = inject(GenerarReportes);
+
+  isDownloading = signal(false);
 
   layoutOptions = [
     { icon: "pi pi-list", value: "list" },
@@ -49,6 +53,12 @@ export default class ListaProducto implements OnInit {
   ];
 
   ngOnInit() {
+    this.store.setPage(1, 100);
+
+    this.store.updateFilters({
+      tipoProductoId: null,
+      nombre: null,
+    });
     this.store.loadProducts();
   }
 
@@ -72,5 +82,27 @@ export default class ListaProducto implements OnInit {
 
   editProduct(id: number) {
     this.router.navigate(["admin/inventario/editar", id]);
+  }
+
+  descargarReporteKardex() {
+    this.isDownloading.set(true);
+
+    const fin = new Date();
+    const inicio = new Date();
+    inicio.setDate(fin.getDate() - 30);
+
+    this.reportesService.downloadKardex(inicio, fin).subscribe({
+      next: () => {
+        this.isDownloading.set(false);
+        this.toast.showSuccess(
+          "Descarga iniciada",
+          "El reporte se ha generado correctamente",
+        );
+      },
+      error: () => {
+        this.isDownloading.set(false);
+        this.toast.showError("Error", "No se pudo generar el reporte");
+      },
+    });
   }
 }

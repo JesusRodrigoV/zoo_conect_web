@@ -8,6 +8,16 @@
 
       <div class="quick-actions">
         <p-button
+          icon="pi pi-file-pdf"
+          pTooltip="Descargar Reporte Hoy"
+          tooltipPosition="bottom"
+          severity="help"
+          [rounded]="true"
+          [outlined]="true"
+          [loading]="isDownloadingDiario()"
+          (onClick)="descargarReporteDiario()"
+        />
+        <p-button
           label="Nuevo Usuario"
           icon="pi pi-user-plus"
           severity="secondary"

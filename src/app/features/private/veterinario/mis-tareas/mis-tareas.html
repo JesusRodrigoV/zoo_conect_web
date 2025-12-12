@@ -43,8 +43,8 @@
 
           <td>
             <div class="task-info">
-              <span class="task-title">{{ tarea.nombre }}</span>
-              @if (tarea.tipoTarea?.nombre?.toLowerCase()?.includes('aliment'))
+              <span class="task-title">{{ tarea.titulo }}</span>
+              @if (tarea.tipoTarea?.titulo?.toLowerCase()?.includes('aliment'))
               {
               <span class="type-badge diet">
                 <i class="pi pi-apple"></i>
@@ -59,20 +59,30 @@
           <td>
             <div class="date-display">
               <i class="pi pi-calendar"></i>
-              <span>{{ tarea.fechaLimite | date:'mediumDate' }}</span>
+              <span>{{ tarea.fechaProgramada | date:'mediumDate' }}</span>
             </div>
           </td>
 
           <td>
             <p-tag
-              [value]="tarea.estado"
-              [severity]="getSeverity(tarea.estado)"
+              [value]="tarea.isCompleted ? 'Completada' : 'Pendiente'"
+              [severity]="getSeverity(tarea.isCompleted)"
               [rounded]="true"
             ></p-tag>
           </td>
 
           <td class="actions-cell">
-            @if (!tarea.completada) {
+            @if (!tarea.isCompleted) { @if (esTareaDeVerReceta(tarea)) {
+            <p-button
+              label="Ver Receta"
+              icon="pi pi-eye"
+              [rounded]="true"
+              class="p-button-info p-button-sm action-btn"
+              (click)="verReceta(tarea)"
+              disabled]="store.saving()"
+            />
+            }
+
             <p-button
               label="Ejecutar"
               icon="pi pi-play"

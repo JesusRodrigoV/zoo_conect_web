@@ -4,6 +4,7 @@
       <h2>Gestión de Tareas</h2>
       <p>Administra tus actividades diarias y registros de alimentación.</p>
     </div>
+
     <div class="header-actions">
       <p-selectButton
         [options]="estadoOptions"
@@ -37,14 +38,69 @@
       </ng-template>
 
       <ng-template pTemplate="body" let-tarea let-i="rowIndex">
-        <tr
-          app-tarea-item
-          [tarea]="tarea"
-          [index]="i"
-          [isSaving]="store.saving()"
-          (onCompletar)="abrirCompletar($event)"
-        ></tr>
+        <tr>
+          <td class="row-index">{{ i + 1 }}</td>
+
+          <td>
+            <div class="task-info">
+              <span class="task-title">{{ tarea.titulo }}</span>
+              @if (tarea.tipoTarea?.titulo?.toLowerCase()?.includes('aliment'))
+              {
+              <span class="type-badge diet">
+                <i class="pi pi-apple"></i>
+                <span>Dieta</span>
+              </span>
+              }
+            </div>
+          </td>
+
+          <td class="task-description">{{ tarea.descripcion }}</td>
+
+          <td>
+            <div class="date-display">
+              <i class="pi pi-calendar"></i>
+              <span>{{ tarea.fechaProgramada | date:'mediumDate' }}</span>
+            </div>
+          </td>
+
+          <td>
+            <p-tag
+              [value]="tarea.isCompleted ? 'Completada' : 'Pendiente'"
+              [severity]="getSeverity(tarea.isCompleted)"
+              [rounded]="true"
+            ></p-tag>
+          </td>
+
+          <td class="actions-cell">
+            @if (!tarea.isCompleted) { @if (esTareaDeVerReceta(tarea)) {
+            <p-button
+              label="Ver Receta"
+              icon="pi pi-eye"
+              [rounded]="true"
+              class="p-button-info p-button-sm action-btn"
+              (click)="verReceta(tarea)"
+              disabled]="store.saving()"
+            />
+            }
+
+            <p-button
+              label="Ejecutar"
+              icon="pi pi-play"
+              [rounded]="true"
+              class="p-button-outlined p-button-sm action-btn"
+              (click)="abrirCompletar(tarea)"
+              [disabled]="store.saving()"
+            />
+            } @else {
+            <div class="completed-indicator">
+              <i class="pi pi-check-circle"></i>
+              <span>Completado</span>
+            </div>
+            }
+          </td>
+        </tr>
       </ng-template>
+
       <ng-template pTemplate="emptymessage">
         <tr>
           <td colspan="6">
@@ -64,99 +120,99 @@
     <span>{{ store.error() }}</span>
   </div>
   }
+</div>
 
-  <p-dialog
-    [header]="esTareaAlimentacion() ? 'Registro de Alimentación' : 'Confirmar Tarea'"
-    [(visible)]="displayDialog"
-    [modal]="true"
-    styleClass="custom-dialog-diet"
-    [draggable]="false"
-    [resizable]="false"
-  >
-    <div class="dialog-body">
-      @if (store.loadingDieta()) {
-      <div class="loading-state">
-        <i class="pi pi-spin pi-spinner"></i>
-        <span>Consultando dieta veterinaria...</span>
-      </div>
-      } @if (esTareaAlimentacion() && !store.loadingDieta()) { @if
-      (store.sugerenciaDieta(); as dieta) {
-      <div class="diet-header">
-        <i class="pi pi-book"></i>
-        <h3>{{ dieta.nombre_dieta }}</h3>
-      </div>
-      }
+<p-dialog
+  [header]="esTareaAlimentacion() ? 'Registro de Alimentación' : 'Confirmar Tarea'"
+  [(visible)]="displayDialog"
+  [modal]="true"
+  styleClass="custom-dialog-diet"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="dialog-body">
+    @if (store.loadingDieta()) {
+    <div class="loading-state">
+      <i class="pi pi-spin pi-spinner"></i>
+      <span>Consultando dieta veterinaria...</span>
+    </div>
+    } @if (esTareaAlimentacion() && !store.loadingDieta()) { @if
+    (store.sugerenciaDieta(); as dieta) {
+    <div class="diet-header">
+      <i class="pi pi-book"></i>
+      <h3>{{ dieta.nombre_dieta }}</h3>
+    </div>
+    }
 
-      <div class="diet-list">
-        @for (item of formDetalles(); track item.productoId) {
-        <div class="diet-card">
-          <div class="diet-card-header">
-            <span class="product-name">{{ item.nombreProducto }}</span>
-            <span class="suggestion-badge">
-              Sugerido: {{item.cantidadSugerida}} {{item.unidad}}
-            </span>
+    <div class="diet-list">
+      @for (item of formDetalles(); track item.productoId) {
+      <div class="diet-card">
+        <div class="diet-card-header">
+          <span class="product-name">{{ item.nombreProducto }}</span>
+          <span class="suggestion-badge">
+            Sugerido: {{item.cantidadSugerida}} {{item.unidad}}
+          </span>
+        </div>
+
+        <div class="diet-inputs-row">
+          <div class="input-group">
+            <label>Entregado ({{item.unidad}})</label>
+            <p-inputNumber
+              [(ngModel)]="item.cantidadEntregada"
+              [minFractionDigits]="2"
+              [maxFractionDigits]="2"
+              placeholder="0.00"
+              styleClass="full-width-input"
+            ></p-inputNumber>
           </div>
-
-          <div class="diet-inputs-row">
-            <div class="input-group">
-              <label>Entregado ({{item.unidad}})</label>
-              <p-inputNumber
-                [(ngModel)]="item.cantidadEntregada"
-                [minFractionDigits]="2"
-                [maxFractionDigits]="2"
-                placeholder="0.00"
-                styleClass="full-width-input"
-              ></p-inputNumber>
-            </div>
-            <div class="input-group">
-              <label>Consumido ({{item.unidad}})</label>
-              <p-inputNumber
-                [(ngModel)]="item.cantidadConsumida"
-                [minFractionDigits]="2"
-                [maxFractionDigits]="2"
-                placeholder="0.00"
-                styleClass="full-width-input"
-              ></p-inputNumber>
-            </div>
+          <div class="input-group">
+            <label>Consumido ({{item.unidad}})</label>
+            <p-inputNumber
+              [(ngModel)]="item.cantidadConsumida"
+              [minFractionDigits]="2"
+              [maxFractionDigits]="2"
+              placeholder="0.00"
+              styleClass="full-width-input"
+            ></p-inputNumber>
           </div>
         </div>
-        } @if (formDetalles().length === 0) {
-        <div class="warning-box">No hay productos asignados a esta dieta.</div>
-        }
       </div>
+      } @if (formDetalles().length === 0) {
+      <div class="warning-box">No hay productos asignados a esta dieta.</div>
       }
-
-      <div class="observation-section">
-        <label for="obs">Observaciones / Reporte</label>
-        <textarea
-          id="obs"
-          pInputTextarea
-          [(ngModel)]="observaciones"
-          rows="3"
-          placeholder="Escribe cualquier novedad..."
-        ></textarea>
-      </div>
     </div>
+    }
 
-    <ng-template pTemplate="footer">
-      <div class="dialog-actions">
-        <p-button
-          label="Cancelar"
-          icon="pi pi-times"
-          class="p-button-text"
-          [rounded]="true"
-          (click)="displayDialog.set(false)"
-        />
-        <p-button
-          [label]="esTareaAlimentacion() ? 'Registrar' : 'Confirmar'"
-          icon="pi pi-check"
-          class="p-button-primary"
-          (click)="confirmarCompletar()"
-          [loading]="store.saving()"
-          [rounded]="true"
-          [disabled]="esTareaAlimentacion() && formDetalles().length === 0"
-        />
-      </div>
-    </ng-template>
-  </p-dialog>
-</div>
+    <div class="observation-section">
+      <label for="obs">Observaciones / Reporte</label>
+      <textarea
+        id="obs"
+        pInputTextarea
+        [(ngModel)]="observaciones"
+        rows="3"
+        placeholder="Escribe cualquier novedad..."
+      ></textarea>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="dialog-actions">
+      <p-button
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-text"
+        [rounded]="true"
+        (click)="displayDialog.set(false)"
+      />
+      <p-button
+        [label]="esTareaAlimentacion() ? 'Registrar' : 'Confirmar'"
+        icon="pi pi-check"
+        class="p-button-primary"
+        (click)="confirmarCompletar()"
+        [loading]="store.saving()"
+        [rounded]="true"
+        [disabled]="esTareaAlimentacion() && formDetalles().length === 0"
+      />
+    </div>
+  </ng-template>
+</p-dialog>

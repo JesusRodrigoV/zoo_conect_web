@@ -1,83 +1,89 @@
 <p-dialog
   [visible]="visible()"
-  (visibleChange)="onCancel.emit()"
-  header="Asignar Tarea"
+  (visibleChange)="!$event ? onCancel.emit() : null"
   [modal]="true"
-  [dismissableMask]="false"
-  [style]="{ width: '450px' }"
+  [draggable]="false"
   [resizable]="false"
-  styleClass="assign-dialog"
+  styleClass="assign-dialog-modern"
+  [maskStyle]="{ 'backdrop-filter': 'blur(4px)' }"
 >
+  <ng-template pTemplate="header">
+    <div class="dialog-header">
+      <div class="icon-wrapper">
+        <i class="pi pi-user-plus"></i>
+      </div>
+      <div class="header-text">
+        <h3>Asignar Responsable</h3>
+        <p>Selecciona un miembro del equipo para esta tarea.</p>
+      </div>
+    </div>
+  </ng-template>
+
   <div class="dialog-content">
-    <div class="form-field">
-      <label for="caretaker" class="field-label">
-        Seleccionar responsable
-      </label>
+    <div class="field-container">
+      <label for="caretaker" class="modern-label">Usuario</label>
 
       <p-select
         inputId="caretaker"
         [options]="usuarios()"
-        [(ngModel)]="selectedUserId"
+        [ngModel]="selectedUserId()"
+        (ngModelChange)="selectedUserId.set($event)"
         optionLabel="username"
         optionValue="id"
-        placeholder="Buscar usuario..."
+        placeholder="Seleccionar usuario..."
         [showClear]="true"
         [filter]="true"
-        filterBy="username"
+        filterBy="username,email"
         [loading]="loadingUsuarios()"
-        styleClass="user-select"
-        panelStyleClass="select-panel"
+        styleClass="w-full"
         appendTo="body"
-        emptyMessage="No hay usuarios disponibles"
-        emptyFilterMessage="No se encontraron resultados"
+        panelStyleClass="modern-select-panel"
       >
         <ng-template let-user pTemplate="item">
-          <div class="user-option">
-            <i
-              class="pi pi-user user-icon"
-              [ngClass]="getRoleIconClass(user.rol.id)"
-            ></i>
-            <div class="user-info">
-              <div class="user-name">{{ user.username }}</div>
-              <div class="user-email">{{ user.email }}</div>
+          <div class="user-list-item">
+            <div class="avatar-wrapper" [ngClass]="getRoleClass(user.rol.id)">
+              <span class="initials"
+                >{{ user.username.charAt(0).toUpperCase() }}</span
+              >
             </div>
-            <span
-              class="user-role-badge"
-              [ngClass]="getRoleBadgeClass(user.rol.id)"
-            >
+
+            <div class="user-details">
+              <span class="username">{{ user.username }}</span>
+              <span class="email">{{ user.email }}</span>
+            </div>
+
+            <div class="role-badge" [ngClass]="getRoleClass(user.rol.id)">
               {{ user.rol.nombre }}
-            </span>
+            </div>
           </div>
         </ng-template>
 
         <ng-template pTemplate="selectedItem" let-user>
-          @if(user){
-          <div class="selected-user">
-            <i class="pi pi-user"></i>
-            <span class="selected-user-name">{{ user.username }}</span>
+          @if(user) {
+          <div class="selected-value-template">
+            <div class="mini-avatar" [ngClass]="getRoleClass(user.rol.id)">
+              {{ user.username.charAt(0).toUpperCase() }}
+            </div>
+            <span class="font-medium">{{ user.username }}</span>
+            <span class="role-tag-mini">{{ user.rol.nombre }}</span>
           </div>
           }
         </ng-template>
       </p-select>
-
-      <small class="field-hint">
-        * Se excluyen automáticamente usuarios con rol de Visitante
-      </small>
     </div>
   </div>
 
   <ng-template pTemplate="footer">
-    <div class="dialog-footer">
+    <div class="dialog-actions">
       <p-button
         label="Cancelar"
         severity="secondary"
-        [rounded]="true"
         [text]="true"
+        [rounded]="true"
         (onClick)="onCancel.emit()"
       />
-
       <p-button
-        label="Asignar Tarea"
+        label="Confirmar"
         icon="pi pi-check"
         [rounded]="true"
         [disabled]="!selectedUserId()"

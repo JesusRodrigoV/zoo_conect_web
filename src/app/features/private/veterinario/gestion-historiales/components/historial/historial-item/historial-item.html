@@ -55,6 +55,10 @@
 </td>
 
 <td class="text-center">
+  <zoo-item-action-button
+    tipo="download"
+    (click)="onDownload.emit(item().id)"
+  />
   <p-button
     icon="pi pi-chevron-right"
     [rounded]="true"

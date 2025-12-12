@@ -19,12 +19,7 @@
         <div class="form-grid">
           <div class="field full-width">
             <p-floatlabel>
-              <input
-                pInputText
-                id="nombre"
-                formControlName="nombre"
-                class="w-full"
-              />
+              <input pInputText id="nombre" formControlName="nombre" fluid />
               <label for="nombre"
                 >Nombre de la Dieta (ej. Dieta Felinos Standard) *</label
               >
@@ -79,7 +74,7 @@
                 optionValue="idEspecie"
                 [filter]="true"
                 filterPlaceholder="Buscar especie..."
-                styleClass="w-full"
+                fluid
               />
               <label for="targetEsp">Seleccionar Especie *</label>
             </p-floatlabel>
@@ -93,7 +88,7 @@
                 optionValue="value"
                 [filter]="true"
                 filterPlaceholder="Buscar animal..."
-                styleClass="w-full"
+                fluid
               />
               <label for="targetAnim">Seleccionar Animal *</label>
             </p-floatlabel>
@@ -145,6 +140,7 @@
                     placeholder="Seleccionar..."
                     appendTo="body"
                     styleClass="w-full table-input"
+                    fluid
                     [invalid]="isInvalid('productoId', i)"
                   />
                 </td>
@@ -155,6 +151,7 @@
                     [min]="0"
                     [maxFractionDigits]="2"
                     inputStyleClass="w-full text-center p-1"
+                    fluid
                     class="compact-number"
                     [invalid]="isInvalid('cantidad', i)"
                   />
@@ -169,6 +166,7 @@
                     placeholder="U.M."
                     appendTo="body"
                     styleClass="w-full table-input"
+                    fluid
                     [invalid]="isInvalid('unidadMedidaId', i)"
                   />
                 </td>
@@ -179,18 +177,18 @@
                     formControlName="frecuencia"
                     placeholder="Ej. Diario, Lun-Mie"
                     class="w-full p-2 table-text"
+                    fluid
                     [ngClass]="{'ng-invalid ng-dirty': isInvalid('frecuencia', i)}"
                   />
                 </td>
 
                 <td class="text-center">
-                  <button
-                    pButton
+                  <p-button
                     icon="pi pi-trash"
                     class="p-button-text p-button-danger p-button-rounded p-button-sm"
                     (click)="removeDetalle(i)"
                     pTooltip="Quitar"
-                  ></button>
+                  />
                 </td>
               </tr>
             </ng-template>

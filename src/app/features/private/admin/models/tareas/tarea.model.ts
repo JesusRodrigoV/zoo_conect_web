@@ -71,3 +71,21 @@ export interface CompletarTareaAlimentacion {
     cantidadConsumida: number;
   }[];
 }
+
+export interface ProductoSug {
+  id_producto: number;
+  nombre_producto: string;
+  unidad_medida: { abreviatura: string };
+}
+
+export interface DetalleDietaSug {
+  producto_id: number;
+  cantidad: string;
+  frecuencia: string;
+  producto: ProductoSug;
+}
+
+export interface SugerenciaDietaResponse {
+  nombre_dieta: string;
+  detalles_dieta: DetalleDietaSug[];
+}

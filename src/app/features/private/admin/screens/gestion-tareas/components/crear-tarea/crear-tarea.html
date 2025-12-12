@@ -68,16 +68,16 @@
 
       <div class="field full-width">
         <label for="lugar">Lugar o Animal Afectado</label>
+
         <p-select
           inputId="lugar"
-          formControlName="lugarId"
+          formControlName="lugarSeleccionado"
           [options]="lugares()"
           optionLabel="label"
-          optionValue="value"
           [filter]="true"
           filterBy="label"
           styleClass="w-full"
-          placeholder="General (Sin asignar)"
+          placeholder="Seleccionar ubicación..."
           [showClear]="true"
           appendTo="body"
         />

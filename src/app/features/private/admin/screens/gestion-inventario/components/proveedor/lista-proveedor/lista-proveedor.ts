@@ -15,6 +15,7 @@ import { SelectButtonModule } from "primeng/selectbutton";
 import { ProveedorItem } from "../proveedor-item/proveedor-item";
 import { ProveedoresStore } from "@app/features/private/admin/stores/admin-proveedores.store";
 import { ConfirmationService } from "primeng/api";
+import { ZooConfirmationService } from "@app/shared/services/zoo-confirmation-service";
 
 @Component({
   selector: "app-lista-proveedor",
@@ -38,7 +39,7 @@ export default class ListaProveedor implements OnInit {
   readonly store = inject(ProveedoresStore);
   readonly router = inject(Router);
 
-  private confirmationService = inject(ConfirmationService);
+  confirmation = inject(ZooConfirmationService);
 
   layout: "list" | "grid" = "list";
   layoutOptions = [
@@ -56,15 +57,9 @@ export default class ListaProveedor implements OnInit {
   }
 
   confirmDelete(id: number) {
-    this.confirmationService.confirm({
+    this.confirmation.delete({
       message: "¿Estás seguro de eliminar este proveedor?",
-      header: "Confirmar Baja",
-      icon: "pi pi-exclamation-triangle",
-      acceptButtonStyleClass: "p-button-danger p-button-text",
-      rejectButtonStyleClass: "p-button-text",
-      accept: () => {
-        this.store.deleteItem(id);
-      },
+      accept: () => this.store.deleteItem(id),
     });
   }
 

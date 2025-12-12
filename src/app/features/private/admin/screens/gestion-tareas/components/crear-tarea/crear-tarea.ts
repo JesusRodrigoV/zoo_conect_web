@@ -5,9 +5,9 @@ import {
   effect,
   inject,
   input,
-  OnDestroy,
   output,
   signal,
+  untracked,
 } from "@angular/core";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ButtonModule } from "primeng/button";
@@ -53,18 +53,16 @@ export class CrearTarea {
   private fb = inject(FormBuilder);
   private store = inject(TareasPendientesStore);
   protected tiposStore = inject(TiposTareaStore);
-
   private adminUsuarios = inject(AdminUsuarios);
   private animalesService = inject(AdminAnimales);
   private habitatService = inject(AdminHabitat);
 
   usuarios = signal<Usuario[]>([]);
   loadingUsuarios = signal(false);
-
   protected isLoadingData = signal(false);
+
   protected animales = signal<{ label: string; value: number }[]>([]);
   protected habitats = signal<{ label: string; value: number }[]>([]);
-
   protected isProcessing = computed(() => this.store.creatingManual());
 
   protected lugares = computed<LugarOption[]>(() => [
@@ -91,20 +89,20 @@ export class CrearTarea {
     tipoTareaId: [null as number | null, [Validators.required]],
     fechaProgramada: [new Date(), [Validators.required]],
     usuarioAsignadoId: [null as number | null],
-    lugarId: [null as number | null],
-    tipoLugar: ["general"],
+    lugarSeleccionado: [null as LugarOption | null],
   });
 
   constructor() {
     effect(() => {
       if (this.visible()) {
-        this.loadCatalogos();
-        this.loadAllUsers();
-        this.form.reset({
-          fechaProgramada: new Date(),
-          tipoLugar: "general",
+        untracked(() => {
+          this.loadCatalogos();
+          this.loadAllUsers();
+          this.form.reset({
+            fechaProgramada: new Date(),
+            lugarSeleccionado: this.lugares()[0],
+          });
         });
-      } else {
       }
     });
   }
@@ -136,7 +134,6 @@ export class CrearTarea {
 
   private loadAllUsers() {
     if (this.usuarios().length > 0) return;
-
     this.loadingUsuarios.set(true);
     this.adminUsuarios.getAllUsers(1, 100).subscribe({
       next: (response) => {
@@ -145,7 +142,6 @@ export class CrearTarea {
         );
         this.usuarios.set(users);
       },
-      error: (err) => console.error(err),
       complete: () => this.loadingUsuarios.set(false),
     });
   }
@@ -157,9 +153,8 @@ export class CrearTarea {
     }
 
     const val = this.form.value;
-    const selectedLugar = this.lugares().find(
-      (l) => l.value === val.lugarId && l.tipo === val.tipoLugar,
-    );
+
+    const selectedLugar = val.lugarSeleccionado;
 
     const payload: CreateTareaManual = {
       titulo: val.titulo!,

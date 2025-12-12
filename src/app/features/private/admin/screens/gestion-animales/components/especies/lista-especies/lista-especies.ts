@@ -1,4 +1,3 @@
-import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,7 +11,7 @@ import { Loader } from "@app/shared/components";
 import { DataView, DataViewPageEvent } from "primeng/dataview";
 import { EspecieItem } from "../especie-item";
 import { ButtonModule } from "primeng/button";
-import { Router, RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
 import { ShowToast } from "@app/shared/services";
@@ -22,6 +21,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { finalize } from "rxjs";
 import { DrawerModule } from "primeng/drawer";
 import { EspecieDetalle } from "../especie-detalle";
+import { ZooConfirmationService } from "@app/shared/services/zoo-confirmation-service";
 
 @Component({
   selector: "app-lista-especies",
@@ -44,7 +44,7 @@ export default class ListaEspecies {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly toastService = inject(ShowToast);
-  private readonly confirmationService = inject(ConfirmationService);
+  private confirmation = inject(ZooConfirmationService);
 
   protected readonly currentPage = signal(1);
   protected readonly pageSize = signal(10);
@@ -115,29 +115,13 @@ export default class ListaEspecies {
 
   protected cerrarDetalle(): void {
     this.detalleVisible.set(false);
-    // Opcional: resetea el ID después de la animación de cierre
-    // setTimeout(() => this.idDetalleSeleccionado.set(null), 300);
   }
 
   protected deleteEspecie(id: number): void {
-    this.confirmationService.confirm({
+    this.confirmation.delete({
       message:
         "¿Estás seguro de eliminar esta especie? Esta acción no se puede deshacer.",
-      header: "Confirmar eliminación",
-      icon: "pi pi-exclamation-triangle",
-      acceptButtonProps: {
-        label: "Eliminar",
-        severity: "danger",
-        rounded: true,
-      },
-      rejectButtonProps: {
-        label: "Cancelar",
-        variant: "outlined",
-        rounded: true,
-      },
-      accept: () => {
-        this.onDeleteConfirm(id);
-      },
+      accept: () => this.onDeleteConfirm(id),
     });
   }
 

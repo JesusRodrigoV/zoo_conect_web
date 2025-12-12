@@ -39,8 +39,7 @@ export class SidebarVetMenu {
     {
       text: "Mis Tareas",
       icon: "pi pi-check-square",
-      route: `${this.rutaBaseVet}/tareas`,
-      badge: 3,
+      route: `${this.rutaBaseVet}/mis-tareas`,
       tooltip: "Consultas y procedimientos asignados",
     },
     {
@@ -50,22 +49,10 @@ export class SidebarVetMenu {
       tooltip: "Planificación nutricional",
     },
     {
-      text: "Pacientes (Animales)",
-      icon: "pi pi-id-card",
-      route: `${this.rutaBaseVet}/pacientes`,
-    },
-    {
-      text: "Historial Clínico",
-      icon: "pi pi-book",
-      route: `${this.rutaBaseVet}/historial`,
-      disabled: true,
-      comingSoon: true,
-    },
-    {
-      text: "Inventario Médico",
-      icon: "pi pi-briefcase",
-      route: `${this.rutaBaseVet}/inventario`,
-      tooltip: "Medicinas y equipos",
+      text: "Gestión de Historiales",
+      icon: "pi pi-apple",
+      route: `${this.rutaBaseVet}/historiales/`,
+      tooltip: "Planificación medica??",
     },
   ]);
 }

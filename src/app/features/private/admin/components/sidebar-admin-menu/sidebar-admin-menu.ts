@@ -33,8 +33,6 @@ export class SidebarAdminMenu {
       text: "Dashboard",
       icon: "pi pi-th-large",
       route: "/admin/dashboard",
-      disabled: true,
-      comingSoon: true,
     },
     {
       text: "Gestión de Animales",
@@ -61,6 +59,13 @@ export class SidebarAdminMenu {
       icon: "pi pi-chart-line",
       route: "/admin/encuestas",
     },
+    /*
+    {
+      text: "Gestión de Noticias",
+      icon: "pi pi-megaphone",
+      route: "/admin/noticias",
+    },
+    */
     {
       text: "Auxiliar Auditoría",
       icon: "pi pi-history",

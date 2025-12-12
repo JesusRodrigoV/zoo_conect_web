@@ -28,8 +28,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { AgregarPregunta, PreguntaDialogResult } from "../agregar-pregunta";
 import { AdminEncuestas } from "@app/features/private/admin/services/admin-encuestas";
 import { finalize } from "rxjs/operators";
-import { ConfirmationService } from "primeng/api";
-import { ConfirmPopupModule } from "primeng/confirmpopup";
 import { CardModule } from "primeng/card";
 import { ButtonModule } from "primeng/button";
 import { AccordionModule } from "primeng/accordion";
@@ -37,6 +35,7 @@ import { TooltipModule } from "primeng/tooltip";
 import { Loader } from "@app/shared/components";
 import { CreatePregunta, Encuesta } from "@models/encuestas";
 import { forkJoin, Observable, of } from "rxjs";
+import { ZooConfirmationService } from "@app/shared/services/zoo-confirmation-service";
 
 type OpcionFormValue = {
   idOpcion: number | null;
@@ -62,14 +61,12 @@ type PreguntaFormValue = {
     TextareaModule,
     FloatLabel,
     AgregarPregunta,
-    ConfirmPopupModule,
     CardModule,
     ButtonModule,
     AccordionModule,
     TooltipModule,
     Loader,
   ],
-  providers: [ConfirmationService],
   templateUrl: "./crear-encuesta.html",
   styleUrl: "./crear-encuesta.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -77,7 +74,7 @@ type PreguntaFormValue = {
 export default class CrearEncuesta implements OnInit {
   private fb = inject(FormBuilder);
   private zooToast = inject(ShowToast);
-  private confirmationService = inject(ConfirmationService);
+  confirmation = inject(ZooConfirmationService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private adminEncuestas = inject(AdminEncuestas);
@@ -352,16 +349,10 @@ export default class CrearEncuesta implements OnInit {
   }
 
   protected removePregunta(index: number, event: Event): void {
-    this.confirmationService.confirm({
+    this.confirmation.delete({
+      key: "confirm-popup",
       target: event.currentTarget as EventTarget,
       message: "¿Estás seguro de que deseas eliminar esta pregunta?",
-      icon: "pi pi-exclamation-triangle",
-      rejectButtonProps: {
-        label: "Cancelar",
-        severity: "secondary",
-        outlined: true,
-      },
-      acceptButtonProps: { label: "Eliminar", severity: "danger" },
       accept: () => {
         if (this.isEditMode) {
           const idPregunta = this.preguntas.at(index).get("idPregunta")?.value;

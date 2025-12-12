@@ -218,28 +218,60 @@
   width: 100%;
   max-width: 500px;
   aspect-ratio: 4/5;
+  overflow: hidden;
+  background-color: var(--p-surface-200);
 
   p-galleria {
     width: 100%;
     height: 100%;
+    display: block;
   }
 }
 
 .hero-gallery-item {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
 ::ng-deep {
-  .p-galleria-item-wrapper,
-  .p-galleria-item-container,
-  .p-galleria-item {
-    height: 100% !important;
-  }
-  .p-galleria-item {
-    position: relative;
-  }
-  .p-galleria-indicators {
-    padding: 0.5rem;
+  .visual-card {
+    .p-galleria,
+    .p-galleria-content,
+    .p-galleria-item-wrapper,
+    .p-galleria-item-container,
+    .p-galleria-item {
+      width: 100% !important;
+      height: 100% !important;
+      display: flex !important;
+    }
+
+    .p-galleria {
+      border: none;
+    }
+
+    .p-galleria-indicators {
+      position: absolute;
+      bottom: 4rem;
+      left: 0;
+      width: 100%;
+      z-index: 2;
+      background: transparent;
+      padding: 0;
+
+      .p-galleria-indicator-button {
+        background-color: rgba(255, 255, 255, 0.5);
+        &:hover {
+          background-color: #fff;
+        }
+      }
+
+      .p-highlight .p-galleria-indicator-button {
+        background-color: var(--primary-500);
+      }
+    }
   }
 }
 

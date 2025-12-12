@@ -126,7 +126,8 @@ export const routes: Routes = [
   },
   {
     path: "cuidador",
-    loadComponent: () => import("./features/private/cuidador/cuidador"),
+    loadComponent: () =>
+      import("./features/private/cuidador/layout/vet-layout/vet-layout"),
     canActivate: [cuidadorGuard],
     loadChildren: () => import("./features/private/cuidador/cuidador.routes"),
   },

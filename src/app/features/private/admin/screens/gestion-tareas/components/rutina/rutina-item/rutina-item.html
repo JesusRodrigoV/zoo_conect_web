@@ -10,11 +10,10 @@
   @if (item().animalId || item().habitatId) {
   <div class="location-cell">
     @if (item().habitatId) {
-    <i class="pi pi-home location-icon"></i>
-    } @else if (item().animalId) {
-    <i class="pi pi-paw location-icon"></i>
+    <zoo-icon name="home" class="location-icon" />
+    } @if (item().animalId) {
+    <zoo-icon name="dog" type="solid" class="location-icon" />
     }
-    <span>{{ item().animal?.nombre || item().habitat?.nombre || '—' }}</span>
   </div>
   } @else {
   <span class="general-text">General</span>
@@ -22,7 +21,14 @@
 </td>
 
 <td>
-  <code class="cron-badge">{{ item().frecuenciaCron }}</code>
+  <div
+    class="cron-display"
+    [pTooltip]="item().frecuenciaCron"
+    tooltipPosition="top"
+  >
+    <i class="pi pi-clock cron-icon"></i>
+    <span>{{ cronLabel() }}</span>
+  </div>
 </td>
 
 <td>
@@ -36,7 +42,6 @@
 <td class="actions-cell">
   <div class="action-buttons">
     <zoo-item-action-button tipo="edit" (click)="onEdit.emit(item().id)" />
-
     <zoo-item-action-button tipo="delete" (click)="onDelete.emit(item().id)" />
   </div>
 </td>

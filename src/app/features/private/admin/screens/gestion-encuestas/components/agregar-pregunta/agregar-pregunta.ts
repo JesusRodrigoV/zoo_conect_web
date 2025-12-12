@@ -20,9 +20,8 @@ import { FloatLabel } from "primeng/floatlabel";
 import { TextareaModule } from "primeng/textarea";
 import { InputTextModule } from "primeng/inputtext";
 import { SelectModule } from "primeng/select";
-import { ConfirmPopupModule } from "primeng/confirmpopup";
-import { ConfirmationService } from "primeng/api";
 import { ButtonModule } from "primeng/button";
+import { ZooConfirmationService } from "@app/shared/services/zoo-confirmation-service";
 
 export interface PreguntaDialogResult {
   texto_pregunta: string;
@@ -41,9 +40,7 @@ export interface PreguntaDialogResult {
     InputTextModule,
     TextareaModule,
     SelectModule,
-    ConfirmPopupModule,
   ],
-  providers: [ConfirmationService],
   templateUrl: "./agregar-pregunta.html",
   styleUrl: "./agregar-pregunta.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,7 +48,7 @@ export interface PreguntaDialogResult {
 export class AgregarPregunta {
   private readonly fb = inject(FormBuilder);
   private readonly zooToast = inject(ShowToast);
-  private confirmationService = inject(ConfirmationService);
+  confirmation = inject(ZooConfirmationService);
 
   protected readonly formSubmitted = signal(false);
   tipoOpciones: any[] | undefined;
@@ -116,22 +113,11 @@ export class AgregarPregunta {
 
   removeOpcion(index: number, event: Event): void {
     if (this.opciones.length > 1) {
-      this.confirmationService.confirm({
+      this.confirmation.delete({
+        key: "confirm-popup",
         target: event.currentTarget as EventTarget,
         message: "¿Estás seguro de que deseas eliminar esta opción?",
-        icon: "pi pi-exclamation-triangle",
-        rejectButtonProps: {
-          label: "Cancelar",
-          severity: "secondary",
-          outlined: true,
-        },
-        acceptButtonProps: {
-          label: "Eliminar",
-          severity: "danger",
-        },
-        accept: () => {
-          this.opciones.removeAt(index);
-        },
+        accept: () => this.opciones.removeAt(index),
       });
     }
   }

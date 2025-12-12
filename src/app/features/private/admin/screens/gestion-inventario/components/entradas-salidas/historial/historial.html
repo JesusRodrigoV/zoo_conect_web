@@ -6,25 +6,6 @@
     </div>
 
     <div class="actions-block">
-      <p-datepicker
-        [(ngModel)]="dateRange"
-        selectionMode="range"
-        [readonlyInput]="true"
-        placeholder="Rango de Fechas"
-        [showIcon]="true"
-        styleClass="date-filter"
-      />
-
-      @if (dateRange() || searchTerm()) {
-      <p-button
-        icon="pi pi-filter-slash"
-        [rounded]="true"
-        [text]="true"
-        severity="secondary"
-        (onClick)="clearFilters()"
-      />
-      }
-
       <div class="create-buttons">
         <p-button
           label="Nueva Entrada"
@@ -44,40 +25,42 @@
     </div>
   </header>
 
-  <p-tabs [value]="activeTab()" (valueChange)="onTabChange($event)">
-    <p-tablist>
-      <p-tab value="entradas">
-        <div class="flex items-center gap-2">
-          <i class="pi pi-box"></i>
-          <span>Entradas (Compras)</span>
-        </div>
-      </p-tab>
-      <p-tab value="salidas">
-        <div class="flex items-center gap-2">
-          <i class="pi pi-sign-out"></i>
-          <span>Salidas (Consumo)</span>
-        </div>
-      </p-tab>
-    </p-tablist>
+  <div class="tabs-wrapper">
+    <p-tabs [value]="activeTab()" (valueChange)="onTabChange($event)">
+      <p-tablist>
+        <p-tab value="entradas">
+          <span class="tab-item-content">
+            <i class="pi pi-box"></i>
+            <span>Entradas (Compras)</span>
+          </span>
+        </p-tab>
+        <p-tab value="salidas">
+          <span class="tab-item-content">
+            <i class="pi pi-sign-out"></i>
+            <span>Salidas (Consumo)</span>
+          </span>
+        </p-tab>
+      </p-tablist>
 
-    <p-tabpanels>
-      <p-tabpanel value="entradas">
-        <zoo-tabla-entradas
-          [entradas]="transactionStore.entradas()"
-          [loading]="transactionStore.loading()"
-          [totalRecords]="transactionStore.total()"
-          (pageChange)="onPageChange($event)"
-        />
-      </p-tabpanel>
+      <p-tabpanels>
+        <p-tabpanel value="entradas">
+          <zoo-tabla-entradas
+            [entradas]="transactionStore.entradas()"
+            [loading]="transactionStore.loading()"
+            [totalRecords]="transactionStore.total()"
+            (pageChange)="onPageChange($event)"
+          />
+        </p-tabpanel>
 
-      <p-tabpanel value="salidas">
-        <zoo-tabla-salidas
-          [salidas]="transactionStore.salidas()"
-          [loading]="transactionStore.loading()"
-          [totalRecords]="transactionStore.total()"
-          (pageChange)="onPageChange($event)"
-        />
-      </p-tabpanel>
-    </p-tabpanels>
-  </p-tabs>
+        <p-tabpanel value="salidas">
+          <zoo-tabla-salidas
+            [salidas]="transactionStore.salidas()"
+            [loading]="transactionStore.loading()"
+            [totalRecords]="transactionStore.total()"
+            (pageChange)="onPageChange($event)"
+          />
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+  </div>
 </div>

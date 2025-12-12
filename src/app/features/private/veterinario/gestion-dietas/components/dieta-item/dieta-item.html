@@ -40,31 +40,11 @@
     </div>
 
     <div class="actions">
-      <p-button
-        icon="pi pi-eye"
-        [text]="true"
-        severity="secondary"
-        pTooltip="Ver Detalles"
-        tooltipPosition="top"
-        (onClick)="onView.emit(dieta().id)"
-      />
-
-      <p-button
-        icon="pi pi-pencil"
-        [text]="true"
-        severity="info"
-        pTooltip="Editar Receta"
-        tooltipPosition="top"
-        (onClick)="onEdit.emit(dieta().id)"
-      />
-
-      <p-button
-        icon="pi pi-trash"
-        [text]="true"
-        severity="danger"
-        pTooltip="Eliminar"
-        tooltipPosition="top"
-        (onClick)="onDelete.emit(dieta().id)"
+      <zoo-item-action-button tipo="view" (click)="onView.emit(dieta().id)" />
+      <zoo-item-action-button tipo="edit" (click)="onEdit.emit(dieta().id)" />
+      <zoo-item-action-button
+        tipo="delete"
+        (click)="onDelete.emit(dieta().id)"
       />
     </div>
   </div>

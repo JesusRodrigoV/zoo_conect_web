@@ -58,7 +58,6 @@ export default class CrearEspecie implements OnInit {
   route = inject(ActivatedRoute);
   private readonly fb = inject(FormBuilder);
   private readonly adminEspecies = inject(AdminEspecies);
-  private confirmationService = inject(ConfirmationService);
 
   protected readonly formSubmitted = signal(false);
   protected readonly isLoading = signal(false);

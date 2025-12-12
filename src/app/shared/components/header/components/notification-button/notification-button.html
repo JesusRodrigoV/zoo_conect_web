@@ -1,7 +1,7 @@
 <p-overlayBadge
   [value]="noLeidasCuenta()"
   badgeSize="small"
-  [badgeDisabled]="noLeidasCuenta()==0"
+  [badgeDisabled]="noLeidasCuenta() == 0"
 >
   <p-button
     styleClass="notif-btn p-button-rounded p-button-text"
@@ -15,7 +15,7 @@
     [raised]="false"
     [outlined]="false"
   >
-    <span class="material-icons">notifications</span>
+    <zoo-icon name="bell" type="solid" [animation]="iconAnimation()" />
   </p-button>
 </p-overlayBadge>
 
@@ -23,23 +23,25 @@
   <ng-template #content>
     <div class="popover-header">
       <h4>Notificaciones</h4>
-      <p-button
-        size="small"
-        label="Leer todas"
-        severity="success"
-        variant="text"
-        icon="pi pi-check-double"
-        [rounded]="true"
-        (onClick)="markAllRead()"
-      />
-      <p-button
-        size="small"
-        icon="pi pi-conf"
-        severity="success"
-        [rounded]="true"
-        [outlined]="true"
-        routerLink=""
-      />
+      <div class="flex gap-2">
+        <p-button
+          size="small"
+          label="Leer todas"
+          severity="success"
+          variant="text"
+          icon="pi pi-check-double"
+          [rounded]="true"
+          (onClick)="markAllRead()"
+        />
+        <p-button
+          size="small"
+          icon="pi pi-cog"
+          severity="success"
+          [rounded]="true"
+          [outlined]="true"
+          routerLink=""
+        />
+      </div>
     </div>
 
     <div class="popover-list">

@@ -6,7 +6,6 @@ import {
   signal,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { NgClass } from "@angular/common";
 import { TabsModule } from "primeng/tabs";
 import { ButtonModule } from "primeng/button";
 import { InputTextModule } from "primeng/inputtext";
@@ -25,7 +24,6 @@ import { RouterLink } from "@angular/router";
   imports: [
     TabsModule,
     ButtonModule,
-    DatePicker,
     InputTextModule,
     IconFieldModule,
     InputIconModule,

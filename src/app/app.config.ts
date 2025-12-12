@@ -32,6 +32,7 @@ import ZooPreset from "../theme/zoo-preset";
 import { AuthStore } from "@stores/auth.store";
 import { ShowToast } from "./shared/services";
 import { CustomTitleStrategy } from "./core/services/custom-title-strategy";
+import { provideCloudinaryLoader } from "@angular/common";
 
 export const appConfig: ApplicationConfig = {
   providers: [

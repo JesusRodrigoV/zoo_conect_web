@@ -14,6 +14,7 @@ import { ShowToast } from "./shared/services";
 import { ButtonModule } from "primeng/button";
 import { MessageService } from "primeng/api";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
+import { ConfirmPopupModule } from "primeng/confirmpopup";
 
 @Component({
   selector: "app-root",
@@ -24,6 +25,7 @@ import { ConfirmDialogModule } from "primeng/confirmdialog";
     ButtonModule,
     RouterLink,
     ConfirmDialogModule,
+    ConfirmPopupModule,
   ],
   templateUrl: "./app.html",
   styleUrl: "./app.scss",

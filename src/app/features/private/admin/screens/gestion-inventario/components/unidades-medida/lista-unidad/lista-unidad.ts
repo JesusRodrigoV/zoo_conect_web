@@ -15,6 +15,7 @@ import { ConfirmationService } from "primeng/api";
 import { Loader } from "@app/shared/components";
 import { UnidadItem } from "../unidad-item/unidad-item";
 import { UnidadesMedidaStore } from "@app/features/private/admin/stores/admin-unidades-medida.store";
+import { ZooConfirmationService } from "@app/shared/services/zoo-confirmation-service";
 
 @Component({
   selector: "app-lista-unidad",
@@ -36,7 +37,7 @@ import { UnidadesMedidaStore } from "@app/features/private/admin/stores/admin-un
 })
 export default class ListaUnidad implements OnInit {
   readonly store = inject(UnidadesMedidaStore);
-  private confirmationService = inject(ConfirmationService);
+  confirmation = inject(ZooConfirmationService);
   private router = inject(Router);
 
   layout: "list" | "grid" = "list";
@@ -56,15 +57,9 @@ export default class ListaUnidad implements OnInit {
   }
 
   confirmDelete(id: number) {
-    this.confirmationService.confirm({
+    this.confirmation.delete({
       message: "¿Estás seguro de eliminar esta unidad de medida?",
-      header: "Confirmar Baja",
-      icon: "pi pi-exclamation-triangle",
-      acceptButtonStyleClass: "p-button-danger p-button-text",
-      rejectButtonStyleClass: "p-button-text",
-      accept: () => {
-        this.store.deleteItem(id);
-      },
+      accept: () => this.store.deleteItem(id),
     });
   }
 

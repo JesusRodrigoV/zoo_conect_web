@@ -15,6 +15,7 @@ import { DataViewModule } from "primeng/dataview";
 import { Router, RouterLink } from "@angular/router";
 import { ConfirmationService } from "primeng/api";
 import { TiposProductoStore } from "@app/features/private/admin/stores/admin-tipo-productos.store";
+import { ZooConfirmationService } from "@app/shared/services/zoo-confirmation-service";
 
 @Component({
   selector: "app-lista-tipos",
@@ -37,8 +38,7 @@ import { TiposProductoStore } from "@app/features/private/admin/stores/admin-tip
 export default class ListaTipos implements OnInit {
   readonly store = inject(TiposProductoStore);
   readonly router = inject(Router);
-
-  private confirmationService = inject(ConfirmationService);
+  confirmation = inject(ZooConfirmationService);
 
   layoutOptions = [
     { icon: "pi pi-list", value: "list" },
@@ -57,15 +57,9 @@ export default class ListaTipos implements OnInit {
   }
 
   confirmDelete(id: number) {
-    this.confirmationService.confirm({
+    this.confirmation.delete({
       message: "¿Estás seguro de eliminar este tipo de producto?",
-      header: "Confirmar Baja",
-      icon: "pi pi-exclamation-triangle",
-      acceptButtonStyleClass: "p-button-danger p-button-text",
-      rejectButtonStyleClass: "p-button-text",
-      accept: () => {
-        this.store.deleteItem(id);
-      },
+      accept: () => this.store.deleteItem(id),
     });
   }
 

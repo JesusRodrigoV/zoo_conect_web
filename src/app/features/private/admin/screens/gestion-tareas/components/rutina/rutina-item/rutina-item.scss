@@ -36,3 +36,50 @@
     gap: 0.5rem;
   }
 }
+
+.description-text {
+  color: var(--p-text-muted-color);
+  display: block;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.location-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .location-icon {
+    color: var(--p-primary-500);
+  }
+}
+
+.general-text {
+  color: var(--p-text-muted-color);
+  font-style: italic;
+}
+
+.cron-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--p-text-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  .cron-icon {
+    color: var(--p-text-muted-color);
+    font-size: 0.85rem;
+  }
+}
+
+.actions-cell {
+  text-align: right;
+  .action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+}

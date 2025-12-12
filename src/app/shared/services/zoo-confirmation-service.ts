@@ -2,6 +2,7 @@ import { Injectable, inject } from "@angular/core";
 import { ConfirmationService } from "primeng/api";
 
 export interface ConfirmOptions {
+  key?: string;
   target?: EventTarget;
   message: string;
   header?: string;
@@ -20,6 +21,7 @@ export class ZooConfirmationService {
 
   public delete(options: ConfirmOptions) {
     this.confirmationService.confirm({
+      key: options.key || "confirm-dialog",
       target: options.target || undefined,
       message: options.message,
       header: options.header || "Confirmar eliminación",
@@ -42,6 +44,7 @@ export class ZooConfirmationService {
   }
   public confirm(options: ConfirmOptions) {
     this.confirmationService.confirm({
+      key: options.key || "confirm-dialog",
       target: options.target || undefined,
       message: options.message,
       header: options.header || "Confirmación",

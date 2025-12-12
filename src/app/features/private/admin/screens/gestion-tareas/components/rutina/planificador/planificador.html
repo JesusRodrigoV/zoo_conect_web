@@ -9,7 +9,7 @@
       label="Nueva Rutina"
       icon="pi pi-plus"
       [rounded]="true"
-      (onClick)="openCreateModal()"
+      routerLink="/admin/tareas/planificador/crear"
     />
   </div>
 
@@ -41,7 +41,7 @@
         <tr
           zoo-rutina-item
           [item]="item"
-          (onEdit)="openEditModal(item)"
+          (onEdit)="navigateToEdit(item.id)"
           (onDelete)="deleteItem($event)"
           class="row-hover-effect"
         ></tr>
@@ -62,11 +62,4 @@
       </ng-template>
     </p-table>
   </div>
-
-  <zoo-crear-rutina
-    [visible]="modalVisible()"
-    [editingItem]="editingItem()"
-    (onSave)="modalVisible.set(false); store.loadItems()"
-    (onClose)="modalVisible.set(false)"
-  />
 </div>

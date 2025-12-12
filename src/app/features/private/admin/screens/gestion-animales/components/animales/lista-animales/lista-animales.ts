@@ -25,6 +25,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { finalize } from "rxjs";
 import { NgClass } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { ZooConfirmationService } from "@app/shared/services/zoo-confirmation-service";
 
 @Component({
   selector: "zoo-lista-animales",
@@ -49,10 +50,9 @@ import { FormsModule } from "@angular/forms";
 })
 export default class ListaAnimales {
   private readonly animalService = inject(AdminAnimales);
-  private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly toastService = inject(ShowToast);
-  private readonly confirmationService = inject(ConfirmationService);
+  private confirmation = inject(ZooConfirmationService);
 
   protected readonly currentPage = signal(1);
   protected readonly pageSize = signal(10);
@@ -115,27 +115,11 @@ export default class ListaAnimales {
     this.detalleVisible.set(true);
   }
 
-  // --- Lógica de Eliminación ---
-
   protected deleteAnimal(id: number): void {
-    this.confirmationService.confirm({
+    this.confirmation.delete({
       message:
         "¿Estás seguro de eliminar este animal? Esta acción es permanente.",
-      header: "Confirmar eliminación",
-      icon: "pi pi-exclamation-triangle",
-      acceptButtonProps: {
-        label: "Eliminar",
-        severity: "danger",
-        rounded: true,
-      },
-      rejectButtonProps: {
-        label: "Cancelar",
-        variant: "outlined",
-        rounded: true,
-      },
-      accept: () => {
-        this.onDeleteConfirm(id);
-      },
+      accept: () => this.onDeleteConfirm(id),
     });
   }
 

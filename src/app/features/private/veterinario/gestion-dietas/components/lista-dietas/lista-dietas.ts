@@ -20,6 +20,7 @@ import { InputIconModule } from "primeng/inputicon";
 import { ConfirmationService } from "primeng/api";
 import { DietaItem } from "../dieta-item";
 import { AlimentacionStore } from "../../../stores/alimentacion.store";
+import { ZooConfirmationService } from "@app/shared/services/zoo-confirmation-service";
 
 @Component({
   selector: "app-lista-dietas",
@@ -44,8 +45,8 @@ import { AlimentacionStore } from "../../../stores/alimentacion.store";
 })
 export default class ListaDietas implements OnInit {
   readonly store = inject(AlimentacionStore);
-  private confirmationService = inject(ConfirmationService);
   private router = inject(Router);
+  confirmation = inject(ZooConfirmationService);
 
   layout: "list" | "grid" = "list";
   searchTerm = signal("");
@@ -74,16 +75,10 @@ export default class ListaDietas implements OnInit {
   }
 
   confirmDelete(id: number) {
-    this.confirmationService.confirm({
+    this.confirmation.delete({
       message:
         "¿Estás seguro de eliminar esta dieta? Esto afectará a los animales asignados.",
-      header: "Confirmar Baja",
-      icon: "pi pi-exclamation-triangle",
-      acceptButtonStyleClass: "p-button-danger p-button-text",
-      rejectButtonStyleClass: "p-button-text",
-      accept: () => {
-        this.store.deleteDieta(id);
-      },
+      accept: () => this.store.deleteDieta(id),
     });
   }
 

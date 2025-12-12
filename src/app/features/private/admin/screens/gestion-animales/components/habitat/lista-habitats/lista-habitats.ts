@@ -22,6 +22,7 @@ import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { FormsModule } from "@angular/forms";
 import { SelectButtonModule } from "primeng/selectbutton";
 import { NgClass } from "@angular/common";
+import { ZooConfirmationService } from "@app/shared/services/zoo-confirmation-service";
 
 @Component({
   selector: "zoo-lista-habitats",
@@ -45,7 +46,7 @@ export default class ListaHabitats {
   private habitatService = inject(AdminHabitat);
   private destroyRef = inject(DestroyRef);
   toastService = inject(ShowToast);
-  confirmationService = inject(ConfirmationService);
+  confirmation = inject(ZooConfirmationService);
 
   protected currentPage = signal(1);
   protected pageSize = signal(10);
@@ -105,24 +106,10 @@ export default class ListaHabitats {
   }
 
   protected deleteHabitat(id: number): void {
-    this.confirmationService.confirm({
+    this.confirmation.delete({
       message:
         "¿Estás seguro de que quieres eliminar este hábitat? Esta acción no se puede deshacer.",
-      header: "Confirmar eliminación",
-      icon: "pi pi-exclamation-triangle",
-      acceptButtonProps: {
-        label: "Eliminar",
-        severity: "danger",
-        rounded: true,
-      },
-      rejectButtonProps: {
-        label: "Cancelar",
-        variant: "outlined",
-        rounded: true,
-      },
-      accept: () => {
-        this.onDeleteConfirm(id);
-      },
+      accept: () => this.onDeleteConfirm(id),
     });
   }
 

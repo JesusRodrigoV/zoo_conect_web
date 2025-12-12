@@ -29,9 +29,9 @@ export default class GestionTareas {
       ruta: "/admin/tareas/planificador",
     },
     {
-      texto: "Configuración Global",
+      texto: "Configuración Tipos",
       icono: "pi pi-sliders-h",
-      descripcion: "Definición de tipos de tareas, prioridades y catálogos.",
+      descripcion: "Definición de tipos de tareas.",
       ruta: "/admin/tareas/configuracion",
     },
   ];

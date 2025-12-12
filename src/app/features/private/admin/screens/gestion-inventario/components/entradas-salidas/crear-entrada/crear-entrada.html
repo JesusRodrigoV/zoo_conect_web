@@ -21,7 +21,7 @@
               [filter]="true"
               filterPlaceholder="Buscar proveedor"
               [loading]="proveedoresStore.loading()"
-              styleClass="w-full"
+              fluid
             />
             <label for="proveedor">Proveedor *</label>
           </p-floatlabel>
@@ -68,6 +68,7 @@
                     [filter]="true"
                     placeholder="Seleccionar..."
                     appendTo="body"
+                    fluid
                     styleClass="w-full table-input"
                   />
                 </td>
@@ -78,6 +79,7 @@
                     [showButtons]="true"
                     buttonLayout="horizontal"
                     inputStyleClass="w-full text-center p-1"
+                    fluid
                     class="compact-number"
                   />
                 </td>
@@ -87,6 +89,7 @@
                     formControlName="lote"
                     placeholder="Opcional"
                     class="w-full p-2"
+                    fluid
                   />
                 </td>
                 <td>
@@ -96,6 +99,7 @@
                     dateFormat="yy-mm-dd"
                     placeholder="YYYY-MM-DD"
                     styleClass="w-full table-date"
+                    fluid
                   />
                 </td>
                 <td class="text-center">

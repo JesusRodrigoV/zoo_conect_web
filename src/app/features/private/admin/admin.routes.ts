@@ -156,36 +156,6 @@ export default [
     ],
   },
   {
-    path: "quizzes",
-    title: "Gestión de Encuestas",
-    loadComponent: () => import("./screens/gestion-quizzes/gestion-quizzes"),
-    children: [
-      {
-        path: "crear",
-        title: "Crear Encuesta",
-        loadComponent: () =>
-          import("./screens/gestion-quizzes/components/crear-quiz/crear-quiz"),
-      },
-      {
-        path: "editar/:id",
-        title: "Editar Encuesta",
-        loadComponent: () =>
-          import("./screens/gestion-quizzes/components/crear-quiz/crear-quiz"),
-      },
-      {
-        path: "lista",
-        title: "Lista de Encuestas",
-        loadComponent: () =>
-          import("./screens/gestion-quizzes/components/lista-quizzes/lista-quizzes"),
-      },
-      {
-        path: "",
-        redirectTo: "lista",
-        pathMatch: "full",
-      },
-    ],
-  },
-  {
     path: "reportes",
     title: "Gestión de Reportes",
     loadComponent: () => import("./screens/gestion-reportes/gestion-reportes"),
@@ -338,13 +308,54 @@ export default [
       },
       {
         path: "planificador",
-        loadComponent: () =>
-          import("./screens/gestion-tareas/components/rutina/planificador/planificador"),
+        children: [
+          {
+            path: "",
+            loadComponent: () =>
+              import("./screens/gestion-tareas/components/rutina/planificador/planificador"),
+          },
+          {
+            path: "crear",
+            loadComponent: () =>
+              import("./screens/gestion-tareas/components/rutina/crear-rutina/crear-rutina"),
+          },
+          {
+            path: "editar/:id",
+            loadComponent: () =>
+              import("./screens/gestion-tareas/components/rutina/crear-rutina/crear-rutina"),
+          },
+        ],
       },
       {
         path: "configuracion",
         loadComponent: () =>
           import("./screens/gestion-tareas/components/configuracion/configuracion"),
+      },
+    ],
+  },
+  {
+    path: "noticias",
+    loadComponent: () => import("./screens/gestion-noticias/gestion-noticias"),
+    children: [
+      {
+        path: "",
+        redirectTo: "lista",
+        pathMatch: "full",
+      },
+      {
+        path: "lista",
+        loadComponent: () =>
+          import("./screens/gestion-noticias/components/lista-noticias/lista-noticias"),
+      },
+      {
+        path: "crear",
+        loadComponent: () =>
+          import("./screens/gestion-noticias/components/crear-noticia/crear-noticia"),
+      },
+      {
+        path: "editar/:id",
+        loadComponent: () =>
+          import("./screens/gestion-noticias/components/crear-noticia/crear-noticia"),
       },
     ],
   },

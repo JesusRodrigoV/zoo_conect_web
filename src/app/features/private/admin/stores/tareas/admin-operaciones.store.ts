@@ -49,7 +49,8 @@ export const TareasPendientesStore = signalStore(
         const usuario = tarea.usuarioAsignado;
         if (!usuario?.id) return;
 
-        const key = usuario.id;
+        const key = usuario.username;
+
         if (!map.has(key)) map.set(key, []);
         map.get(key)!.push(tarea);
       });

@@ -17,6 +17,7 @@ import { AdminEspecies } from "@app/features/private/admin/services/admin-especi
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { catchError, map, of, startWith, switchMap } from "rxjs";
 import { CardModule } from "primeng/card";
+import { ZooItemActionButton } from "@app/shared/components/ui/zoo-item-action-button";
 
 interface TargetInfo {
   type: string;
@@ -29,7 +30,7 @@ interface TargetInfo {
   selector: "zoo-dieta-item",
   imports: [
     NgClass,
-    ButtonModule,
+    ZooItemActionButton,
     TagModule,
     TooltipModule,
     DatePipe,

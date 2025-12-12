@@ -1,12 +1,10 @@
 import {
   afterNextRender,
-  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
   ElementRef,
   inject,
-  OnInit,
   PLATFORM_ID,
   viewChild,
 } from "@angular/core";
@@ -15,7 +13,6 @@ import { AuthStore } from "@app/core/stores/auth.store";
 import { ButtonModule } from "primeng/button";
 import { GalleriaModule } from "primeng/galleria";
 import AOS from "aos";
-import { isPlatformBrowser } from "@angular/common";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 
@@ -27,7 +24,6 @@ import { SplitText } from "gsap/SplitText";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroSection {
-  private platformId = inject(PLATFORM_ID);
   split: any;
   animation: any;
   heroTitleRef = viewChild<ElementRef>("heroTitle");

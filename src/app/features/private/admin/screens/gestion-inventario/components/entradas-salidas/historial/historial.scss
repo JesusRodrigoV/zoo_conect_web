@@ -20,20 +20,22 @@
   gap: 1.5rem;
   background: var(--p-surface-card);
   padding: 1.5rem 2rem;
-  border-radius: 1rem;
+  border-radius: 12px;
   border: 1px solid var(--p-surface-border);
-  box-shadow: var(--p-shadow-1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
 
   .title-block {
     h2 {
       margin: 0;
-      font-size: 1.8rem;
+      font-size: 1.75rem;
       color: var(--p-text-color);
       font-weight: 700;
+      letter-spacing: -0.5px;
     }
     p {
       margin: 0.5rem 0 0;
       color: var(--p-text-muted-color);
+      font-size: 1rem;
     }
   }
 
@@ -41,60 +43,62 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    flex-wrap: wrap;
-
-    .date-filter {
-      max-width: 250px;
-    }
 
     .create-buttons {
       display: flex;
-      gap: 0.5rem;
-      margin-left: 1rem;
-      padding-left: 1rem;
-      border-left: 1px solid var(--p-surface-border);
+      gap: 0.75rem;
     }
   }
 }
 
-::ng-deep .custom-tabs {
-  .p-tabview-nav {
-    background: transparent;
-    border: none;
-    margin-bottom: 1rem;
+.tabs-wrapper {
+  background: var(--p-surface-card);
+  border-radius: 12px;
+  border: 1px solid var(--p-surface-border);
+  padding: 1rem;
 
-    li .p-tabview-nav-link {
-      background: transparent;
-      border: none;
-      border-bottom: 3px solid transparent;
+  .tab-item-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    i {
+      font-size: 1.1rem;
+    }
+
+    span {
       font-weight: 600;
-      color: var(--p-text-muted-color);
-      transition: all 0.2s;
+    }
+  }
+}
 
-      &:hover {
+:host ::ng-deep {
+  .p-tablist-tab-list {
+    background: transparent;
+    border-bottom: 1px solid var(--p-surface-border);
+  }
+
+  .p-tab {
+    padding: 1rem 1.5rem;
+    color: var(--p-text-muted-color);
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--p-text-color);
+    }
+
+    &.p-tab-active {
+      color: var(--p-primary-color);
+      border-color: var(--p-primary-color);
+
+      .tab-item-content i {
         color: var(--p-primary-color);
       }
     }
-
-    li.p-highlight .p-tabview-nav-link {
-      color: var(--p-primary-color);
-      border-color: var(--p-primary-color);
-    }
   }
 
-  .p-tabview-panels {
-    background: transparent;
-    padding: 0;
-    border: none;
-  }
-}
-
-.tab-header-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  i {
-    font-size: 1.1rem;
+  .p-tabpanel {
+    padding: 1.5rem 0 0 0;
   }
 }
 
@@ -104,19 +108,19 @@
     align-items: stretch;
 
     .actions-block {
-      flex-direction: column;
-      align-items: stretch;
+      width: 100%;
 
-      .date-filter {
-        max-width: 100%;
-      }
       .create-buttons {
-        margin-left: 0;
-        padding-left: 0;
-        border-left: none;
-        border-top: 1px solid var(--p-surface-border);
-        padding-top: 1rem;
         flex-direction: column;
+        width: 100%;
+
+        p-button {
+          width: 100%;
+          ::ng-deep button {
+            width: 100%;
+            justify-content: center;
+          }
+        }
       }
     }
   }

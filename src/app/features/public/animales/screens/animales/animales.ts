@@ -10,6 +10,7 @@ import { GetAnimales } from "../../services";
 import { Loader } from "@app/shared/components";
 import { MainContainer } from "@app/shared/components/main-container";
 import { AnimalItem } from "../../components/animal-item";
+import { provideCloudinaryLoader } from "@angular/common";
 
 @Component({
   selector: "app-animales",
@@ -17,6 +18,7 @@ import { AnimalItem } from "../../components/animal-item";
   templateUrl: "./animales.html",
   styleUrl: "./animales.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  //providers: [provideCloudinaryLoader("https://res.cloudinary.com/djne2ckoy/")],
 })
 export default class Animales {
   private animalService = inject(GetAnimales);

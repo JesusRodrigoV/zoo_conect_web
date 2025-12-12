@@ -21,6 +21,7 @@
                 optionValue="id"
                 [loading]="tiposSalidaStore.loading()"
                 styleClass="w-full"
+                fluid
               />
               <label for="tipo">Motivo de Salida *</label>
             </p-floatlabel>
@@ -39,6 +40,7 @@
                 formControlName="observacion"
                 rows="2"
                 class="w-full"
+                fluid
                 [autoResize]="true"
               >
               </textarea>
@@ -84,6 +86,7 @@
                     placeholder="Seleccionar..."
                     appendTo="body"
                     styleClass="w-full table-input"
+                    fluid
                     [invalid]="isInvalid('productoId', i)"
                   />
                 </td>
@@ -95,6 +98,7 @@
                     [showButtons]="true"
                     buttonLayout="horizontal"
                     inputStyleClass="w-full text-center p-1"
+                    fluid
                     class="compact-number"
                     [invalid]="isInvalid('cantidad', i)"
                   />
@@ -108,6 +112,7 @@
                     optionValue="value"
                     appendTo="body"
                     styleClass="w-full table-input"
+                    fluid
                     (onChange)="onDestinoTypeChange(i)"
                   />
                 </td>
@@ -123,6 +128,7 @@
                     placeholder="Buscar animal..."
                     appendTo="body"
                     styleClass="w-full table-input"
+                    fluid
                   />
                   } @case ('habitat') {
                   <p-select
@@ -134,6 +140,7 @@
                     placeholder="Buscar hábitat..."
                     appendTo="body"
                     styleClass="w-full table-input"
+                    fluid
                   />
                   } @default {
                   <span class="text-muted-color text-sm pl-2"

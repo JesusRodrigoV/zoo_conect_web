@@ -4,6 +4,7 @@ import { TareaAdapter } from "@app/features/private/admin/adapters/tareas.adapte
 import {
   CompletarTareaAlimentacion,
   CompletarTareaSimple,
+  SugerenciaDietaResponse,
   Tarea,
 } from "@app/features/private/admin/models/tareas/tarea.model";
 import { environment } from "@env";
@@ -15,7 +16,8 @@ import { map, Observable } from "rxjs";
 })
 export class EjecucionTareas {
   private http = inject(HttpClient);
-  private readonly apiUrl = `${environment.apiUrl}/zooconnect/tareas`;
+  private readonly apiUrl = `${environment.apiUrl}/tareas`;
+  private readonly alimentacionUrl = `${environment.apiUrl}/alimentacion`;
 
   getMyTasks(
     page = 1,
@@ -53,6 +55,12 @@ export class EjecucionTareas {
     return this.http.post<any>(
       `${this.apiUrl}/${id}/completar-alimentacion`,
       payload,
+    );
+  }
+
+  getSugerenciaDieta(idTarea: number): Observable<SugerenciaDietaResponse> {
+    return this.http.get<SugerenciaDietaResponse>(
+      `${this.alimentacionUrl}/${idTarea}/sugerencia-dieta`,
     );
   }
 }

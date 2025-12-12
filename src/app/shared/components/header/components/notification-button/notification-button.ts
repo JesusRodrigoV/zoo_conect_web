@@ -14,6 +14,7 @@ import { NotificationItem } from "../notification-item";
 import { Notificacion } from "@models/notificaciones";
 import { Tooltip } from "primeng/tooltip";
 import { RouterLink } from "@angular/router";
+import { ZooIcon } from "@app/shared/components/ui/zoo-icon";
 
 @Component({
   selector: "zoo-notification-button",
@@ -25,6 +26,7 @@ import { RouterLink } from "@angular/router";
     NotificationItem,
     Tooltip,
     RouterLink,
+    ZooIcon,
   ],
   templateUrl: "./notification-button.html",
   styleUrl: "./notification-button.scss",
@@ -43,16 +45,18 @@ export class NotificationButton {
       : 0;
   });
 
+  iconAnimation = computed(() =>
+    this.noLeidasCuenta() > 0 ? "tada" : "tada-hover",
+  );
+
   showNotifications(event: Event): void {}
 
-  // Marcar todas las notificaciones como leídas
   markAllRead(): void {
     const current = this.notificaciones();
     if (!current?.length) return;
     this.notificaciones.set(current.map((n) => ({ ...n, leido: true })));
   }
 
-  // Marcar una sola notificación como leída por id
   markOneRead(idNotificacion: number | string): void {
     const current = this.notificaciones();
     if (!current?.length) return;

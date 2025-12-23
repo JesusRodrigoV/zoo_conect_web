@@ -66,8 +66,8 @@ export class AdminEncuestas {
     return this.http.put(`${this.encuestasUrl}/${id}`, surveyData);
   }
 
-  deleteSurvey(id: number) {
-    return this.http.delete(`${this.encuestasUrl}/${id}`);
+  deleteSurvey(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.encuestasUrl}/${id}`);
   }
 
   addPreguntaToSurvey(

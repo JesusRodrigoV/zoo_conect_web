@@ -51,10 +51,9 @@ export default class ListaEncuestas {
     this.router.navigate(["/admin/encuestas/stats", encuesta.idEncuesta]);
   }
 
-  protected handleDelete(data: { encuesta: Encuesta; event: Event }): void {
+  protected handleDelete(id: number): void {
     this.confirmationService.confirm({
-      target: data.event.currentTarget as EventTarget,
-      message: `¿Estás seguro de eliminar la encuesta "${data.encuesta.titulo}"?`,
+      message: `¿Estás seguro de eliminar la encuesta `,
       icon: "pi pi-exclamation-triangle",
       rejectButtonProps: {
         label: "Cancelar",
@@ -63,7 +62,7 @@ export default class ListaEncuestas {
       },
       acceptButtonProps: { label: "Eliminar", severity: "danger" },
       accept: () => {
-        this.surveyService.deleteSurvey(data.encuesta.idEncuesta).subscribe({
+        this.surveyService.deleteSurvey(id).subscribe({
           next: () => {
             this.zooToast.showSuccess("Éxito", "Encuesta eliminada");
             this.loadSurveys();

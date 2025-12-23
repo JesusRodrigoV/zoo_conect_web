@@ -49,7 +49,7 @@
         [outlined]="true"
         [pTooltip]="encuesta().isActive ? 'Desactivar encuesta' : 'Reactivar encuesta'"
         tooltipPosition="top"
-        (onClick)="onDelete.emit({encuesta: encuesta(), event: $event})"
+        (onClick)="onDelete.emit(encuesta().idEncuesta)"
       />
     </div>
   </div>

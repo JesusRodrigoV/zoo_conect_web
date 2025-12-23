@@ -32,7 +32,7 @@ export class EncuestaItem {
 
   readonly onEdit = output<Encuesta>();
   readonly onView = output<Encuesta>();
-  readonly onDelete = output<{ encuesta: Encuesta; event: Event }>();
+  readonly onDelete = output<number>();
 
   readonly urlQR = computed(() => {
     const id = this.encuesta().idEncuesta;
